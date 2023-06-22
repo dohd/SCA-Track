@@ -3,15 +3,17 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home'
 import DescriptionIcon from '@mui/icons-material/Description';
+
 import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
-import HomeIcon from '@mui/icons-material/Home';
+
 
 export const mainListItems = (
-  <React.Fragment>
-    <Link to="/Home" className="link" style={{ textDecoration: 'none', color: 'inherit' }}>
+  <React.Fragment >
+    <Link to="/Home" style={{ textDecoration: 'none', color: 'inherit' }}>
               <ListItemButton>
                 <ListItemIcon>
                   <HomeIcon />
@@ -19,7 +21,7 @@ export const mainListItems = (
                 <ListItemText primary="Home" />
               </ListItemButton>
             </Link>
-            <Link to ="/Invoice" className='link'>
+            <Link to="/Invoice" style={{ textDecoration: 'none', color: 'inherit' }}>
     <ListItemButton>
       <ListItemIcon>
         <DescriptionIcon />
@@ -27,8 +29,7 @@ export const mainListItems = (
       <ListItemText primary="Invoice" />
     </ListItemButton>
     </Link>
-
-    <Link to ="/Invoice" className='link'>
+    <Link to="/Lpo" style={{ textDecoration: 'none', color: 'inherit' }}>
     <ListItemButton>
       <ListItemIcon>
         <LayersIcon />
@@ -36,7 +37,7 @@ export const mainListItems = (
       <ListItemText primary="Lpo" />
     </ListItemButton>
     </Link>
-    <Link to ="/Bank" className='link'>
+    <Link to ="/Bank">
     <ListItemButton>
       <ListItemIcon>
         <BarChartIcon />
@@ -44,7 +45,7 @@ export const mainListItems = (
       <ListItemText primary="Bank" />
     </ListItemButton>
     </Link>
-    <Link to ="/Customers" className='link'>
+    <Link to="/Customer" style={{ textDecoration: 'none', color: 'inherit' }}>
     <ListItemButton>
       <ListItemIcon>
         <PeopleIcon />

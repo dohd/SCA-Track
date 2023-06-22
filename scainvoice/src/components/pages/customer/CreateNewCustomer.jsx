@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react';
 
 export default function CreateNewCustomer() {
   const [name, setName] = useState('');
@@ -23,7 +24,37 @@ export default function CreateNewCustomer() {
                 <div className="card-header">
                   <h4>Add Customer</h4>
                 </div>
-                
+                <form onSubmit={handleSubmit}>
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="form-group col-4">
+                        <label>Customer Name</label>
+                        <div className="input-group">
+                          <div className="input-group-prepend">
+                            <div className="input-group-text">
+                              <i className="fas fa-user"></i>
+                            </div>
+                          </div>
+                          <input
+                            type="text"
+                            className="form-control phone-number"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                          />
+                        </div>
+                        {/* Display error message if name validation fails */}
+                        {/* Replace `@error('name')` with appropriate logic */}
+                        {/* <span className="error text-danger">{errorMessage}</span> */}
+                      </div>
+                      {/* Render other form fields similarly */}
+                    </div>
+                    <div className="card-footer text-right">
+                      <button type="submit" className="btn btn-primary">
+                        Save Customer
+                      </button>
+                    </div>
+                  </div>
+                </form>
                    </div>
             </div>
           </div>
