@@ -45,12 +45,12 @@ export const mainListItems = (
       <ListItemText primary="Bank" />
     </ListItemButton>
     </Link>
-    <Link to="/Customer" style={{ textDecoration: 'none', color: 'inherit' }}>
+    <Link to="/Customer" className='link' style={{ textDecoration: 'none', color: 'inherit' }}>
     <ListItemButton>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Customer" />
     </ListItemButton>
     </Link>
   </React.Fragment>
