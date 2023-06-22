@@ -5,21 +5,21 @@ import MuiAppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline'
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge'
-import NotificationsIcon from "@mui/icons-material/Notifications"
-import DispatchedInvoice from '../pages/Invoice/DispatchedInvoice'
-import Customer from '../pages/Customer'
-import Lpo from '../pages/Lpo'
+
+import Dispatched from './Dispatched'
+import Customerdb from './Customerdb'
+import Lpodb from './Lpodb';
 import MuiDrawer from '@mui/material/Drawer';
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper';
-import HomeIcon from '@mui/icons-material/Home';
-import Typography from '@mui/material/Typography'
+
 import Container from '@mui/material/Container'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import { mainListItems} from './ListItems';
+import Distributor from './Distributorsdb';
+import { green } from '@mui/material/colors';
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
@@ -63,7 +63,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
         },
       }),
     },
-  }),
+    backgroundColor:green
+    }),
 );
 
 // TODO remove, this demo shouldn't need to reset the theme.
@@ -80,38 +81,8 @@ export default function Sidebar() {
     <Box sx={{ display: 'flex' }}>
     <CssBaseline />
     <AppBar position="absolute" open={open}>
-      <Toolbar
-        sx={{
-          pr: '24px', // keep right padding when drawer closed
-        }}
-      >
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="open drawer"
-          onClick={toggleDrawer}
-          sx={{
-            marginRight: '36px',
-            ...(open && { display: 'none' }),
-          }}
-        >
-          <HomeIcon />
-        </IconButton>
-        <Typography
-          component="h1"
-          variant="h6"
-          color="inherit"
-          noWrap
-          sx={{ flexGrow: 1 }}
-        >
-          Dashboard
-        </Typography>
-        <IconButton color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-      </Toolbar>
+      
+          
     </AppBar>
     <Drawer variant="permanent" open={open}>
       <Toolbar
@@ -123,13 +94,13 @@ export default function Sidebar() {
         }}
       >
         <IconButton onClick={toggleDrawer}>
-          <ChevronLeftIcon />
+          <ArrowBackIcon />
         </IconButton>
       </Toolbar>
       <Divider />
       <List component="nav">
         {mainListItems}
-       
+        
       </List>
     </Drawer>
     <Box
@@ -148,11 +119,18 @@ export default function Sidebar() {
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={3}>
            {/* Dispatched Invoice */}
-           <Grid item xs={12}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <DispatchedInvoice />
-            </Paper>
-          </Grid>
+           <Grid item xs={12} md={4} lg={3}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 240,
+                  }}
+                >
+                  <Dispatched />
+                </Paper>
+              </Grid>
           {/* Recent Customers */}
           <Grid item xs={12} md={4} lg={3}>
             <Paper
@@ -163,15 +141,35 @@ export default function Sidebar() {
                 height: 240,
               }}
             >
-              <Customer />
+              <Customerdb />
             </Paper>
           </Grid>
           {/* LPO */}
-          <Grid item xs={12}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <Lpo />
-            </Paper>
-          </Grid>
+          <Grid item xs={12} md={4} lg={3}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 240,
+                  }}
+                >
+                  <Lpodb />
+                </Paper>
+              </Grid>
+              
+              <Grid item xs={12} md={4} lg={3}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 240,
+                  }}
+                >
+                  <Distributor />
+                </Paper>
+              </Grid>
         </Grid>
         
       </Container>
