@@ -22,12 +22,7 @@ export default function CreateInvoice() {
           <Form.Label>Customer Street: Moi Avenue</Form.Label>
           <Form.Label>Customer Address: PO Box Nairobi</Form.Label>
           <Form.Label>Advance Payment: 50%</Form.Label>
-          <Form.Select aria-label="Default select example">
-            <option>Currency:</option>
-            <option value="1">Ksh</option>
-            <option value="2">Dollar</option>
-            <option value="3">Pound</option>
-          </Form.Select>
+          
         </Form>
       </Card.Body>
       <Card.Footer>
