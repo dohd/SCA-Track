@@ -1,33 +1,48 @@
+
 import './App.css';
 import Topbar from "./components/Topbar"
+import Home from "./pages/home/Home"
+
+import Invoice from "./pages/Invoice/InvoiceList"
 import Sidebar from "./components/sidebar/Sidebar"
-import {BrowserRouter as Router, Route, Routes,} from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import React from "react";
+import Customer  from './pages/customer/Customer';
+import {BrowserRouter, RouterProvider} from "react-router-dom";
+import {BrowserRouter as Router,Route,Routes,Link} from "react-router-dom";
 
 function App() {
-    return (
+  return (
+   
+    <Router>
+    <Topbar />
+    <div className="container">
+      <Sidebar />
+      <div className="container mt-5 text-center">
+      <BrowserRouter>
+        <nav>
+          <Link className="nav-link" to="/">
+            Home
+          </Link>
+          <Link className="nav-link" to="customers">
+            Customers
+          </Link>
+        </nav>
+      <Routes>
+        <Route  path="/" component={Home} />
+        <Route path="/Invoice" component={Invoice} />
+        
+        <Route path="/Customer" component={Customer} />
 
-        <Router>
-            <Topbar/>
-            <div className="container">
-                <Sidebar/>
-                {/*<Routes>*/}
-                {/*    <Route path="/" component={Home}/>*/}
-                {/*    <Route path="/Invoice" component={Invoice}/>*/}
-                {/*    <Route exact path="/InvoiceList" component={InvoiceList}/>*/}
-                {/*    <Route path="/Customer" component={Customer}/>*/}
+      
 
-                {/*    <Route path="/CreateNewCustomer" component={CreateNewCustomer}/>*/}
-
-                {/*</Routes>*/}
-            </div>
-        </Router>
-
-
-    );
+      </Routes>
+      </BrowserRouter>
+      </div>
+    </div>
+  </Router>
+    
+      
+   
+  );
 }
-
-// <ArrowBackIcon style={{transform: open ? 'rotate(0deg)' : 'rotate(180deg)'}}/>
 
 export default App;

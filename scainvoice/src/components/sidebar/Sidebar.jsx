@@ -94,6 +94,7 @@ export default function Sidebar() {
                         {mainListItems}
                     </List>
                 </Drawer>
+                {/*
                 <Box
                     component="main"
                     sx={{
@@ -108,6 +109,7 @@ export default function Sidebar() {
                 >
 
                 </Box>
+                */}
             </Box>
         </ThemeProvider>
 

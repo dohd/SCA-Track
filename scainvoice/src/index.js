@@ -5,9 +5,16 @@ import App from './App';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
-import Distributors from "./components/distributors/Distributors";
-import Lpo from "./components/lpo/Lpo";
-import Banks from "./components/bank/Bank";
+import CreateInvoice from "./pages/Invoice/CreateInvoice";
+import InvoiceList from "./pages/Invoice/InvoiceList";
+import Distributors from "./pages/distributors/Distributors";
+import  CreateNewCustomer from "./pages/customer/CreateNewCustomer";
+import CustomerRecords from "./pages/customer/CustomerRecords";
+import Lpo from "./pages/Lpo/Lpo";
+import Banks from "./pages/bank/Bank";
+import Customer from './pages/customer/Customer';
+import DispatchedInvoice from './pages/Invoice/DispatchedInvoice';
+import RegenerateInvoice from './pages/Invoice/RegenerateInvoice';
 
 const router = createBrowserRouter([
     {
@@ -17,7 +24,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "invoice",
-                element: <Distributors/>,
+                element: <CreateInvoice/>,
             },
             {
                 path: "distributor",
@@ -33,7 +40,17 @@ const router = createBrowserRouter([
             },
             {
                 path: "customer",
-                element: <Distributors/>,
+                element: <Customer/>,
+                children: [
+                    {
+                      path: "customer/createnewCustomer",
+                      element: <CreateNewCustomer />,
+                    },
+                    {
+                      path: "CustomerRecords",
+                      element: <CustomerRecords />,
+                    },
+                  ],
             },
         ],
     }
