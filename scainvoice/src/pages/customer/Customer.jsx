@@ -1,33 +1,25 @@
 import React from 'react';
-import { Card, CardContent, Grid, Typography } from '@mui/material';
-import CreateNewCustomer from './CreateNewCustomer';
-import CustomerRecords from './CustomerRecords';
+import Box from '@mui/material/Box';
+import { Paper,Typography } from '@mui/material';
 
-const CustomerComponent = () => {
+import { Group, MapsHomeWork } from '@mui/icons-material';
+
+const Customer = () => {
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={6}>
-        <Card>
-          <CardContent>
-            <Typography variant="h5" component="div" gutterBottom>
-              Create New Customer
-            </Typography>
-            <CreateNewCustomer />
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <Card>
-          <CardContent>
-            <Typography variant="h5" component="div" gutterBottom>
-              Customer Records
-            </Typography>
-            <CustomerRecords />
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
+    <Box
+    sx={{
+      display:{xs:'flex',md:'grid'},
+      gridTemplateColumns:'repeat(3,1fr)',
+      gridAutoRows: 'minmax(100px,auto)',
+      gap:3,
+      textAlign:'center',
+      flexDirection:'column',
+    }}>
+    <Paper elevation={3} sx={{ p: 3 }}>
+   
+  </Paper>
+  </Box>
   );
 };
 
-export default CustomerComponent;
+export default Customer;
