@@ -49,23 +49,14 @@ export default function Dashboard() {
 The darkTheme variable is created using the useMemo hook to memoize the theme object. This means the theme will only be recreated if the value of dark changes.
 
 Inside createTheme, we define the palette object with a mode property. The value of mode is set based on the dark state. If dark is true, the mode will be 'dark'; otherwise, it will be 'light'. */}
-  const greenTheme = useMemo(() =>
-  createTheme({
-    palette: {
-      mode: dark ? 'dark' : 'light',
-      primary: {
-        main: '#00ff00', 
-          },
-    },
-  }), [dark]);
-
+  
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
   
   return (
-    <ThemeProvider theme={greenTheme}>
+    
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} style={{backgroundColor:'green'}}>
@@ -93,7 +84,7 @@ Inside createTheme, we define the palette object with a mode property. The value
       </AppBar>
       <Sidelist {...{open,setOpen}}/>
       </Box>
-      </ThemeProvider>
+      
       
   );
 }
