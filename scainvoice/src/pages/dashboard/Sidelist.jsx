@@ -7,20 +7,21 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import Box from '@mui/material/Box';
-import {dispatch} from 'react'
+import {dispatch,link} from 'react'
 import { Route, useNavigate ,Routes} from 'react-router-dom';
-import Distributors from '../../components/distributors/Distributors'
+
 import { IconButton, Tooltip } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import MuiDrawer from '@mui/material/Drawer';
-import Home from '../../components/home/Home';
+import Home from '../home/Home';
 import Logout from '@mui/icons-material/Logout'
+import Customer from '../customer/Customer';
+import Invoice from '../Invoice/InvoiceList';
 
-
-import distributors from '../../components/distributors/Distributors';
+import Distributors from '../distributors/Distributors'
 const drawerWidth = 240;
 
 
@@ -80,6 +81,8 @@ const Sidelist=({open,setOpen})=> {
     {title:'Home',icon:<MailIcon/>,link:'',component:<Home{...{setselectedLink,link:''}}/>},
     {title:'Distributors',icon:<InboxIcon/>,link:'distributors',component:< 
       Distributors {...{setselectedLink,link:'distributors'}}/>},
+      {title:'Invoice',icon:<MailIcon/>,link:'invoice',component:<Invoice{...{setselectedLink,link:''}}/>},
+      {title:'Customer',icon:<MailIcon/>,link:'customer',component:<Customer{...{setselectedLink,link:''}}/>},
   ],[])
 
   return (
@@ -102,7 +105,7 @@ const Sidelist=({open,setOpen})=> {
                   px: 2.5,
                 }}
                 onClick={()=>navigate(item.link)}
-                selected ={selectedLink=== item,link}
+                selected ={selectedLink === item,link}
               >
                 <ListItemIcon
                   sx={{

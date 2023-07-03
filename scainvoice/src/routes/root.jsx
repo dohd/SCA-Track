@@ -1,5 +1,5 @@
 import Topbar from "../components/Topbar";
-import Dashboard from "../components/dashboard/Dashboard";
+import Dashboard from "../pages/dashboard/Dashboard";
 import Sidebar from "../components/sidebar/Sidebar";
 import React from "react";
 import {Outlet} from "react-router-dom";
@@ -8,11 +8,11 @@ import {Outlet} from "react-router-dom";
 export default function Root() {
     return (
         <>
-            <Topbar/>
+           
             <Dashboard/>
             <div className="container">
-                <Sidebar/>
-                {/*    /!* outlet is where children will be rendered *!/*/}
+               
+                {/*  <Topbar/> <Sidebar/>  /!* outlet is where children will be rendered *!/*/}
                 
                 <Outlet/>
             </div>

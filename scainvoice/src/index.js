@@ -6,7 +6,7 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
 import CreateInvoice from "./pages/Invoice/CreateInvoice";
-import InvoiceList from "./pages/Invoice/InvoiceList";
+import Dashboard from './pages/dashboard/Dashboard';
 import Distributors from "./pages/distributors/Distributors";
 import  CreateNewCustomer from "./pages/customer/CreateNewCustomer";
 import CustomerRecords from "./pages/customer/CustomerRecords";
@@ -18,6 +18,7 @@ import RegenerateInvoice from './pages/Invoice/RegenerateInvoice';
 
 const router = createBrowserRouter([
     {
+       path:"dashboard/*" ,element:<Dashboard />,
         path: "/",
         element: <Root/>,
         errorElement: <ErrorPage/>,
