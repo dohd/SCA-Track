@@ -1,11 +1,15 @@
 
 import './App.css';
-import Topbar from "./components/Topbar"
+import Invoice from './pages/Invoice/Invoice'
+import CreateInvoice from './pages/Invoice/CreateInvoice'
+import DispatchedInvoice from './pages/Invoice/DispatchedInvoice'
+import InvoiceList from './pages/Invoice/InvoiceList'
 import Home from "./pages/home/Home"
 import Customer from'./pages/customer/Customer';
+import CreateNewCustomer from './pages/customer/CreateNewCustomer'
 import Dashboard from './pages/dashboard/Dashboard';
 import {BrowserRouter, RouterProvider} from "react-router-dom";
-import {BrowserRouter as Router,Route,Routes,Link} from "react-router-dom";
+import {BrowserRouter as Router,Route,Routes,Outlet} from "react-router-dom";
 
 function App() {
   return (
@@ -15,8 +19,15 @@ function App() {
           <Route path="dashboard/*" element={<Dashboard />} />
           <Route path="home/" element={<Home />} />
           <Route path="Customer/" element={<Customer />} />
+          <Route path='CreateNewCustomer' element={<CreateNewCustomer/>}/>
+          <Route path="invoice" element={<Invoice />}>
+        <Route path="list" element={<InvoiceList />} />
+        <Route path="dispatched" element={<DispatchedInvoice />} />
+        <Route path="create" element={<CreateInvoice />} />
+      </Route>
         </Routes>
       </BrowserRouter>
+      <Outlet />
     </>
     
       

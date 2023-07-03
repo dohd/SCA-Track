@@ -80,9 +80,70 @@ const Sidelist=({open,setOpen})=> {
   const {selectedLink,setselectedLink}=useState('')
   const list = useMemo(()=>[
     {title:'Home',icon:<MailIcon/>,link:'',component:<Home{...{setselectedLink,link:''}}/>},
-    {title:'Distributors',icon:<InboxIcon/>,link:'distributors',component:< 
-      Distributors {...{setselectedLink,link:'distributors'}}/>},
-      {title:'Invoice',icon:<MailIcon/>,link:'invoice',component:<Invoice{...{setselectedLink,link:'invoice'}}/>},
+    {
+      title: 'Distributors',
+      icon: <InboxIcon />,
+      link: 'distributors',
+      component: <Distributors {...{ setselectedLink, link: 'distributors' }} />,
+    },
+      {title:'Invoice',icon:<MailIcon/>,link:'invoice',component:(
+      <>
+        <ListItemButton
+          sx={{
+            minHeight: 48,
+            justifyContent: open ? 'initial' : 'center',
+            px: 2.5,
+          }}
+          onClick={() => navigate('invoice')}
+          selected={selectedLink === 'invoice'}
+        >
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              mr: open ? 3 : 'auto',
+              justifyContent: 'center',
+            }}
+          >
+          
+          </ListItemIcon>
+          <ListItemText primary="Invoice" sx={{ opacity: open ? 1 : 0 }} />
+        </ListItemButton>
+        <ListItemButton
+          sx={{
+            minHeight: 48,
+            justifyContent: open ? 'initial' : 'center',
+            px: 4,
+          }}
+          onClick={() => navigate('invoice/list')}
+          selected={selectedLink === 'invoice/list'}
+        >
+          <ListItemText primary="Invoice List" />
+        </ListItemButton>
+        <ListItemButton
+          sx={{
+            minHeight: 48,
+            justifyContent: open ? 'initial' : 'center',
+            px: 4,
+          }}
+          onClick={() => navigate('invoice/dispatched')}
+          selected={selectedLink === 'invoice/dispatched'}
+        >
+          <ListItemText primary="Dispatched" />
+        </ListItemButton>
+        <ListItemButton
+          sx={{
+            minHeight: 48,
+            justifyContent: open ? 'initial' : 'center',
+            px: 4,
+          }}
+          onClick={() => navigate('Invoice/CreateInvoice')}
+          selected={selectedLink === 'Invoice/CreateInvoice'}
+        >
+          <ListItemText primary="Create Invoice" />
+        </ListItemButton>
+      </>
+    ),
+  },
       {title:'Customer',icon:<MailIcon/>,link:'customer',component:<Customer{...{setselectedLink,link:'customer'}}/>},
       {title:'Lpo',icon:<LayersIcon/>,link:'lpo',component:<Lpo{...{setselectedLink,link:'lpo'}}/>},
   ],[])
@@ -97,6 +158,7 @@ const Sidelist=({open,setOpen})=> {
           </IconButton>
         </DrawerHeader>
         <Divider />
+        {/*rendering navigation list*/}
         <List>
           {list.map((item) => (
             <ListItem key={item.title} disablePadding sx={{ display: 'block' }}>
