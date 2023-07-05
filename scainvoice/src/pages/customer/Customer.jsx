@@ -9,10 +9,10 @@ const Customer = () => {
     navigate('/CreateNewCustomer');
   };
   const handleCustomerRecordsClick = () => {
-    navigate('/CustomerRecords');
+    navigate('/customerRecords');
   };
-  
-  
+
+
   return (
     <Box
       sx={{
@@ -22,7 +22,7 @@ const Customer = () => {
       }}
     >
       <Box sx={{ margin: 2 }}>
-      <Paper
+        <Paper
           elevation={3}
           sx={{ p: 3, width: 300, cursor: 'pointer' }}
           onClick={handleNewCustomerClick}
@@ -42,7 +42,7 @@ const Customer = () => {
       </Box>
 
       <Box sx={{ margin: 2 }}>
-        <Paper  elevation={3}
+        <Paper elevation={3}
           sx={{ p: 3, width: 300, cursor: 'pointer' }}
           onClick={handleCustomerRecordsClick}
         >
@@ -60,24 +60,7 @@ const Customer = () => {
         </Paper>
       </Box>
 
-      <Box sx={{ margin: 2 }}>
-        <Paper  elevation={3}
-          sx={{ p: 3, width: 300, cursor: 'pointer' }}
-       
-        >
-          <Typography variant="h4">Regenerate Customers</Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: 2,
-            }}
-          >
-            <History sx={{ height: 100, width: 100, opacity: 0.3, marginRight: 1 }} />
-          </Box>
-        </Paper>
-      </Box>
+      
     </Box>
   );
 };

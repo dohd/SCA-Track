@@ -9,30 +9,22 @@ const DispatchedInvoice = () => {
             <div className="card-body">
               <div className="invoice-title">
                 <h4 className="float-end font-size-15">
-                  Invoice #DS0204 <span className="badge bg-success font-size-12 ms-2">Dispatched</span>
+                  Invoice Number:SCA-040<span className="badge bg-success font-size-12 ms-2">Dispatched</span>
                 </h4>
                 <div className="mb-4">
-                  <h2 className="mb-1 text-muted">Bootdey.com</h2>
+                  <h2 className="mb-1 text-muted">info@spartec.com</h2>
                 </div>
-                <div className="text-muted">
-                  <p className="mb-1">3184 Spruce Drive Pittsburgh, PA 15201</p>
-                  <p className="mb-1">
-                    <i className="uil uil-envelope-alt me-1"></i> xyz@987.com
-                  </p>
-                  <p>
-                    <i className="uil uil-phone me-1"></i> 012-345-6789
-                  </p>
-                </div>
+                
               </div>
               <hr className="my-4" />
               <div className="row">
                 <div className="col-sm-6">
                   <div className="text-muted">
                     <h5 className="font-size-16 mb-3">Billed To:</h5>
-                    <h5 className="font-size-15 mb-2">Preston Miller</h5>
-                    <p className="mb-1">4068 Post Avenue Newfolden, MN 56738</p>
+                    <h5 className="font-size-15 mb-2">Sidian Bank</h5>
+                    <p className="mb-1">Moi Avenue </p>
                     <p className="mb-1">PrestonMiller@armyspy.com</p>
-                    <p>001-234-5678</p>
+                    <p>P.O.Box -12345,Nairobi</p>
                   </div>
                 </div>
                 <div className="col-sm-6">

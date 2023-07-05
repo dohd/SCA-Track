@@ -19,10 +19,12 @@ import MuiDrawer from '@mui/material/Drawer';
 import Lpo from '../Lpo/Lpo'
 import Home from '../home/Home';
 import Logout from '@mui/icons-material/Logout'
+import CreateNewCustomer from '../customer/CreateNewCustomer';
 import Customer from '../customer/Customer';
 import Invoice from '../Invoice/InvoiceList';
 
 import Distributors from '../distributors/Distributors'
+import CustomerRecords from '../customer/CustomerRecords';
 const drawerWidth = 240;
 
 
@@ -88,7 +90,7 @@ const Sidelist=({open,setOpen})=> {
     },
       {title:'Invoice',icon:<MailIcon/>,link:'invoice',component:<Invoice{...{setselectedLink,link:'invoice'}}/>,
   },
-      {title:'Customer',icon:<MailIcon/>,link:'customer',component:<Customer{...{setselectedLink,link:'customer'}}/>},
+      {title:'Customer',icon:<MailIcon/>,link:'customer/',component:<CustomerRecords{...{setselectedLink,link:'customer'}}/>},
       {title:'Lpo',icon:<LayersIcon/>,link:'lpo',component:<Lpo{...{setselectedLink,link:'lpo'}}/>},
   ],[])
 
