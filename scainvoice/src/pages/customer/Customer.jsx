@@ -6,10 +6,10 @@ const Customer = () => {
   const navigate = useNavigate();
 
   const handleNewCustomerClick = () => {
-    navigate('/CreateNewCustomer');
+    navigate('/customer/new');
   };
   const handleCustomerRecordsClick = () => {
-    navigate('/customerRecords');
+    navigate('/customer/records');
   };
 
 

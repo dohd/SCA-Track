@@ -11,6 +11,10 @@ export default function Home({ link }) {
     setselectedLink(link);
   }, [link]);
 
+  const handleClick = (link) => {
+    setselectedLink(link);
+  };
+
   return (
     <Box
       sx={{
@@ -24,7 +28,8 @@ export default function Home({ link }) {
     >
       {selectedLink === '' && (
         <>
-          <Paper elevation={3} sx={{ p: 3 }}>
+          <Paper elevation={3} sx={{ p: 3 }}
+          >
             <Typography variant="h4">Dispatched Invoice</Typography>
             <Box
               sx={{
@@ -40,7 +45,8 @@ export default function Home({ link }) {
             </Box>
           </Paper>
 
-          <Paper elevation={3} sx={{ p: 3 }}>
+          <Paper elevation={3} sx={{ p: 3 }}
+             onClick={() => handleClick('customer')}>
             <Typography variant="h4">Customers</Typography>
             <Box
               sx={{

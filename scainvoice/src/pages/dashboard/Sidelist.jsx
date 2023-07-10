@@ -80,6 +80,11 @@ const Sidelist=({open,setOpen})=> {
   }
 
   const {selectedLink,setselectedLink}=useState('')
+  {/*
+  list variable is an array of objects, where each object represents a menu item
+  Each menu item has a title, an icon component from the Material-UI library,
+   a link indicating the associated link, 
+and a component representing the component to render when the menu item is selected. */}
   const list = useMemo(()=>[
     {title:'Home',icon:<MailIcon/>,link:'',component:<Home{...{setselectedLink,link:''}}/>},
     {
@@ -90,7 +95,7 @@ const Sidelist=({open,setOpen})=> {
     },
       {title:'Invoice',icon:<MailIcon/>,link:'invoice',component:<Invoice{...{setselectedLink,link:'invoice'}}/>,
   },
-      {title:'Customer',icon:<MailIcon/>,link:'customer/',component:<CustomerRecords{...{setselectedLink,link:'customer'}}/>},
+      {title:'Customer',icon:<MailIcon/>,link:'customer/',component:<Customer{...{setselectedLink,link:'customer'}}/>},
       {title:'Lpo',icon:<LayersIcon/>,link:'lpo',component:<Lpo{...{setselectedLink,link:'lpo'}}/>},
   ],[])
 
@@ -146,13 +151,7 @@ const Sidelist=({open,setOpen})=> {
             <Route key={item.title} path={item.link} element={item.component}/>
           ))}
         </Routes>
-        <Typography >
-        <Home/>
-        </Typography>
-        <Typography >
-            <Home/>
-         
-        </Typography>
+       
       </Box>
    
    

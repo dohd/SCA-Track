@@ -5,6 +5,7 @@ import App from './App';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
+import Invoice from './pages/Invoice/Invoice'
 import CreateInvoice from "./pages/Invoice/CreateInvoice";
 import Dashboard from './pages/dashboard/Dashboard';
 import Distributors from "./pages/distributors/Distributors";
@@ -24,35 +25,29 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage/>,
         children: [
             {
-                path: "invoice",
-                element: <CreateInvoice/>,
+                path: "/invoice",
+                element: <Invoice/>,
             },
             {
-                path: "distributor",
-                element: <Distributors/>,
-            },
-            {
-                path: "lpo",
-                element: <Lpo/>,
-            },
-            {
-                path: "bank",
-                element: <Banks/>,
-            },
-            {
-                path: "customer",
-                element: <Customer/>,
-                children: [
-                    {
-                      path: "customer/createnewCustomer",
-                      element: <CreateNewCustomer />,
-                    },
-                    {
-                      path: "CustomerRecords",
-                      element: <CustomerRecords />,
-                    },
-                  ],
-            },
+                path:"/customer",
+               children:[
+                {path:"",
+                element:<Customer/>,
+               },
+               {
+                path:"new",
+                element:<CreateNewCustomer/>,
+                                 
+                },
+                {
+                    path:"records",
+                    element:<CustomerRecords/>
+                },
+               ]
+
+            }
+            
+           
         ],
     }
 ]);
