@@ -1,81 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { Group, MapsHomeWork } from '@mui/icons-material';
-import { Box, Paper, Typography } from '@mui/material';
-function Invoice(link) {
-    const [selectedLink, setselectedLink] = useState('');
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { Button, CardActionArea, CardActions } from '@mui/material';
 
-  useEffect(() => {
-    setselectedLink(link);
-  }, [link]);
-
+export default function CreateInvoiceCard() {
   return (
-    <Box
-      sx={{
-        display: { xs: 'flex', md: 'grid' },
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gridAutoRows: 'minmax(100px, auto)',
-        gap: 3,
-        textAlign: 'center',
-        flexDirection: 'column',
-      }}
-    >
-      {selectedLink === '' && (
-        <>
-          <Paper elevation={3} sx={{ p: 3 }}>
-            <Typography variant="h4">Dispatched Invoice</Typography>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <MapsHomeWork
-                sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
-              />
-              <Typography variant="h4">10</Typography>
-            </Box>
-          </Paper>
-
-          <Paper elevation={3} sx={{ p: 3 }}>
-            <Typography variant="h4">CreateInvoice</Typography>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-                <MapsHomeWork
-                sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
-              />
-              <Typography variant="h4">10</Typography>
-              
-            </Box>
-          </Paper>
-          <Paper elevation={3} sx={{ p: 3 }}>
-            <Typography variant="h4">InvoiceList</Typography>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-                <MapsHomeWork
-                sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
-              />
-              <Typography variant="h4">10</Typography>
-              
-            </Box>
-          </Paper>
-         
-              
-            
-        </>
-      )}
-      </Box>
-  )
+    <Card sx={{ maxWidth: 345 }}>
+      <CardActionArea>
+        <CardMedia
+          component="img"
+          height="140"
+          image="/static/images/cards/create-invoice.jpg"
+          alt="Create Invoice"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            Create Invoice
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Click the button below to create a new invoice.
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button size="small" color="primary">
+          Create
+        </Button>
+      </CardActions>
+    </Card>
+  );
 }
-
-export default Invoice

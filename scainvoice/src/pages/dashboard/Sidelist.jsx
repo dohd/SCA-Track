@@ -15,8 +15,12 @@ import MailIcon from '@mui/icons-material/Mail';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
+import HomeIcon from '@mui/icons-material/Home';
+import PeopleIcon from '@mui/icons-material/People';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import MuiDrawer from '@mui/material/Drawer';
 import Lpo from '../Lpo/Lpo'
+import Bank from '../bank/Bank'
 import Home from '../home/Home';
 import Logout from '@mui/icons-material/Logout'
 import CreateNewCustomer from '../customer/CreateNewCustomer';
@@ -25,6 +29,7 @@ import Invoice from '../Invoice/InvoiceList';
 
 import Distributors from '../distributors/Distributors'
 import CustomerRecords from '../customer/CustomerRecords';
+
 const drawerWidth = 240;
 
 
@@ -86,17 +91,19 @@ const Sidelist=({open,setOpen})=> {
    a link indicating the associated link, 
 and a component representing the component to render when the menu item is selected. */}
   const list = useMemo(()=>[
-    {title:'Home',icon:<MailIcon/>,link:'',component:<Home{...{setselectedLink,link:''}}/>},
+    
+    {title:'Home',icon:<HomeIcon/>,link:'/',component:<Home{...{setselectedLink,link:''}}/>},
     {
       title: 'Distributors',
       icon: <InboxIcon />,
-      link: 'distributors',
+      link: 'distributors/',
       component: <Distributors {...{ setselectedLink, link: 'distributors' }} />,
     },
       {title:'Invoice',icon:<MailIcon/>,link:'invoice',component:<Invoice{...{setselectedLink,link:'invoice'}}/>,
   },
-      {title:'Customer',icon:<MailIcon/>,link:'customer/',component:<Customer{...{setselectedLink,link:'customer'}}/>},
+      {title:'Customer',icon:<PeopleIcon/>,link:'customer/',component:<Customer{...{setselectedLink,link:'customer'}}/>},
       {title:'Lpo',icon:<LayersIcon/>,link:'lpo',component:<Lpo{...{setselectedLink,link:'lpo'}}/>},
+      {title:'Bank',icon:<AccountBalanceIcon/>,link:'bank',component:<Bank{...{setselectedLink,link:'bank'}}/>},
   ],[])
 
   return (

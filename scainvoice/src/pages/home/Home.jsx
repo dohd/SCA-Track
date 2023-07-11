@@ -29,6 +29,7 @@ export default function Home({ link }) {
       {selectedLink === '' && (
         <>
           <Paper elevation={3} sx={{ p: 3 }}
+           onClick={() => handleClick('dispatched')}
           >
             <Typography variant="h4">Dispatched Invoice</Typography>
             <Box
@@ -62,7 +63,8 @@ export default function Home({ link }) {
               
             </Box>
           </Paper>
-          <Paper elevation={3} sx={{ p: 3 }}>
+          <Paper elevation={3} sx={{ p: 3 }}
+           onClick={() => handleClick('bank')}>
             <Typography variant="h4">Banks</Typography>
             <Box
               sx={{
@@ -78,7 +80,25 @@ export default function Home({ link }) {
               
             </Box>
           </Paper>
-          <Paper elevation={3} sx={{ p: 3 }}>
+          <Paper elevation={3} sx={{ p: 3 }}
+           onClick={() => handleClick('lpo')}>
+            <Typography variant="h4">Lpo</Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+                <MapsHomeWork
+                sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
+              />
+              <Typography variant="h4">10</Typography>
+              
+            </Box>
+          </Paper>
+          <Paper elevation={3} sx={{ p: 3 }}
+           onClick={() => handleClick('distributors')}>
             <Typography variant="h4">Distributors</Typography>
             <Box
               sx={{

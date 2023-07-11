@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function Distributors() {
   return (
-    <div>Distributors</div>
+    <div>Distributors#same as customers</div>
   )
 }
