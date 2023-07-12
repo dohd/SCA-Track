@@ -5,7 +5,6 @@ import CreateInvoice from './pages/Invoice/CreateInvoice'
 import DispatchedInvoice from './pages/Invoice/DispatchedInvoice'
 import InvoiceList from './pages/Invoice/InvoiceList'
 import Home from "./pages/home/Home"
-import Customer from'./pages/customer/Customer';
 import CreateNewCustomer from './pages/customer/CreateNewCustomer'
 import Dashboard from './pages/dashboard/Dashboard';
 import {BrowserRouter, RouterProvider} from "react-router-dom";
@@ -18,8 +17,9 @@ function App() {
         <Routes>
           <Route path="dashboard/*" element={<Dashboard />} />
           <Route path="home/" element={<Home />} />
-          <Route path="Customer/" element={<Customer />} />
           <Route path='/CreateNewCustomer' element={<CreateNewCustomer/>}/>
+          <Route path="/newLpo" element={<newLpo />} />
+          <Route path="/lpoRecord" element={<lpoRecord />} />
           <Route path="invoice" element={<Invoice />}>
         <Route path="list" element={<InvoiceList />} />
         <Route path="dispatched" element={<DispatchedInvoice />} />

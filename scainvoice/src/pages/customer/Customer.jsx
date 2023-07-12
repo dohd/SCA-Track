@@ -17,14 +17,14 @@ const Customer = () => {
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'start',
         height: '100%',
       }}
     >
       <Box sx={{ margin: 2 }}>
         <Paper
           elevation={3}
-          sx={{ p: 3, width: 300, cursor: 'pointer' }}
+          sx={{ p: 3, width: 400, cursor: 'pointer' }}
           onClick={handleNewCustomerClick}
         >
           <Typography variant="h4">New Customer</Typography>
@@ -43,7 +43,7 @@ const Customer = () => {
 
       <Box sx={{ margin: 2 }}>
         <Paper elevation={3}
-          sx={{ p: 3, width: 300, cursor: 'pointer' }}
+          sx={{ p: 3, width: 400, cursor: 'pointer' }}
           onClick={handleCustomerRecordsClick}
         >
           <Typography variant="h4">Customer Records</Typography>
