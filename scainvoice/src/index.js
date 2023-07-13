@@ -11,12 +11,14 @@ import Distributors from "./pages/distributors/Distributors";
 import CreateNewCustomer from "./pages/customer/CreateNewCustomer";
 import CustomerRecords from "./pages/customer/CustomerRecords";
 import Lpo from "./pages/Lpo/Lpo";
-import Banks from "./pages/bank/Bank";
+import Bank from "./pages/bank/Bank";
 import Customer from './pages/customer/Customer';
 import DispatchedInvoice from './pages/Invoice/DispatchedInvoice';
 import RegenerateInvoice from './pages/Invoice/RegenerateInvoice';
 import Invoice from './pages/Invoice/Invoice';
 import InvoiceList from './pages/Invoice/InvoiceList';
+import CreateNewBank from './pages/bank/CreateNewBank';
+import BankRecords from './pages/bank/BankRecords';
 
 const router = createBrowserRouter([
     {
@@ -56,7 +58,18 @@ const router = createBrowserRouter([
             },
             {
                 path: "bank",
-                element: <Banks />,
+                children:[
+                    {path:"",
+                element:<Bank/>},
+                {
+                    path:"newbank",
+                    element:<CreateNewBank/>,
+                },
+                {
+                    path:"brecords",
+                    element:<BankRecords/>,
+                },
+                ]
             },
             {
                 path: "customer",
