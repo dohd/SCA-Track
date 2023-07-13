@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Form, Button } from 'react-bootstrap';
+import { Card, Form, Button,Modal } from 'react-bootstrap';
 import { DataGrid } from '@mui/x-data-grid';
 import { Typography,Box } from '@mui/material';
 
@@ -13,6 +13,7 @@ const CreateInvoice = () => {
     total: '',
   });
   const [items, setItems] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const handleCustomerChange = (event) => {
     setSelectedCustomer(event.target.value);
@@ -21,7 +22,11 @@ const CreateInvoice = () => {
     setNewItem({ ...newItem, [event.target.name]: event.target.value });
   };
   const handleAddItem = () => {
-    setItems([...items, newItem]);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
     setNewItem({
       id: '',
       description: '',
@@ -30,6 +35,34 @@ const CreateInvoice = () => {
       total: '',
     });
   };
+
+  const handleClearForm = () => {
+    setItems([]);
+    setNewItem({
+      id: '',
+      description: '',
+      quantity: '',
+      unitPrice: '',
+      total: '',
+    });
+  };
+
+  const handleSaveItem = () => {
+    setItems([...items, newItem]);
+    setShowModal(false);
+    setNewItem({
+      id: '',
+      description: '',
+      quantity: '',
+      unitPrice: '',
+      total: '',
+    });
+  };
+  const handleSaveForm = () => {
+    // Implement the logic to save the form data
+    console.log('Form data saved:', items);
+  };
+  
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -46,7 +79,7 @@ const CreateInvoice = () => {
   ];
 
   return (
-    <Card style={{ width: '80%', marginLeft: '200px' }}>
+    <Card style={{ width: '80%', marginLeft: '150px' }}>
       <Card.Body>
         <Card.Title>Invoice</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">Invoice Number: SCA-0056</Card.Subtitle>
@@ -61,8 +94,8 @@ const CreateInvoice = () => {
             >
               <option value="">Select a customer</option>
               <option value="1">Sidan</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option value="2">Reddington</option>
+              <option value="3">Reggs</option>
             </Form.Select>
           </Form.Group>
 
@@ -113,7 +146,7 @@ const CreateInvoice = () => {
           {/* Line items section */}
           <hr />
           <Typography>Items</Typography>
-          <div style={{ display: 'flex', justifyContent: 'flex-end',backgroundColor: "red",}}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end',backgroundColor: "green",}}>
             <Button variant="secondary" onClick={handleAddItem}>
               Add Item
             </Button>
@@ -122,7 +155,7 @@ const CreateInvoice = () => {
             <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
           </div>
         <hr/>
-        <Typography variant="h3">Message</Typography>
+        <Typography variant="h3">Customer Message</Typography>
 
 <Box
   sx={{
@@ -130,7 +163,7 @@ const CreateInvoice = () => {
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 100,
-    display: 'flex',
+  
     flexDirection: 'row',
     marginTop: '20px',
     marginBottom: '20px',
@@ -152,12 +185,64 @@ const CreateInvoice = () => {
       }}
       type="text"
       id="custPONumber"
-      placeholder="Message"
+      placeholder="Message here"
       // value={custPONumber}
       // onChange={(e) => setCustPONumber(e.target.value)}
     />
   </Box>
+  <Box
+  sx={{
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 100,
+    width: "40%",
+    display: "flex",
+  }}
+>
+  <div className="totals" style={{ width: "100%", height: "100%", alignItems: "center" }}>
+    <h3>Sub-total: 130000</h3>
+    <h3>VAT(16%): 10000</h3>
+    <h2>Total: 130000</h2>
+  </div>
 </Box>
+
+</Box>
+<Typography variant="h3">Company Payment Details</Typography>
+
+<Form.Group controlId="companyName">
+  <Form.Label>Company Name:</Form.Label>
+  <Form.Control type="text" placeholder="Enter company name" />
+</Form.Group>
+
+<Form.Group controlId="bankName">
+  <Form.Label>Bank Name:</Form.Label>
+  <Form.Control type="text" placeholder="Enter bank name" />
+</Form.Group>
+
+<Form.Group controlId="accountNo">
+  <Form.Label>Account Number:</Form.Label>
+  <Form.Control type="text" placeholder="Enter account name" />
+</Form.Group>
+<Form.Group controlId="branch">
+  <Form.Label>Bank Branch:</Form.Label>
+  <Form.Control type="text" placeholder="Enter branch name" />
+</Form.Group>
+<Form.Group controlId="swift">
+  <Form.Label>Swift/sort/routing/Chips code/Fed wire:</Form.Label>
+  <Form.Control type="text" placeholder="-" />
+</Form.Group>
+<hr/>
+<div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+            <Button variant="outline-secondary" onClick={handleClearForm}>
+              Clear Form
+            </Button>
+            <Button variant="outline-primary" onClick={handleSaveForm} style={{ marginLeft: '10px' }}>
+              Save Form
+            </Button>
+            <Button variant="primary"  style={{ marginLeft: '10px' }}>
+              Save as PDF
+            </Button>
+          </div>
         </Form>
         
         
