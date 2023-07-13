@@ -30,20 +30,22 @@ const router = createBrowserRouter([
             },
             {
                 path: "invoice",
-            children:[
-              {  path:"",
-              element: <Invoice />,
-            },
-            {path:"new-in",
-        element:<CreateInvoice/>,
-    },
 
-        {
-            path:"invoice-records",
-        element:<InvoiceList/>,
-    },
+                children:[
+                    {  
+                        path:"",
+                        element: <Invoice />,
+                    },
+                    {
+                        path:"new-in",
+                        element:<CreateInvoice />,
+                    },
+                    {
+                        path:"invoice-records",
+                        element:<InvoiceList />,
+                    },
 
-            ]
+                ]
                 
             },
             {
@@ -66,7 +68,8 @@ const router = createBrowserRouter([
                     {
                         path:"",
                         element: <Customer />,
-                    },{
+                    },
+                    {
                         path: "new",
                         element: <CreateNewCustomer />,
                         
@@ -86,9 +89,9 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
+    
         <RouterProvider router={router} />
-    </React.StrictMode>
+   
 );
 
 

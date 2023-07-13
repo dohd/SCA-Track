@@ -21,9 +21,9 @@ function App() {
           <Route path="Customer/" element={<Customer />} />
           <Route path='/CreateNewCustomer' element={<CreateNewCustomer/>}/>
           <Route path="invoice" element={<Invoice />}>
-        <Route path="list" element={<InvoiceList />} />
-        <Route path="dispatched" element={<DispatchedInvoice />} />
-        <Route path="create" element={<CreateInvoice />} />
+          <Route path="list" element={<InvoiceList />} />
+          <Route path="dispatched" element={<DispatchedInvoice />} />
+         <Route path="create" element={<CreateInvoice />} />
       </Route>
         </Routes>
       </BrowserRouter>

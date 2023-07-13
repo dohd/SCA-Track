@@ -1,6 +1,9 @@
 import React, { useState, useEffect }from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { Box, Paper, Typography } from '@mui/material';
+import { Group, Restore, History } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const CustomerForm = () => {
   const { register, handleSubmit,reset , formState: { errors } } = useForm();
@@ -50,10 +53,21 @@ const CustomerForm = () => {
 
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+
+    <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      height: '100%',
+      width: '100%',
+    }}
+  >
+    <Box sx={{ margin: 2 }}>
+      <div style={{ height: 400, width: '100%', display: 'flex' }}>
+      <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <h2>Create Customer</h2>
-        <label htmlFor="custid">Customer ID</label>
+        <label htmlFor="custid">Customer ID: </label>
         <input
           type="text"
           id="custID" placeholder='SCA-001'
@@ -65,7 +79,7 @@ const CustomerForm = () => {
       </div>
       
       <div>
-        <label htmlFor="custName">Customer Name</label>
+        <label htmlFor="custName">Customer Name: </label>
         <input
           type="text"
           id="custName"
@@ -78,7 +92,7 @@ const CustomerForm = () => {
       </div>
 
       <div>
-        <label htmlFor="custStreet">Customer Street</label>
+        <label htmlFor="custStreet">Customer Street: </label>
         <input
           type="text"
           id="custStreet"placeholder='customer street'
@@ -91,7 +105,7 @@ const CustomerForm = () => {
 
 
       <div>
-        <label htmlFor="custAddress">Customer Street</label>
+        <label htmlFor="custAddress">Customer Street: </label>
         <input
           type="text"
           id="custAddress"placeholder='customer address'
@@ -104,7 +118,7 @@ const CustomerForm = () => {
 
 
       <div>
-        <label htmlFor="custPONumber">Customer Po Number</label>
+        <label htmlFor="custPONumber">Customer Po Number: </label>
         <input
           type="text"
           id="custPONumber"placeholder='customer po number'
@@ -117,7 +131,7 @@ const CustomerForm = () => {
 
 
       <div>
-        <label htmlFor="custLocation">Customer Location</label>
+        <label htmlFor="custLocation">Customer Location: </label>
         <input
           type="text"
           id="custLocation"placeholder='customer location'
@@ -130,7 +144,7 @@ const CustomerForm = () => {
 
 
       <div>
-        <label htmlFor="telephone">Telephone</label>
+        <label htmlFor="telephone">Telephone: </label>
         <input
           type="text"
           id="telephone"placeholder='0723543332'
@@ -148,6 +162,11 @@ const CustomerForm = () => {
         <button type="button" onClick={handleClearForm}>Clear Form</button>
       </div>
     </form>
+      </div>
+    </Box>
+    
+  </Box>
+    
   );
 };
 

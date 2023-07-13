@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import { Box, Paper, Typography } from '@mui/material';
+import { Group, Restore, History } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const columns = [
   { field: 'id', headerName: 'Customer ID', width: 100 },
@@ -27,14 +30,28 @@ const DataTable = () => {
   const rowsWithIds = generateRowsWithIds(rows);
 
   return (
-    <div style={{ height: 400, width: '100%' }}>CustomerRecords
-      <DataGrid
-        rows={rowsWithIds}
-        columns={columns}
-        pageSize={5}
-        checkboxSelection
-      />
-    </div>
+
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        height: '100%',
+        width: '100%',
+      }}
+    >
+      <Box sx={{ margin: 2 }}>
+        <div style={{ height: 400, width: '100%', display: 'flex' }}>
+          <DataGrid
+            rows={rowsWithIds}
+            columns={columns}
+            pageSize={5}
+            checkboxSelection
+          />
+        </div>
+      </Box>
+      
+    </Box>
+    
   );
 };
 

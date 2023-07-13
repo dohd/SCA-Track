@@ -44,7 +44,7 @@ const rows = [
 
 ];
 
-export default function InvoiceList() {
+const Customer = () => {
     
   return (
     <div>InvoiceRecords
@@ -61,4 +61,5 @@ export default function InvoiceList() {
       />
       </div>
   )
-}
+};
+export default Customer;
