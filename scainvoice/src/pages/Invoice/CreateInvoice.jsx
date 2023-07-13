@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Typography,Box } from '@mui/material';
 
 const CreateInvoice = () => {
-  const [selectedCustomer, setSelectedCustomer] = useState('');
+ const [selectedCustomer, setSelectedCustomer] = useState('');
   const [newItem, setNewItem] = useState({
     id: '',
     description: '',
@@ -13,20 +13,19 @@ const CreateInvoice = () => {
     total: '',
   });
   const [items, setItems] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleCustomerChange = (event) => {
     setSelectedCustomer(event.target.value);
   };
+
   const handleNewItemChange = (event) => {
     setNewItem({ ...newItem, [event.target.name]: event.target.value });
   };
-  const handleAddItem = () => {
-    setShowModal(true);
-  };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
+  const handleAddItem = () => {
+    const updatedItems = [...items, newItem];
+    setItems(updatedItems);
     setNewItem({
       id: '',
       description: '',
@@ -34,6 +33,15 @@ const CreateInvoice = () => {
       unitPrice: '',
       total: '',
     });
+    setOpen(false); // Close the modal after adding the item
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleClearForm = () => {
@@ -49,7 +57,7 @@ const CreateInvoice = () => {
 
   const handleSaveItem = () => {
     setItems([...items, newItem]);
-    setShowModal(false);
+
     setNewItem({
       id: '',
       description: '',
@@ -58,11 +66,11 @@ const CreateInvoice = () => {
       total: '',
     });
   };
+
   const handleSaveForm = () => {
     // Implement the logic to save the form data
     console.log('Form data saved:', items);
   };
-  
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -81,11 +89,11 @@ const CreateInvoice = () => {
   return (
     <Card style={{ width: '80%', marginLeft: '150px' }}>
       <Card.Body>
-        <Card.Title>Invoice</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">Invoice Number: SCA-0056</Card.Subtitle>
+        <Card.Title style={{fontFamily:'sans-serif',fontWeight:'bold'}}>Invoice</Card.Title>
+        <Card.Subtitle  style={{fontFamily:'sans-serif',fontWeight:'bold'}} className="mb-2 text-muted">Invoice Number: SCA-0056</Card.Subtitle>
         <hr />
         <Form>
-          <Form.Group controlId="billingTo">
+          <Form.Group controlId="billingTo"  style={{fontFamily:'sans-serif',fontWeight:'bold'}}>
             <Form.Label>Billing To:</Form.Label>
             <Form.Select
               value={selectedCustomer}
@@ -101,7 +109,7 @@ const CreateInvoice = () => {
 
           <hr />
 
-          <Form.Group controlId="customerID">
+          <Form.Group controlId="customerID" >
             <Form.Label>Customer ID:</Form.Label>
             <Form.Control type="text" readOnly value="SCA-009" />
           </Form.Group>
@@ -145,15 +153,41 @@ const CreateInvoice = () => {
 
           {/* Line items section */}
           <hr />
-          <Typography>Items</Typography>
-          <div style={{ display: 'flex', justifyContent: 'flex-end',backgroundColor: "green",}}>
-            <Button variant="secondary" onClick={handleAddItem}>
-              Add Item
-            </Button>
-          </div>
+          <Button variant="secondary" onClick={handleAddItem} style={{ backgroundColor: '#3cb371' }}>
+            Add Item
+          </Button>
+
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+          >
+            <Box sx={{  width: 600 }}>
+              <Typography variant="h6" id="modal-title" component="h2">
+                Add Item
+              </Typography>
+              <Form>
+                {/* Add form fields for adding a new item */}
+                {/* ... */}
+              </Form>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>
+                <Button variant="secondary" onClick={handleClose}>
+                  Cancel
+                </Button>
+                <Button variant="primary" onClick={handleAddItem}>
+                  Add Item
+                </Button>
+              </div>
+            </Box>
+          </Modal>
+          
+            
+          
           <div style={{ height: 400, width: '100%' }}>
             <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
           </div>
+
         <hr/>
         <Typography variant="h3">Customer Message</Typography>
 
@@ -233,13 +267,13 @@ const CreateInvoice = () => {
 </Form.Group>
 <hr/>
 <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
-            <Button variant="outline-secondary" onClick={handleClearForm}>
+            <Button variant="outline-secondary" onClick={handleClearForm} style={{ backgroundColor: '#3cb371' }}>
               Clear Form
             </Button>
-            <Button variant="outline-primary" onClick={handleSaveForm} style={{ marginLeft: '10px' }}>
+            <Button variant="outline-primary" onClick={handleSaveForm} style={{ marginLeft: '10px', backgroundColor: '#3cb371' }}>
               Save Form
             </Button>
-            <Button variant="primary"  style={{ marginLeft: '10px' }}>
+            <Button variant="primary"  style={{ marginLeft: '10px' , backgroundColor: '#3cb371' }}>
               Save as PDF
             </Button>
           </div>
