@@ -1,34 +1,68 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import React from 'react';
+import { Box, Paper, Typography } from '@mui/material';
+import { Group, Restore, History } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+const Invoice = () => {
+  const navigate = useNavigate();
 
-export default function CreateInvoiceCard() {
+  const handleNewInvoiceClick = () => {
+    navigate('/invoice/new-in');
+  };
+  const handleInvoiceRecordsClick = () => {
+    navigate('/invoice/invoice-records');
+  };
+
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="/static/images/cards/create-invoice.jpg"
-          alt="Create Invoice"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Create Invoice
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Click the button below to create a new invoice.
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Create
-        </Button>
-      </CardActions>
-    </Card>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        height: '100%',
+      }}
+    >
+      <Box sx={{ margin: 2 }}>
+        <Paper
+          elevation={3}
+          sx={{ p: 3, width: 300, cursor: 'pointer' }}
+          onClick={handleNewInvoiceClick}
+        >
+          <Typography variant="h4">New Invoice</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 2,
+            }}
+          >
+            <Group sx={{ height: 100, width: 100, opacity: 0.3, marginRight: 1 }} />
+          </Box>
+        </Paper>
+      </Box>
+
+      <Box sx={{ margin: 2 }}>
+        <Paper elevation={3}
+          sx={{ p: 3, width: 300, cursor: 'pointer' }}
+          onClick={handleInvoiceRecordsClick}
+        >
+          <Typography variant="h4">Invoice Records</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 2,
+            }}
+          >
+            <Restore sx={{ height: 100, width: 100, opacity: 0.3, marginRight: 1 }} />
+          </Box>
+        </Paper>
+      </Box>
+
+      
+    </Box>
   );
-}
+};
+
+export default Invoice;
