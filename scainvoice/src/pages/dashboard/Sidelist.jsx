@@ -99,7 +99,7 @@ and a component representing the component to render when the menu item is selec
       link: 'distributors/',
       component: <Distributors {...{ setselectedLink, link: 'distributors' }} />,
     },
-      {title:'Invoice',icon:<MailIcon/>,link:'invoice',component:<Invoice{...{setselectedLink,link:'invoice'}}/>,
+      {title:'Invoice',icon:<MailIcon/>,link:'Invoice',component:<Invoice{...{setselectedLink,link:'Invoice'}}/>,
   },
       {title:'Customer',icon:<PeopleIcon/>,link:'customer/',component:<Customer{...{setselectedLink,link:'customer'}}/>},
       {title:'Lpo',icon:<LayersIcon/>,link:'lpo',component:<Lpo{...{setselectedLink,link:'lpo'}}/>},
