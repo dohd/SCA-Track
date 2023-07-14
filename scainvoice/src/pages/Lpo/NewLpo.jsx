@@ -117,7 +117,7 @@ export default function CreateInvoice() {
           total_price,
           currency,
         });
-        alert("Customer added successfully!");
+        alert("Item added successfully!");
         handleClearForm();
       } catch (error) {
         console.error(error);
@@ -168,11 +168,24 @@ export default function CreateInvoice() {
   };
 
   const rowsWithIds = generateRowsWithIds(lpoItems);
-  console.log(lpoItems);
-  console.log(rows);
+
+  //calculate total
+  const [overallTotal, setOverallTotal] = useState(0);
+  useEffect(() => {
+    // Calculate overall total when component mounts or data changes
+    const calculateOverallTotal = () => {
+      const totalPriceSum = lpoItems.reduce((sum, item) => sum + item.total_price, 0);
+      setOverallTotal(totalPriceSum);
+    };
+
+    calculateOverallTotal();
+  }, ); // Empty dependency array, so the effect runs only once
+      
+      const vatPrice = overallTotal*0.16;
+      const finalTotal  = vatPrice + overallTotal;
 
   return (
-    <Box
+    <Box 
       sx={{
         display: "flex",
         justifyContent: "center",
@@ -181,7 +194,7 @@ export default function CreateInvoice() {
         marginBottom: "20px",
       }}
     >
-      <form
+      <form 
         style={{
           width: "60%",
           marginLeft: "auto",
@@ -433,18 +446,15 @@ export default function CreateInvoice() {
               display: "flex",
             }}
           >
-            <input
-              style={{
-                width: "100%",
-                height: "100%",
-              }}
-              type="text"
-              id="custPONumber"
-              placeholder="Message"
 
-              //   value={custPONumber}
-              //   onChange={(e) => setCustPONumber(e.target.value)}
-            />
+            <textarea id="lpo_message" name="lpo_message" rows="4" cols="50"
+            placeholder="Enter message here......"
+            style={{
+              width: "100%",
+              height: "100%",
+            }} >
+
+            </textarea>
           </Box>
           <Box
             sx={{
@@ -463,9 +473,9 @@ export default function CreateInvoice() {
                 alignItems: "center",
               }}
             >
-              <h3>Sub-total: 10000</h3>
-              <h3>VAT(16): 10000</h3>
-              <h2>Total: 10000</h2>
+              <h3>Sub-total: {overallTotal}</h3>
+              <h3>VAT(16): {vatPrice}</h3>
+              <h2>Total: {finalTotal}</h2>
             </div>
           </Box>
         </Box>
@@ -517,7 +527,7 @@ export default function CreateInvoice() {
               }}
               type="button"
             >
-              Clear Form
+              Save PDF
             </button>
           </div>
         </Box>
