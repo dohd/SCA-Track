@@ -1,5 +1,6 @@
 import React from 'react'
 import { DataGrid } from '@mui/x-data-grid';
+import { Box } from '@mui/material';
 import{Link} from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -47,7 +48,30 @@ const rows = [
 const Customer = () => {
     
   return (
-    <div>InvoiceRecords
+    <Box
+    sx={{
+      display: "flex",
+      justifyContent: "center",
+      height: "100%",
+    }}
+  >
+    <div
+      style={{
+        height: 480,
+        width: "80%",
+        marginLeft: "280px",
+        marginRight: "0",
+      }}
+    >
+      <h1
+        style={{
+          fontSize: "32px",
+          fontWeight: "500",
+          marginBottom: "10px",
+        }}
+      >
+       Invoice Records
+      </h1>
     <DataGrid
         rows={rows} disableSelectionOnClick
         columns={columns}
@@ -59,7 +83,8 @@ const Customer = () => {
         pageSizeOptions={[5, 10]}
         checkboxSelection
       />
-      </div>
-  )
+   </div>
+    </Box>
+  );
 };
 export default Customer;

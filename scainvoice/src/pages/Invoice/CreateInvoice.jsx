@@ -32,17 +32,20 @@ const CreateInvoice = () => {
       quantity: '',
       unitPrice: '',
       total: '',
+      
     });
-    setOpen(false); // Close the modal after adding the item
+  
+   
   };
 
   const handleOpen = () => {
     setOpen(true);
+    console.log("open");
+   
   };
+  const handleClose = () => setOpen(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+ 
 
   const handleClearForm = () => {
     setItems([]);
@@ -89,10 +92,15 @@ const CreateInvoice = () => {
   return (
     <Card style={{ width: '80%', marginLeft: '150px' }}>
       <Card.Body>
-        <Card.Title style={{fontFamily:'sans-serif',fontWeight:'bold'}}>Invoice</Card.Title>
-        <Card.Subtitle  style={{fontFamily:'sans-serif',fontWeight:'bold'}} className="mb-2 text-muted">Invoice Number: SCA-0056</Card.Subtitle>
+        <Card.Title style={{fontFamily:'sans-serif',fontWeight:'bold',marginRight:"auto", marginLeft:"200px"}}>Invoice</Card.Title>
+        <Card.Subtitle  style={{fontFamily:'sans-serif',fontWeight:'bold',marginRight:"auto", marginLeft:"200px"}} className="mb-2 text-muted">Invoice Number: SCA-0056</Card.Subtitle>
         <hr />
-        <Form>
+        <Form   style={{
+          height: 400,
+          width: "60%",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}>
           <Form.Group controlId="billingTo"  style={{fontFamily:'sans-serif',fontWeight:'bold'}}>
             <Form.Label>Billing To:</Form.Label>
             <Form.Select
@@ -156,31 +164,24 @@ const CreateInvoice = () => {
           <Button variant="secondary" onClick={handleAddItem} style={{ backgroundColor: '#3cb371' }}>
             Add Item
           </Button>
+            <Button onClick={handleOpen}>Open modal</Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Text in a modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
+        </Box>
+      </Modal>
 
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-title"
-            aria-describedby="modal-description"
-          >
-            <Box sx={{  width: 600 }}>
-              <Typography variant="h6" id="modal-title" component="h2">
-                Add Item
-              </Typography>
-              <Form>
-                {/* Add form fields for adding a new item */}
-                {/* ... */}
-              </Form>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>
-                <Button variant="secondary" onClick={handleClose}>
-                  Cancel
-                </Button>
-                <Button variant="primary" onClick={handleAddItem}>
-                  Add Item
-                </Button>
-              </div>
-            </Box>
-          </Modal>
+        
           
             
           

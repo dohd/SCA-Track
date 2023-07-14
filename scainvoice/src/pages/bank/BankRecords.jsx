@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { IconButton } from '@mui/material';
+import {Box} from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 
 const columns = [
@@ -70,8 +71,31 @@ const rows = [
 export default function BankRecords() {
   
   return (
-    <div>
-      BankRecords
+    <Box
+    sx={{
+      display: "flex",
+      justifyContent: "center",
+      height: "100%",
+    }}
+  >
+    <div
+      style={{
+        height: 480,
+        width: "80%",
+        marginLeft: "280px",
+        marginRight: "0",
+      }}
+    >
+      <h1
+        style={{
+          fontSize: "32px",
+          fontWeight: "500",
+          marginBottom: "10px",
+        }}
+      >
+       BankRecords
+      </h1>
+    
       <DataGrid
         rows={rows}
         disableSelectionOnClick
@@ -86,5 +110,7 @@ export default function BankRecords() {
         checkboxSelection
       />
     </div>
+    </Box>
   );
-}
+};
+
