@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
@@ -11,6 +11,8 @@ import Distributors from "./pages/distributors/Distributors";
 import CreateNewCustomer from "./pages/customer/CreateNewCustomer";
 import CustomerRecords from "./pages/customer/CustomerRecords";
 import Lpo from "./pages/Lpo/Lpo";
+import LpoRecord from "./pages/Lpo/lpoRecord";
+import NewLpo from "./pages/Lpo/NewLpo";
 import Bank from "./pages/bank/Bank";
 import Customer from './pages/customer/Customer';
 import CreateInvoice from './pages/invoice/CreateInvoice';
@@ -20,41 +22,64 @@ import CreateNewBank from './pages/bank/CreateNewBank';
 import BankRecords from './pages/bank/BankRecords';
 
 const router = createBrowserRouter([
-    {
-        path: "*",
-        element: <Root />,
-        errorElement:<ErrorPage/>,
+  {
+    path: "*",
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "Invoice",
         children: [
-            {
-                path: "dashboard",
-                element: <Dashboard />,
-            },
-            {
-                path: "invoice",
-            children:[
-              {  path:"",
-              element: <Invoice />,
-            },
-            {path:"new-in",
-        element:<CreateInvoice/>,
-    },
+          { 
+            path: "",
+            element: <Invoice />
+          },
+          { 
+            path: "new-in", 
+            element: <CreateInvoice /> 
+          },
 
-        {
-            path:"invoice-records",
-        element:<InvoiceList/>,
-    },
-
-            ]
+          {
+            path: "invoice-records",
+            element: <InvoiceList />,
+          },
+        ],
+      },
+      {
+        path: "distributor",
+        element: <Distributors />,
+      },
+    
                 
-            },
+            
             {
                 path: "distributor",
                 element: <Distributors />,
             },
             {
                 path: "lpo",
-                element: <Lpo />,
-            },
+                children: [
+                        {
+                          path: "",
+                          element: <Lpo />,
+                        },
+                        {
+                          path: "NewLpo",
+                          element: <NewLpo />
+                        },
+                        {
+                          path: "lpoRecord",
+                          element: <LpoRecord />
+                        },
+                      ],
+                    },
+                
+               
+            
             {
                 path: "bank",
                 children:[
@@ -94,13 +119,9 @@ const router = createBrowserRouter([
     }
 ]);
 
-
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <React.StrictMode>
-        <RouterProvider router={router} />
-    </React.StrictMode>
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
 );
-
-
