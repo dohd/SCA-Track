@@ -6,32 +6,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 
-const rows = [
-  {
-    description: "HP printer",
-    qty: "2",
-    unitPrice: "30000",
-    total: "60000",
-  },
-  {
-    description: "HP printer",
-    qty: "2",
-    unitPrice: "30000",
-    total: "60000",
-  },
-  {
-    description: "HP printer",
-    qty: "2",
-    unitPrice: "30000",
-    total: "60000",
-  },
-  {
-    description: "HP printer",
-    qty: "2",
-    unitPrice: "30000",
-    total: "60000",
-  },
-];
+
 const options = [
   {
     value: "1",
@@ -117,7 +92,7 @@ export default function CreateInvoice() {
           total_price,
           currency,
         });
-        alert("Customer added successfully!");
+        alert("Item added successfully!");
         handleClearForm();
       } catch (error) {
         console.error(error);
@@ -168,8 +143,6 @@ export default function CreateInvoice() {
   };
 
   const rowsWithIds = generateRowsWithIds(lpoItems);
-  console.log(lpoItems);
-  console.log(rows);
 
   return (
     <Box

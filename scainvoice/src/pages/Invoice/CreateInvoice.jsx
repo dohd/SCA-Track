@@ -12,67 +12,37 @@ const CreateInvoice = () => {
     unitPrice: '',
     total: '',
   });
-  const [items, setItems] = useState([]);
-  const [open, setOpen] = useState(false);
+  
+ 
 
   const handleCustomerChange = (event) => {
     setSelectedCustomer(event.target.value);
   };
 
-  const handleNewItemChange = (event) => {
-    setNewItem({ ...newItem, [event.target.name]: event.target.value });
-  };
+ 
 
   const handleAddItem = () => {
-    const updatedItems = [...items, newItem];
-    setItems(updatedItems);
-    setNewItem({
-      id: '',
-      description: '',
-      quantity: '',
-      unitPrice: '',
-      total: '',
-      
-    });
+   console.log("add");
   
    
   };
 
-  const handleOpen = () => {
-    setOpen(true);
-    console.log("open");
-   
-  };
-  const handleClose = () => setOpen(false);
+ 
 
  
 
   const handleClearForm = () => {
-    setItems([]);
-    setNewItem({
-      id: '',
-      description: '',
-      quantity: '',
-      unitPrice: '',
-      total: '',
-    });
+  console.log("clear")
   };
 
   const handleSaveItem = () => {
-    setItems([...items, newItem]);
+    console.log("save")
 
-    setNewItem({
-      id: '',
-      description: '',
-      quantity: '',
-      unitPrice: '',
-      total: '',
-    });
   };
 
   const handleSaveForm = () => {
     // Implement the logic to save the form data
-    console.log('Form data saved:', items);
+    console.log('Form data saved:');
   };
 
   const columns = [
@@ -164,22 +134,7 @@ const CreateInvoice = () => {
           <Button variant="secondary" onClick={handleAddItem} style={{ backgroundColor: '#3cb371' }}>
             Add Item
           </Button>
-            <Button onClick={handleOpen}>Open modal</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
+          
 
         
           

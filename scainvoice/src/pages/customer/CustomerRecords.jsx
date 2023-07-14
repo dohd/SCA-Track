@@ -4,32 +4,6 @@ import { Box, Paper, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const rows = [
-  {
-    customerName: "Britam",
-    Address: "P.O.BOX 00-333",
-    Street: "whitefiled-place",
-    Location: "Nairobi",
-  },
-  {
-    customerName: "Sidian Bank",
-    Address: "P.O.BOX 00-333",
-    Street: "Ring road",
-    Location: "Nairobi",
-  },
-  {
-    customerName: "Reddington",
-    Address: "P.O.BOX 00-333",
-    Street: "whitefiled",
-    Location: "Nairobi",
-  },
-  {
-    customerName: "Kcb",
-    Address: "P.O.BOX 00-333",
-    Street: "whitefiled",
-    Location: "Nairobi",
-  },
-];
 
 const DataTable = () => {
   const [customers, setCustomers] = useState([]);
@@ -49,7 +23,9 @@ const DataTable = () => {
 
   const columns = [
     { field: "id", headerName: "Customer ID", width: 120 },
+    {field:"Customer Pin No",headerName:"Pin No",width:120},
     { field: "customer_name", headerName: "Customer Name", width: 200 },
+    {field:"customer-email",headerName:"Email",width:200},
     { field: "customer_street", headerName: "Street", width: 200 },
     { field: "customer_address", headerName: "Address", width: 180 },
     { field: "customer_location", headerName: "Location", width: 180 },
