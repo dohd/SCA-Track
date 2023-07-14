@@ -346,8 +346,7 @@ export default function CreateInvoice() {
                 {errors.custID && <span>This field is required</span>}
               </div>
 
-
-                            <div
+              <div
                 style={{
                   width: "99%",
                   margin: "6px",
@@ -386,7 +385,6 @@ export default function CreateInvoice() {
                 />
                 {errors.quantity && <span>This field is required</span>}
               </div>
-
             </div>
 
             <button
