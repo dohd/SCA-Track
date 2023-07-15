@@ -1,5 +1,6 @@
 
 import './App.css';
+<<<<<<< HEAD
 import Invoice from './pages/Invoice/Invoice'
 import CreateInvoice from './pages/Invoice/CreateInvoice'
 import DispatchedInvoice from './pages/Invoice/DispatchedInvoice'
@@ -9,10 +10,14 @@ import CreateNewCustomer from './pages/customer/CreateNewCustomer'
 import Dashboard from './pages/dashboard/Dashboard';
 import {BrowserRouter, RouterProvider} from "react-router-dom";
 import {BrowserRouter as Router,Route,Routes,Outlet} from "react-router-dom";
+=======
+
+>>>>>>> main
 
 function App() {
   return (
     <>
+<<<<<<< HEAD
     <BrowserRouter>
         <Routes>
           <Route path="dashboard/*" element={<Dashboard />} />
@@ -28,6 +33,9 @@ function App() {
         </Routes>
       </BrowserRouter>
       <Outlet />
+=======
+    
+>>>>>>> main
     </>
     
       

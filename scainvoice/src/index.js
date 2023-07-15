@@ -5,12 +5,18 @@ import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
+<<<<<<< HEAD
 import CreateInvoice from "./pages/Invoice/CreateInvoice";
 import Dashboard from "./pages/dashboard/Dashboard";
+=======
+
+import Dashboard from './pages/dashboard/Dashboard';
+>>>>>>> main
 import Distributors from "./pages/distributors/Distributors";
 import CreateNewCustomer from "./pages/customer/CreateNewCustomer";
 import CustomerRecords from "./pages/customer/CustomerRecords";
 import Lpo from "./pages/Lpo/Lpo";
+<<<<<<< HEAD
 import LpoRecord from "./pages/Lpo/lpoRecord";
 import NewLpo from "./pages/Lpo/NewLpo";
 import Banks from "./pages/bank/Bank";
@@ -19,6 +25,15 @@ import DispatchedInvoice from "./pages/Invoice/DispatchedInvoice";
 import RegenerateInvoice from "./pages/Invoice/RegenerateInvoice";
 import Invoice from "./pages/Invoice/Invoice";
 import InvoiceList from "./pages/Invoice/InvoiceList";
+=======
+import Bank from "./pages/bank/Bank";
+import Customer from './pages/customer/Customer';
+import CreateInvoice from './pages/invoice/CreateInvoice';
+import Invoice from './pages/invoice/Invoice';
+import InvoiceList from './pages/invoice/InvoiceList';
+import CreateNewBank from './pages/bank/CreateNewBank';
+import BankRecords from './pages/bank/BankRecords';
+>>>>>>> main
 
 const router = createBrowserRouter([
   {
@@ -55,6 +70,7 @@ const router = createBrowserRouter([
       {
         path: "lpo",
 
+<<<<<<< HEAD
         children: [
           {
             path: "",
@@ -94,6 +110,56 @@ const router = createBrowserRouter([
       },
     ],
   },
+=======
+            ]
+                
+            },
+            {
+                path: "distributor",
+                element: <Distributors />,
+            },
+            {
+                path: "lpo",
+                element: <Lpo />,
+            },
+            {
+                path: "bank",
+                children:[
+                    {path:"",
+                element:<Bank/>},
+                {
+                    path:"newbank",
+                    element:<CreateNewBank/>,
+                },
+                {
+                    path:"brecords",
+                    element:<BankRecords/>,
+                },
+                ]
+            },
+            {
+                path: "customer",
+               
+               
+                children: [
+                    {
+                        path:"",
+                        element: <Customer />,
+                    },{
+                        path: "new",
+                        element: <CreateNewCustomer />,
+                        
+                    },
+                    {
+                        path: "records",
+                        element: <CustomerRecords />,
+                       
+                    },
+                ],
+            },
+        ]
+    }
+>>>>>>> main
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

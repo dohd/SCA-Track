@@ -23,12 +23,12 @@ import Lpo from '../Lpo/Lpo'
 import Bank from '../bank/Bank'
 import Home from '../home/Home';
 import Logout from '@mui/icons-material/Logout'
-import CreateNewCustomer from '../customer/CreateNewCustomer';
+
 import Customer from '../customer/Customer';
-import Invoice from '../Invoice/InvoiceList';
+import Invoice from '../invoice/Invoice';
 
 import Distributors from '../distributors/Distributors'
-import CustomerRecords from '../customer/CustomerRecords';
+
 
 const drawerWidth = 240;
 
