@@ -5,6 +5,7 @@ import DispatchedInvoice from '../invoice/DispatchedInvoice';
 import Customer from '../customer/Customer';
 
 export default function Home({ link }) {
+  
   const [selectedLink, setselectedLink] = useState('');
 
   useEffect(() => {
@@ -13,6 +14,15 @@ export default function Home({ link }) {
 
   const handleClick = (link) => {
     setselectedLink(link);
+    window.location.href = `http://localhost:3000/${link}`;
+
+  };
+  const handleClickCustomer = () => {
+    handleClick('customer');
+  };
+
+  const handleClickBank = () => {
+    handleClick('bank');
   };
 
   return (
@@ -47,7 +57,7 @@ export default function Home({ link }) {
           </Paper>
 
           <Paper elevation={3} sx={{ p: 3 }}
-             onClick={() => handleClick('customer')}>
+             onClick={() => handleClickCustomer()}>
             <Typography variant="h4">Customers</Typography>
             <Box
               sx={{
@@ -64,7 +74,7 @@ export default function Home({ link }) {
             </Box>
           </Paper>
           <Paper elevation={3} sx={{ p: 3 }}
-           onClick={() => handleClick('bank')}>
+           onClick={() => handleClickBank()}>
             <Typography variant="h4">Banks</Typography>
             <Box
               sx={{
@@ -98,7 +108,7 @@ export default function Home({ link }) {
             </Box>
           </Paper>
           <Paper elevation={3} sx={{ p: 3 }}
-           onClick={() => handleClick('distributors')}>
+           onClick={() => handleClick('distributor')}>
             <Typography variant="h4">Distributors</Typography>
             <Box
               sx={{

@@ -91,7 +91,7 @@ export default function CreateDistributor() {
         <div>
           <label htmlFor="custName">Distributor Email: </label>
           <input
-            type="text"
+            type="email"
             id="distEmail"
             placeholder="enter distributor email"
             {...register("distEmail", { required: true })}
@@ -115,7 +115,7 @@ export default function CreateDistributor() {
         <div>
           <label htmlFor="telephone">Telephone: </label>
           <input
-            type="text"
+            type="phone"
             id="dtelephone"
             placeholder="0723543332"
             {...register("dtelephone", {
