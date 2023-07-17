@@ -5,6 +5,7 @@ import { Typography, Box } from '@mui/material';
 import ItemForm from '../../components/ItemForm';
 import CustomerMessage from '../../components/CustomerMessage';
 import CompanyPaymentDetails from '../../components/CompanyPaymentDetails';
+import Header from '../../components/Header';
 
 const CreateInvoice = () => {
   const [selectedCustomer, setSelectedCustomer] = useState('');
@@ -62,9 +63,7 @@ const CreateInvoice = () => {
   return (
     <Card style={{ width: '80%', marginLeft: '150px' }}>
       <Card.Body>
-        <Card.Title style={{ fontFamily: 'sans-serif', fontWeight: 'bold', marginRight: 'auto', marginLeft: '200px' }}>
-          Invoice
-        </Card.Title>
+       <Header/>
         <Card.Subtitle
           style={{ fontFamily: 'sans-serif', fontWeight: 'bold', marginRight: 'auto', marginLeft: '200px' }}
           className="mb-2 text-muted"
@@ -83,12 +82,48 @@ const CreateInvoice = () => {
             </Form.Select>
           </Form.Group>
           <hr />
-          <Form.Group controlId="customerID">
+          <Form.Group controlId="customerID" >
             <Form.Label>Customer ID:</Form.Label>
             <Form.Control type="text" readOnly value="SCA-009" />
           </Form.Group>
-          {/* Rest of the form fields */}
+
+          <Form.Group controlId="customerPONumber">
+            <Form.Label>Customer PO Number:</Form.Label>
+            <Form.Control type="number" readOnly value="555" />
+          </Form.Group>
+
+          <Form.Group controlId="dueDays">
+            <Form.Label>Due (in days):</Form.Label>
+            <Form.Control type="number" readOnly value="20" />
+          </Form.Group>
+
+          <Form.Group controlId="customerStreet">
+            <Form.Label>Customer Street:</Form.Label>
+            <Form.Control type="text" readOnly value="Moi Avenue" />
+          </Form.Group>
+
+          <Form.Group controlId="customerAddress">
+            <Form.Label>Customer Address:</Form.Label>
+            <Form.Control type="text" readOnly value="P.O.Box 123456, Nairobi" />
+          </Form.Group>
+
+          <Form.Group controlId="advancePayment">
+            <Form.Label>Advance Payment:</Form.Label>
+            <Form.Control type="text" readOnly value="40%" />
+          </Form.Group>
+
           <hr />
+
+          <Form.Group controlId="currency">
+            <Form.Label>Currency:</Form.Label>
+            <Form.Control as="select">
+              <option value="ksh">KES</option>
+              <option value="usd">USD</option>
+              <option value="eur">EUR</option>
+              <option value="gbp">GBP</option>
+            </Form.Control>
+          </Form.Group>
+          <hr/>
           <ItemForm />
           {/* DataGrid and other components */}
           <div style={{ height: 400, width: '100%' }}>
