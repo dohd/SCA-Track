@@ -21,6 +21,7 @@ import InvoiceList from './pages/invoice/InvoiceList';
 import CreateNewBank from './pages/bank/CreateNewBank';
 import BankRecords from './pages/bank/BankRecords';
 import CreateDistributor from "./pages/distributors/CreateDistributor";
+import DistributorRecords from "./pages/distributors/DistributorRecords";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
           path: "newd",
           element: <CreateDistributor />,
       },
+      {
+        path: "drecords",
+        element: <DistributorRecords />,
+    },
         ]
       },
     

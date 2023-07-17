@@ -1,41 +1,73 @@
-import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { Box, Paper, Typography } from "@mui/material";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import Distributor from "./Distributors";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import { DataGrid } from '@mui/x-data-grid';
+import{Link} from "react-router-dom";
+import { useState } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
 
+const Distributors = () => {
+  const [distributors, setDistributors] = useState([]);
 
-
-
-  const columns = [
-    { field: "id", headerName: "distributor ID", width: 120 },
-    
-    { field: "distributor_name", headerName: "Distributor Name", width: 200 },
-    {field:"distributor-email",headerName:"Email",width:200},
-    { field: "distributor_telephone", headerName: "Telephone", width: 200 },
-    { field: "distributor_address", headerName: "Address", width: 180 },
-    { field: "distributor_location", headerName: "Location", width: 180 },
-  ];
-
-  const generateRowsWithIds = (rows) => {
-    return rows.map((row, index) => ({
-      ...row,
-      id: `${(index + 1).toString().padStart(3, "0")}`, // Generate ID in the format 001
-    }));
-  };
   
 
-  const rowsWithIds = generateRowsWithIds(Distributor);
-  const rows = [
-    {
-      id: 1,
-      distributor_name: 'Kenya commercial bank',
-      distributor-email: 'bank@gmail.com',
-      distributor_telephone: '0789765433',
-       
-    },
-  x``]
+const columns = [
+  { field: 'id', headerName: 'ID', width: 90 },
+  {
+    field: 'DName',
+    headerName: 'Distributor name',
+    width: 150,
+   
+  },
+  {
+    field: 'DEmail',
+    headerName: 'Distributor Email',
+    width: 150,
+   
+  },
+  { field: 'Telephone', headerName: 'Telephone', width: 130 },
+  { field: 'DAddress', headerName: 'Address', width: 130 },
+  {
+    field: 'Dlocation',
+    headerName: 'Location',
+    width: 110,
+    
+  },
+
+  {field:'Action',
+  headerName: 'Action',
+  width:150,
+  renderCell:(params) =>{
+      return(
+          <>
+          <Link to= {"/invoice/" + params.row.InvoiceNumber}>
+          <button className='InvoiceListEdit'>Edit</button>
+          </Link>
+          
+          <DeleteIcon className='InvoiceListDelete' />
+          </>
+      )
+  }
+  },
+ 
+];
+const generateRowsWithIds = (rows) => {
+  return rows.map((row, index) => ({
+    ...row,
+    id: `D-${(index + 1).toString().padStart(3, "0")}`, // Generate ID in the format D-001
+  }));
+};
+
+const rowsWithIds = generateRowsWithIds(distributors);
+
+
+const rows = [
+  { id: 1, DName: 'Snow', DEmail: 'Jon', Dlocation: 'waiyaki',Telephone:12354677,DAddress:'AACC' },
+  { id: 2, DName: 'Lannister', DEmail: 'Dlocation', Dlocation: 'waiyaki',Telephone:12354677,DAddress:'AACC' },
+  { id: 3, DName: 'Lannister', DEmail: 'Jaime', Dlocation: 'waiyaki',Telephone:12354677,DAddress:'AACC' },
+  
+];
+
+
   return (
     <Box
       sx={{
@@ -61,15 +93,22 @@ import Distributor from "./Distributors";
         >
           Distributor Records
         </h1>
-        <DataGrid
-          rows={rowsWithIds}
-          columns={columns}
-          pageSize={5}
-          checkboxSelection
-        />
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 5,
+            },
+          },
+        }}
+        pageSizeOptions={[5]}
+        checkboxSelection
+        disableRowSelectionOnClick
+      />
       </div>
     </Box>
   );
-};
-
-export default DataTable;
+}
+export default Distributors;
