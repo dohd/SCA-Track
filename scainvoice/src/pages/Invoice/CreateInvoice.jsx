@@ -41,6 +41,9 @@ const CreateInvoice = () => {
   const handleSaveForm = () => {
     console.log('Form data saved:');
   };
+  const handleSavePdf = () => {
+    console.log('pdf:');
+  };
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -140,7 +143,7 @@ const CreateInvoice = () => {
             <Button variant="outline-primary" onClick={handleSaveForm} style={{ marginLeft: '10px', backgroundColor: '#3cb371' }}>
               Save Form
             </Button>
-            <Button variant="primary" style={{ marginLeft: '10px', backgroundColor: '#3cb371' }}>
+            <Button variant="primary"onClick={handleSavePdf} style={{ marginLeft: '10px', backgroundColor: '#3cb371' }}>
               Save as PDF
             </Button>
           </div>
