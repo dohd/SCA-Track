@@ -25,7 +25,7 @@ import Home from '../home/Home';
 import Logout from '@mui/icons-material/Logout'
 
 import Customer from '../customer/Customer';
-import Invoice from '../invoice/Invoice';
+import Invoice from '../Invoice/Invoice';
 
 import Distributors from '../distributors/Distributors'
 
