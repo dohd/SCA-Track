@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Group, MapsHomeWork } from '@mui/icons-material';
 import { Box, Paper, Typography } from '@mui/material';
-import DispatchedInvoice from '../Invoice/DispatchedInvoice';
+import DispatchedInvoice from '../invoice/DispatchedInvoice';
 import Customer from '../customer/Customer';
 
 export default function Home({ link }) {

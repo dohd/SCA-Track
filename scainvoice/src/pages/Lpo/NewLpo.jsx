@@ -394,7 +394,7 @@ export default function CreateInvoice() {
                   {...register("quantity", { required: true })}
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
-                  onChange={handleQuantityChange}
+                  // onChange={handleQuantityChange}
                 />
                 {errors.quantity && <span>This field is required</span>}
               </div>
