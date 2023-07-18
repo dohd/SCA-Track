@@ -26,8 +26,9 @@ connection.connect((err) => {
 // API endpoint to add a new customers
 app.post("/add_customers", (req, res) => {
   const {
-    custId,
+    custEmail,
     custName,
+    custPIN,
     custStreet,
     custAddress,
     custPONumber,
@@ -35,22 +36,23 @@ app.post("/add_customers", (req, res) => {
     telephone,
   } = req.body;
   const query =
-    "INSERT INTO customer_details(customer_id, customer_name,customer_street,customer_address,customer_po_number, customer_location, customer_phone) VALUES(?, ?,?,?,?, ?,?);";
+    "INSERT INTO customer_details(customer_email, customer_name,customer_street,customer_address,customer_po_number, customer_location, customer_phone,kra_pin) VALUES(?,?,?,?,?,?,?,?);";
   connection.query(
     query,
     [
-      custId,
+      custEmail,
       custName,
       custStreet,
       custAddress,
       custPONumber,
       custLocation,
       telephone,
+      custPIN,
     ],
     (err, result) => {
       if (err) throw err;
       res.sendStatus(200);
-    }
+    } 
   );
 });
 
@@ -274,42 +276,50 @@ app.get("/read_lpoMessage", (req, res) => {
 //update begins hereeee
 
 // Update customer record route
-app.put("/update/customers", (req, res) => {
+// Update the customer details in the database
+app.put('/update/customers', (req, res) => {
   const {
-    custName,
-    custStreet,
-    custAddress,
-    custPONumber,
-    custLocation,
-    telephone,
-    custId,
+    customer_address,
+    customer_email,
+    customer_location,
+    customer_phone,
+    customer_po_number,
+    customer_street,
+    customer_name,
+    kra_pin
   } = req.body;
 
-  // Update the customer deatils in the database
-  const query = `UPDATE customer_details SET customer_name = ?, customer_street = ?, customer_address = ?, customer_po_number = ?, customer_location = ?,   customer_phone = ? WHERE customer_id = ?;`;
+  const query = `UPDATE customer_details SET customer_email = "dwambua", kra_pin = "3456", customer_street = "Ngong", customer_address = "Box", customer_po_number = "120", customer_location = "Nairobi", customer_phone = "543" WHERE customer_name = 'Sharleen Njiru';`;
   connection.query(
     query,
     [
-      custName,
-      custStreet,
-      custAddress,
-      custPONumber,
-      custLocation,
-      telephone,
-      custId,
+      customer_email,
+      kra_pin,
+      customer_street,
+      customer_address,
+      customer_po_number,
+      customer_location,
+      customer_phone,
+      customer_name,
     ],
     (err, result) => {
       if (err) {
         console.error(err);
-        res
-          .status(500)
-          .json({ error: "Error updating customer details in the database" });
+        res.status(500).json({ error: "Error updating customer details in the database" });
       } else {
         res.json({ message: "Customer details updated successfully" });
+        console.log(customer_email);
+        console.log(kra_pin);
+        console.log(customer_street);
+        console.log(customer_address);
+        console.log(customer_po_number);
+        console.log(customer_phone);
+        console.log(customer_name);
       }
     }
   );
 });
+
 
 // Update distributor record route
 app.put("/update/distributors", (req, res) => {
@@ -377,7 +387,7 @@ app.put("/update/invoice", (req, res) => {
     currency,
   } = req.body;
 
-  // Update the customer deatils in the database
+  // Update invoice items ustomer deatils in the database
   const query = `UPDATE invoices SET item_name = ?, quantity = ?, unit_price = ?, total_price = ?, currency = ?  WHERE item_id = ? AND invoice_number = ?;`;
 
   connection.query(
@@ -498,12 +508,12 @@ app.delete("/delete/bank:bankName", (req, res) => {
 });
 
 // Delete customer route
-app.delete("/delete/customer:custId", (req, res) => {
-  const custId = req.params.custId;
+app.delete("/delete/customer", (req, res) => {
+  let customerName = req.query.customerName;
 
   // Delete the distributor from the database
-  const query = `DELETE FROM customer_details WHERE  customer_id = ?;`;
-  connection.query(query, [custId], (err, result) => {
+  const query = `DELETE FROM customer_details WHERE  customer_name = ?;`;
+  connection.query(query, [customerName], (err, result) => {
     if (err) {
       console.error(err);
       res

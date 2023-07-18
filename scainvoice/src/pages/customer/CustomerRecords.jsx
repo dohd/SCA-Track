@@ -68,7 +68,7 @@ const DataTable = () => {
     const customer_po_number = updatedCustomer.customer_po_number;
     const customer_street = updatedCustomer.customer_street;
     const customer_name = updatedCustomer.customer_name;
-    const customer_pin = updatedCustomer.customer_pin;
+    const kra_pin = updatedCustomer.kra_pin;
     try {
       const response = await axios.put('http://localhost:3000/update/customers', { customer_address,
       customer_email,
@@ -77,7 +77,7 @@ const DataTable = () => {
       customer_po_number,
       customer_street,
       customer_name,
-      customer_pin,
+      kra_pin,
 
       });
 
@@ -225,6 +225,9 @@ const DataTable = () => {
         <DialogTitle>Edit Customer Details</DialogTitle>
         <DialogContent>
           <TextField
+          style={{
+            marginTop: "10px",
+          }}
             name="customer_name"
             label="Customer Name"
             fullWidth
@@ -232,6 +235,9 @@ const DataTable = () => {
             onChange={handleEditInputChange}
           />
           <TextField
+          style={{
+            marginTop: "10px",
+          }}
             name="customer_email"
             label="Email"
             fullWidth
@@ -239,6 +245,9 @@ const DataTable = () => {
             onChange={handleEditInputChange}
           />
           <TextField
+          style={{
+            marginTop: "10px",
+          }}
             name="customer_street"
             label="Street"
             fullWidth
@@ -246,6 +255,9 @@ const DataTable = () => {
             onChange={handleEditInputChange}
           />
           <TextField
+          style={{
+            marginTop: "10px",
+          }}
             name="customer_address"
             label="Address"
             fullWidth
@@ -253,6 +265,9 @@ const DataTable = () => {
             onChange={handleEditInputChange}
           />
           <TextField
+          style={{
+            marginTop: "10px",
+          }}
             name="customer_location"
             label="Location"
             fullWidth
@@ -260,6 +275,9 @@ const DataTable = () => {
             onChange={handleEditInputChange}
           />
           <TextField
+          style={{
+            marginTop: "10px",
+          }}
             name="kra_pin"
             label="Pin No"
             fullWidth
@@ -267,6 +285,9 @@ const DataTable = () => {
             onChange={handleEditInputChange}
           />
           <TextField
+          style={{
+            marginTop: "10px",
+          }}
             name="customer_phone"
             label="Phone"
             fullWidth
