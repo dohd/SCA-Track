@@ -12,8 +12,9 @@ const CustomerForm = () => {
     formState: { errors },
   } = useForm();
 
-  const [custId, setCustID] = useState("");
+  const [custEmail, setcustEmail] = useState("");
   const [custName, setCustName] = useState("");
+  const [custPIN, setCustPIN] = useState("");
   const [custStreet, setCustStreet] = useState("");
   const [custAddress, setCustAddress] = useState("");
   const [custPONumber, setCustPONumber] = useState("");
@@ -24,8 +25,9 @@ const CustomerForm = () => {
     const handleSubmit = async (event) => {
       try {
         await axios.post("http://localhost:3000/add_customers", {
-          custId,
+          custEmail,
           custName,
+          custPIN,
           custStreet,
           custAddress,
           custPONumber,
@@ -43,12 +45,14 @@ const CustomerForm = () => {
 
   const handleClearForm = () => {
     // Reset the form fields
-    setCustID("");
+    setcustEmail("");
     setCustName("");
     setCustLocation("");
     setCustPONumber("");
     setCustAddress("");
     setTelephone("");
+    setCustPIN("");
+    setCustStreet("");
   };
 
   return (
@@ -69,27 +73,15 @@ const CustomerForm = () => {
           marginRight: "auto",
         }}
       >
-        <div>
-          <h1
-            style={{
-              fontSize: "32px",
-              fontWeight: "500",
-              marginBottom: "10px",
-            }}
-          >
-            Create New Customer
-          </h1>
-          <label htmlFor="custid">Customer ID: </label>
-          <input
-            type="text"
-            id="custID"
-            placeholder="SCA-001"
-            {...register("custID", { required: true })}
-            value={custId}
-            onChange={(e) => setCustID(e.target.value)}
-          />
-          {errors.custID && <span>This field is required</span>}
-        </div>
+        <h1
+          style={{
+            fontSize: "32px",
+            fontWeight: "500",
+            marginBottom: "10px",
+          }}
+        >
+          Create New Customer
+        </h1>
 
         <div>
           <label htmlFor="custName">Customer Name: </label>
@@ -105,6 +97,32 @@ const CustomerForm = () => {
         </div>
 
         <div>
+          <label htmlFor="custEmail">Customer Email: </label>
+          <input
+            type="email"
+            id="custEmail"
+            placeholder="example@gmail.com"
+            {...register("custEmail", { required: true })}
+            value={custEmail}
+            onChange={(e) => setcustEmail(e.target.value)}
+          />
+          {errors.custEmail && <span>This field is required</span>}
+        </div>
+
+        <div>
+          <label htmlFor="custPIN">Customer KRA PIN: </label>
+          <input
+            type="text"
+            id="custPIN"
+            placeholder="KRA PIN"
+            {...register("custPIN", { required: true })}
+            value={custPIN}
+            onChange={(e) => setCustPIN(e.target.value)}
+          />
+          {errors.custPIN && <span>This field is required</span>}
+        </div>
+
+        <div>
           <label htmlFor="custStreet">Customer Street: </label>
           <input
             type="text"
@@ -114,7 +132,7 @@ const CustomerForm = () => {
             value={custStreet}
             onChange={(e) => setCustStreet(e.target.value)}
           />
-          {errors.custStreet && <span></span>}
+          {errors.custStreet && <span>This field is required</span>}
         </div>
 
         <div>
@@ -127,7 +145,7 @@ const CustomerForm = () => {
             value={custAddress}
             onChange={(e) => setCustAddress(e.target.value)}
           />
-          {errors.custAddress && <span></span>}
+          {errors.custAddress && <span>This field is required</span>}
         </div>
 
         <div>
@@ -140,7 +158,7 @@ const CustomerForm = () => {
             value={custPONumber}
             onChange={(e) => setCustPONumber(e.target.value)}
           />
-          {errors.custPONumber && <span></span>}
+          {errors.custPONumber && <span>This field is required</span>}
         </div>
 
         <div>
@@ -153,7 +171,7 @@ const CustomerForm = () => {
             value={custLocation}
             onChange={(e) => setCustLocation(e.target.value)}
           />
-          {errors.custLocation && <span></span>}
+          {errors.custLocation && <span>This field is required</span>}
         </div>
 
         <div>
@@ -169,7 +187,7 @@ const CustomerForm = () => {
             value={telephone}
             onChange={(e) => setTelephone(e.target.value)}
           />
-          {errors.telephone && <span></span>}
+          {errors.custLocation && <span>This field is required</span>}
         </div>
 
         <Box
@@ -186,16 +204,17 @@ const CustomerForm = () => {
               width: "50%",
             }}
           >
-            <button 
-             style={{
-              backgroundColor: "red",
-              color: "white",
-              Padding: "6px",
-              height: "10%",
-              width: "20%",
-              borderRadius: "6px",
-            }}
-            type="submit" >
+            <button
+              style={{
+                backgroundColor: "red",
+                color: "white",
+                Padding: "6px",
+                height: "10%",
+                width: "20%",
+                borderRadius: "6px",
+              }}
+              type="submit"
+            >
               Submit
             </button>
           </div>
@@ -205,16 +224,17 @@ const CustomerForm = () => {
             }}
           >
             <button
-            style={{
-              backgroundColor: "red",
-              color: "white",
-              Padding: "6px",
-              height: "10%",
-              width: "30%",
-              borderRadius: "6px",
-            }}
-            
-            type="button" onClick={handleClearForm}>
+              style={{
+                backgroundColor: "red",
+                color: "white",
+                Padding: "6px",
+                height: "10%",
+                width: "30%",
+                borderRadius: "6px",
+              }}
+              type="button"
+              onClick={handleClearForm}
+            >
               Clear Form
             </button>
           </div>
