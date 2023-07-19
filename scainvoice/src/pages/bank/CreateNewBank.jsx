@@ -1,36 +1,35 @@
-import React, { useState, useEffect }from 'react';
-import { useForm } from 'react-hook-form';
-import { Box } from '@mui/material';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Box } from "@mui/material";
+import axios from "axios";
+
 export default function CreateNewBank() {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-
-    const { register, handleSubmit,reset , formState: { errors } } = useForm();
-
-  const [bankname, setbankname] = useState('');
-  const [bbranch, setbbranch] = useState('');
-  const [Kes, setKes] = useState('');
-  const [usd_acc, setusd_account] = useState('');
-  const [Pound_acc, setPound_acc] = useState('');
-  const [b_sort, setb_sort] = useState('');
-  
+  const [bankName, setBankName] = useState("");
+  const [bankBranch, setBankBranch] = useState("");
+  const [kesAcc, setKesAcc] = useState("");
+  const [usdAcc, setUsdAccount] = useState("");
+  const [poundAcc, setPoundAcc] = useState("");
+  const [swift, setSwift] = useState("");
 
   const onSubmit = (data) => {
-
     const handleSubmit = async (event) => {
       try {
-        await axios.post('http://localhost:3000/add_bank', 
-       {
-        bankname,
-        bbranch,
-        usd_acc,
-        Pound_acc,
-        Kes,
-        b_sort,
-       
-          
+        await axios.post("http://localhost:3000/add_bank", {
+          bankName,
+          bankBranch,
+          kesAcc,
+          usdAcc,
+          poundAcc,
+          swift,
         });
-        alert('Bank added successfully!');
+        alert("Bank added successfully!");
         handleClearForm();
       } catch (error) {
         console.error(error);
@@ -39,109 +38,132 @@ export default function CreateNewBank() {
     handleSubmit();
   };
 
-
-  
-
-    const handleClearForm = () => {
-        // Reset the form fields
-        setbankname("");
-        setbbranch("");
-        setKes("");
-        setusd_account("");
-        setPound_acc("");
-        setb_sort("");
-      };
+  const handleClearForm = () => {
+    // Reset the form fields
+    setBankName("");
+    setBankBranch("");
+    setKesAcc("");
+    setUsdAccount("");
+    setPoundAcc("");
+    setSwift("");
+  };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}
-    style={{
-      height: 400,
-      width: "60%",
-      marginLeft: "auto",
-      marginRight: "auto",
-    }}>
-    <div>
-      <h1 style={{
-              fontSize: "32px",
-              fontWeight: "500",
-              marginBottom: "10px",
-            }}>New Bank</h1>
-      <label htmlFor="bankname">Bank Name</label>
-      <input
-        type="text"
-        id="bankname" 
-      
-      />
-     
-    </div>
-    
-    <div>
-      <label htmlFor="bbranch">Branch</label>
-      <input
-        type="text"
-        id="branch"
-       
-       
-      />
-    
-    </div>
-
-    <div>
-      <label htmlFor="Kes">Kes Account</label>
-      <input
-        type="text"
-        id="Kes"
-      />
-      {errors.Kes && <span></span>}
-    </div>
-
-
-    <div>
-      <label htmlFor="usd_acc">Usd Account:</label>
-      <input
-        type="text"
-        id="usd_acc"
-      />
-      {errors.usd_acc && <span></span>}
-    </div>
-
-
-    <div>
-      <label htmlFor="Pound_acc">Pounds Account</label>
-      <input
-        type="text"
-        id="Pound_acc"/>
-      {errors.Pound_acc && <span></span>}
-    </div>
-
-
-    <div>
-      <label htmlFor="b_sort">Swift/Sort:</label>
-      <input
-        type="text"
-        id="b_sort"
-      />
-      {errors.b_sort && <span></span>}
-    </div>
-
-
-   
-
-    <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            height: "100%",
-            display: "flex",
-            flexDirection: "row",
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      style={{
+        height: 400,
+        width: "60%",
+        marginLeft: "auto",
+        marginRight: "auto",
+      }}
+    >
+      <div>
+        <h1
+          style={{
+            fontSize: "32px",
+            fontWeight: "500",
+            marginBottom: "10px",
           }}
         >
-          <div
+          New Bank
+        </h1>
+      </div>
+
+      <div>
+          <label htmlFor="bankName">Bank Name: </label>
+          <input
+            type="text"
+            id="bankName"
+            placeholder="Eneer Bank name"
+            {...register("bankName", { required: true })}
+            value={bankName}
+            onChange={(e) => setBankName(e.target.value)}
+          />
+          {errors.bankName && <span>This field is required</span>}
+        </div>
+
+        <div>
+          <label htmlFor="bankBranch">Bank Branch: </label>
+          <input
+            type="text"
+            id="bankBranch"
+            placeholder="Enter bank branch"
+            {...register("bankBranch", { required: true })}
+            value={bankBranch}
+            onChange={(e) => setBankBranch(e.target.value)}
+          />
+          {errors.bankBranch && <span>This field is required</span>}
+        </div>
+
+        <div>
+          <label htmlFor="kesAcc">KES Account: </label>
+          <input
+            type="text"
+            id="kesAcc"
+            placeholder="Enter KES Account"
+            {...register("kesAcc", { required: true })}
+            value={kesAcc}
+            onChange={(e) => setKesAcc(e.target.value)}
+          />
+          {errors.kesAcc && <span>This field is required</span>}
+        </div>
+
+        <div>
+          <label htmlFor="usdAcc">USD Account: </label>
+          <input
+            type="text"
+            id="usdAcc"
+            placeholder="Enter USD Account"
+            {...register("usdAcc", { required: true })}
+            value={usdAcc}
+            onChange={(e) => setUsdAccount(e.target.value)}
+          />
+          {errors.usdAcc && <span>This field is required</span>}
+        </div>
+
+        <div>
+          <label htmlFor="poundAcc">Pounds Account: </label>
+          <input
+            type="text"
+            id="poundAcc"
+            placeholder="Enter Pound Account"
+            {...register("poundAcc", { required: true })}
+            value={poundAcc}
+            onChange={(e) => setPoundAcc(e.target.value)}
+          />
+          {errors.poundAcc && <span>This field is required</span>}
+        </div>
+
+        <div>
+          <label htmlFor="swift">Swift Code: </label>
+          <input
+            type="text"
+            id="swift"
+            placeholder="Enter Swift Code"
+            {...register("swift", { required: true })}
+            value={swift}
+            onChange={(e) => setSwift(e.target.value)}
+          />
+          {errors.swift && <span>This field is required</span>}
+        </div>
+
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          height: "100%",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        <div
+          style={{
+            width: "50%",
+          }}
+        >
+          <button
             style={{
-              width: "50%",
-            }}
-          >
-            <button 
-             style={{
               backgroundColor: "green",
               color: "white",
               Padding: "6px",
@@ -149,16 +171,17 @@ export default function CreateNewBank() {
               width: "20%",
               borderRadius: "6px",
             }}
-            type="submit" >
-              Submit
-            </button>
-          </div>
-          <div
-            style={{
-              width: "50%",
-            }}
+            type="submit"
           >
-            <button
+            Submit
+          </button>
+        </div>
+        <div
+          style={{
+            width: "50%",
+          }}
+        >
+          <button
             style={{
               backgroundColor: "green",
               color: "white",
@@ -167,12 +190,13 @@ export default function CreateNewBank() {
               width: "30%",
               borderRadius: "6px",
             }}
-            
-            type="button" onClick={handleClearForm}>
-              Clear Form
-            </button>
-          </div>
-        </Box>
-  </form>
-  )
+            type="button"
+            onClick={handleClearForm}
+          >
+            Clear Form
+          </button>
+        </div>
+      </Box>
+    </form>
+  );
 }

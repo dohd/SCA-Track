@@ -1,9 +1,8 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Dialog from '@mui/material/Dialog';
@@ -79,7 +78,7 @@ const DataTable = () => {
       customer_name,
       kra_pin,
 
-      });
+    });
 
       console.log(response.data); // Assuming the response contains the updated movie details
       // Reset form fields
@@ -99,8 +98,8 @@ const DataTable = () => {
         },
       });
       console.log(response.data); // Assuming the response contains the success message
-      // onDelete(); // Callback to update the  list after deletion
-      // alert("Deleted Successfuly!");
+    
+      alert("Deleted Successfuly!");
       fetchCustomers(); //update the list
     } catch (error) {
       console.error(error);

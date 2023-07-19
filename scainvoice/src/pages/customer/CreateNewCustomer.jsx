@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import axios from "axios";
-import { Padding } from "@mui/icons-material";
 
 const CustomerForm = () => {
   const {
@@ -33,7 +32,6 @@ const CustomerForm = () => {
           custPONumber,
           custLocation,
           telephone,
-          custEmail,
         });
         alert("Customer added successfully!");
         handleClearForm();
@@ -110,19 +108,6 @@ const CustomerForm = () => {
         </div>
 
         <div>
-          <label htmlFor="custEmail">Customer Email: </label>
-          <input
-            type="email"
-            id="custEmail"
-            placeholder="example@gmail.com"
-            {...register("custEmail", { required: true })}
-            value={custEmail}
-            onChange={(e) => setcustEmail(e.target.value)}
-          />
-          {errors.custEmail && <span>This field is required</span>}
-        </div>
-
-        <div>
           <label htmlFor="custPIN">Customer KRA PIN: </label>
           <input
             type="text"
@@ -149,7 +134,7 @@ const CustomerForm = () => {
         </div>
 
         <div>
-          <label htmlFor="custAddress">Customer Street: </label>
+          <label htmlFor="custAddress">Customer Address: </label>
           <input
             type="text"
             id="custAddress"
@@ -208,7 +193,6 @@ const CustomerForm = () => {
             display: "flex",
             justifyContent: "center",
             height: "100%",
-            display: "flex",
             flexDirection: "row",
           }}
         >

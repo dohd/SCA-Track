@@ -52,7 +52,7 @@ app.post("/add_customers", (req, res) => {
     (err, result) => {
       if (err) throw err;
       res.sendStatus(200);
-    } 
+    }
   );
 });
 
@@ -71,13 +71,26 @@ app.get("/read_customers", (req, res) => {
 
 // API endpoint to add a new distributors
 app.post("/add_distributors", (req, res) => {
-  const { distId, distName, distAddress, distLocation, distTelephone } =
-    req.body;
+  const { 
+    distID,
+    distName,
+    distAddress,
+    distLocation,
+    dtelephone,
+    distEmail,
+  } =req.body;
   const query =
-    "INSERT INTO distributor_records(distributor_id, distributor_address,distributor_location, distributor_name, distributor_phone) VALUES(?, ?, ?, ?, ?);";
+    "INSERT INTO distributor_records(distributor_id, distributor_address,distributor_location, distributor_name, distributor_phone, distributor_email ) VALUES(?, ?, ?, ?, ?, ?);";
   connection.query(
     query,
-    [distId, distAddress, distLocation, distName, distTelephone],
+    [
+      distID, 
+      distAddress, 
+      distLocation, 
+      distName, 
+      dtelephone,
+      distEmail,
+    ],
     (err, result) => {
       if (err) throw err;
       res.sendStatus(200);
@@ -99,20 +112,28 @@ app.get("/read_distributors", (req, res) => {
 });
 
 // API endpoint to add a new distributors
-app.post("/add_bankRecords", (req, res) => {
+app.post("/add_bank", (req, res) => {
   const {
-    bank_name,
-    usd_account,
-    kes_account,
-    pounds_account,
-    branch,
-    swift_code,
+    bankName,
+    bankBranch,
+    kesAcc,
+    usdAcc,
+    poundAcc,
+    swift,
   } = req.body;
+
   const query =
     "INSERT INTO bank_records(bank_name, usd_account, kes_account, pounds_account, branch, swift_code) VALUES (?, ?, ?, ?,?,?);";
   connection.query(
     query,
-    [bank_name, usd_account, kes_account, pounds_account, branch, swift_code],
+    [
+      bankName,
+      usdAcc,
+      kesAcc,
+      poundAcc,
+      bankBranch,
+      swift,
+    ],
     (err, result) => {
       if (err) throw err;
       res.sendStatus(200);
@@ -277,7 +298,7 @@ app.get("/read_lpoMessage", (req, res) => {
 
 // Update customer record route
 // Update the customer details in the database
-app.put('/update/customers', (req, res) => {
+app.put("/update/customers", (req, res) => {
   const {
     customer_address,
     customer_email,
@@ -286,7 +307,7 @@ app.put('/update/customers', (req, res) => {
     customer_po_number,
     customer_street,
     customer_name,
-    kra_pin
+    kra_pin,
   } = req.body;
 
   const query = `UPDATE customer_details SET customer_email = "dwambua", kra_pin = "3456", customer_street = "Ngong", customer_address = "Box", customer_po_number = "120", customer_location = "Nairobi", customer_phone = "543" WHERE customer_name = 'Sharleen Njiru';`;
@@ -305,7 +326,9 @@ app.put('/update/customers', (req, res) => {
     (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).json({ error: "Error updating customer details in the database" });
+        res
+          .status(500)
+          .json({ error: "Error updating customer details in the database" });
       } else {
         res.json({ message: "Customer details updated successfully" });
         console.log(customer_email);
@@ -320,7 +343,6 @@ app.put('/update/customers', (req, res) => {
   );
 });
 
-
 // Update distributor record route
 app.put("/update/distributors", (req, res) => {
   const { distId, distName, distAddress, distLocation, distTelephone } =
@@ -334,11 +356,9 @@ app.put("/update/distributors", (req, res) => {
     (err, result) => {
       if (err) {
         console.error(err);
-        res
-          .status(500)
-          .json({
-            error: "Error updating distributor records in the database",
-          });
+        res.status(500).json({
+          error: "Error updating distributor records in the database",
+        });
       } else {
         res.json({ message: "Distributor records updated successfully" });
       }
@@ -511,7 +531,7 @@ app.delete("/delete/bank:bankName", (req, res) => {
 app.delete("/delete/customer", (req, res) => {
   let customerName = req.query.customerName;
 
-  // Delete the distributor from the database
+  // Delete the customer from the database
   const query = `DELETE FROM customer_details WHERE  customer_name = ?;`;
   connection.query(query, [customerName], (err, result) => {
     if (err) {
@@ -525,13 +545,13 @@ app.delete("/delete/customer", (req, res) => {
   });
 });
 
-// Delete customer route
-app.delete("/delete/customer:custId", (req, res) => {
-  const custId = req.params.custId;
+// Delete distributor route
+app.delete("/delete/distributor", (req, res) => {
+  let distributorName = req.query.distributorName;
 
   // Delete the distributor from the database
-  const query = `DELETE FROM customer_details WHERE  customer_id = ?;`;
-  connection.query(query, [custId], (err, result) => {
+  const query = `DELETE FROM customer_details WHERE  customer_name = ?;`;
+  connection.query(query, [distributorName], (err, result) => {
     if (err) {
       console.error(err);
       res
@@ -543,12 +563,14 @@ app.delete("/delete/customer:custId", (req, res) => {
   });
 });
 
+
+
 // Delete distributor route
-app.delete("/delete/distributor:distId", (req, res) => {
-  const distId = req.params.distId;
+app.delete("/delete/distributor", (req, res) => {
+  const distId = req.params.distributorName;
 
   // Delete the distributor from the database
-  const query = `DELETE FROM distributor_records WHERE distributor_id = ?;`;
+  const query = `DELETE FROM distributor_records WHERE distributor_name = ?;`;
   connection.query(query, [distId], (err, result) => {
     if (err) {
       console.error(err);
@@ -557,6 +579,7 @@ app.delete("/delete/distributor:distId", (req, res) => {
         .json({ error: "Error deleting distributor from the database" });
     } else {
       res.json({ message: "Deleted successfully" });
+      console.log(distId)
     }
   });
 });
