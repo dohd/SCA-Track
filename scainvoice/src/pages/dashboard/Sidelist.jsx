@@ -94,10 +94,10 @@ and a component representing the component to render when the menu item is selec
     
     {title:'Home',icon:<HomeIcon/>,link:'/',component:<Home{...{setselectedLink,link:''}}/>},
     {
-      title: 'Distributors',
+      title: 'Distributor',
       icon: <InboxIcon />,
-      link: 'distributors/',
-      component: <Distributors {...{ setselectedLink, link: 'distributors' }} />,
+      link: 'distributor/',
+      component: <Distributors {...{ setselectedLink, link: 'distributor' }} />,
     },
       {title:'Invoice',icon:<MailIcon/>,link:'Invoice',component:<Invoice{...{setselectedLink,link:'Invoice'}}/>,
   },

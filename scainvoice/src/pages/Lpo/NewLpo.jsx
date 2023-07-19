@@ -6,32 +6,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 
-const rows = [
-  {
-    description: "HP printer",
-    qty: "2",
-    unitPrice: "30000",
-    total: "60000",
-  },
-  {
-    description: "HP printer",
-    qty: "2",
-    unitPrice: "30000",
-    total: "60000",
-  },
-  {
-    description: "HP printer",
-    qty: "2",
-    unitPrice: "30000",
-    total: "60000",
-  },
-  {
-    description: "HP printer",
-    qty: "2",
-    unitPrice: "30000",
-    total: "60000",
-  },
-];
+
 const options = [
   {
     value: "1",

@@ -20,6 +20,9 @@ import Invoice from './pages/invoice/Invoice';
 import InvoiceList from './pages/invoice/InvoiceList';
 import CreateNewBank from './pages/bank/CreateNewBank';
 import BankRecords from './pages/bank/BankRecords';
+import CreateDistributor from "./pages/distributors/CreateDistributor";
+import DistributorRecords from "./pages/distributors/DistributorRecords";
+import DispatchedInvoice from "./pages/invoice/DispatchedInvoice";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +32,14 @@ const router = createBrowserRouter([
     children: [
       {
         path: "dashboard",
-        element: <Dashboard />,
+       children:[
+        {
+          path:"",
+          element: <Dashboard />,
+          path:"dispatchedInvoice",
+          element:<DispatchedInvoice/>
+        }
+       ]
       },
       {
         path: "Invoice",
@@ -51,15 +61,25 @@ const router = createBrowserRouter([
       },
       {
         path: "distributor",
-        element: <Distributors />,
+        children:[
+          {
+            path: "",
+            element: <Distributors />,
+        },
+        {
+          path: "newd",
+          element: <CreateDistributor />,
+      },
+      {
+        path: "drecords",
+        element: <DistributorRecords />,
+    },
+        ]
       },
     
                 
             
-            {
-                path: "distributor",
-                element: <Distributors />,
-            },
+           
             {
                 path: "lpo",
                 children: [

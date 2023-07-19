@@ -2,6 +2,7 @@ import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Box } from "@mui/material";
 
 const columns = [
   { field: "InvoiceNumber", headerName: "InvoiceNumber", width: 130 },
@@ -105,11 +106,32 @@ const rows = [
 
 const Customer = () => {
   return (
-    <div>
-      InvoiceRecords
-      <DataGrid
-        rows={rows}
-        disableSelectionOnClick
+    <Box
+    sx={{
+      display: "flex",
+      justifyContent: "center",
+      height: "100%",
+    }}
+  >
+    <div
+      style={{
+        height: 480,
+        width: "80%",
+        marginLeft: "280px",
+        marginRight: "0",
+      }}
+    >
+      <h1
+        style={{
+          fontSize: "32px",
+          fontWeight: "500",
+          marginBottom: "10px",
+        }}
+      >
+       Invoice Records
+      </h1>
+    <DataGrid
+        rows={rows} disableSelectionOnClick
         columns={columns}
         initialState={{
           pagination: {
@@ -119,7 +141,8 @@ const Customer = () => {
         pageSizeOptions={[5, 10]}
         checkboxSelection
       />
-    </div>
+   </div>
+    </Box>
   );
 };
 export default Customer;

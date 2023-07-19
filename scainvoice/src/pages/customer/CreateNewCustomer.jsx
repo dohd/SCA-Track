@@ -33,6 +33,7 @@ const CustomerForm = () => {
           custPONumber,
           custLocation,
           telephone,
+          custEmail,
         });
         alert("Customer added successfully!");
         handleClearForm();
@@ -92,6 +93,18 @@ const CustomerForm = () => {
             {...register("custName", { required: true })}
             value={custName}
             onChange={(e) => setCustName(e.target.value)}
+          />
+          {errors.custName && <span>This field is required</span>}
+        </div>
+        <div>
+          <label htmlFor="custEmail">Customer Email: </label>
+          <input
+            type="text"
+            id="custEmail"
+            placeholder="enter customer email"
+            {...register("custEmail", { required: true })}
+            value={custEmail}
+            onChange={(e) => setcustEmail(e.target.value)}
           />
           {errors.custName && <span>This field is required</span>}
         </div>

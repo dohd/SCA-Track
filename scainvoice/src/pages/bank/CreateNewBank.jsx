@@ -1,5 +1,6 @@
 import React, { useState, useEffect }from 'react';
 import { useForm } from 'react-hook-form';
+import { Box } from '@mui/material';
 import axios from 'axios';
 export default function CreateNewBank() {
 
@@ -51,9 +52,19 @@ export default function CreateNewBank() {
         setb_sort("");
       };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}
+    style={{
+      height: 400,
+      width: "60%",
+      marginLeft: "auto",
+      marginRight: "auto",
+    }}>
     <div>
-      <h2>New Bank</h2>
+      <h1 style={{
+              fontSize: "32px",
+              fontWeight: "500",
+              marginBottom: "10px",
+            }}>New Bank</h1>
       <label htmlFor="bankname">Bank Name</label>
       <input
         type="text"
@@ -115,12 +126,53 @@ export default function CreateNewBank() {
 
    
 
-    <div>
-      <button type="submit" onClick={onSubmit}>Submit</button>
-      </div>
-      <div>
-      <button type="button" onClick={handleClearForm}>Clear Form</button>
-    </div>
+    <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            height: "100%",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <div
+            style={{
+              width: "50%",
+            }}
+          >
+            <button 
+             style={{
+              backgroundColor: "green",
+              color: "white",
+              Padding: "6px",
+              height: "10%",
+              width: "20%",
+              borderRadius: "6px",
+            }}
+            type="submit" >
+              Submit
+            </button>
+          </div>
+          <div
+            style={{
+              width: "50%",
+            }}
+          >
+            <button
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              Padding: "6px",
+              height: "10%",
+              width: "30%",
+              borderRadius: "6px",
+            }}
+            
+            type="button" onClick={handleClearForm}>
+              Clear Form
+            </button>
+          </div>
+        </Box>
   </form>
   )
 }
