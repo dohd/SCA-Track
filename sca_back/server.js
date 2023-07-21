@@ -272,10 +272,10 @@ app.get("/read_lpoItems", (req, res) => {
 
 // API endpoint to add a new lpo message
 app.post("/add_lpo_message", (req, res) => {
-  const { lpo_number, lpo_message } = req.body;
+  const { lpo_number, message } = req.body;
   const query =
     "INSERT INTO lpo_message(lpo_number, lpo_message) VALUES (?,?);";
-  connection.query(query, [lpo_number, lpo_message], (err, result) => {
+  connection.query(query, [lpo_number, message], (err, result) => {
     if (err) throw err;
     res.sendStatus(200);
   });
@@ -291,6 +291,25 @@ app.get("/read_lpoMessage", (req, res) => {
       return;
     }
     res.json(results);
+  });
+});
+
+// API endpoint to add a new lpo details
+app.post("/add_lpo", (req, res) => {
+  const { 
+    lpo_number, 
+    lpo_date, 
+    days,
+    finalTotal,
+    overallTotal,
+    vatPrice,
+    distributor,
+  } = req.body;
+  const query =
+    "INSERT INTO lpo_dates (lpo_number , Lpo_date , days, total, sub_total, vat, distributor ) VALUES (?,?,?,?,?,?,?);";
+  connection.query(query, [lpo_number, lpo_date, days, finalTotal, overallTotal, vatPrice, distributor ], (err, result) => {
+    if (err) throw err;
+    res.sendStatus(200);
   });
 });
 
@@ -310,7 +329,7 @@ app.put("/update/customers", (req, res) => {
     kra_pin,
   } = req.body;
 
-  const query = `UPDATE customer_details SET customer_email = "dwambua", kra_pin = "3456", customer_street = "Ngong", customer_address = "Box", customer_po_number = "120", customer_location = "Nairobi", customer_phone = "543" WHERE customer_name = 'Sharleen Njiru';`;
+  const query = `UPDATE customer_details SET customer_email = ?, kra_pin = ?, customer_street = ?, customer_address = ?, customer_po_number = ?, customer_location = ?, customer_phone = ? WHERE customer_name = ?;`;
   connection.query(
     query,
     [
@@ -331,13 +350,6 @@ app.put("/update/customers", (req, res) => {
           .json({ error: "Error updating customer details in the database" });
       } else {
         res.json({ message: "Customer details updated successfully" });
-        console.log(customer_email);
-        console.log(kra_pin);
-        console.log(customer_street);
-        console.log(customer_address);
-        console.log(customer_po_number);
-        console.log(customer_phone);
-        console.log(customer_name);
       }
     }
   );
@@ -345,14 +357,26 @@ app.put("/update/customers", (req, res) => {
 
 // Update distributor record route
 app.put("/update/distributors", (req, res) => {
-  const { distId, distName, distAddress, distLocation, distTelephone } =
-    req.body;
+  const { 
+    distributor_address,
+    distributor_email,
+    distributor_location,
+    distributor_phone,
+    distributor_name,
+
+  } = req.body;
 
   // Update the customer deatils in the database
-  const query = `UPDATE distributor_records SET distributor_name = ?, distributor_location = ?, distributor_address = ?, distributor_phone = ? WHERE distributor_id = ?;`;
+  const query = `UPDATE distributor_records SET distributor_location = ?, distributor_address = ?, distributor_email = ?, distributor_phone = ? WHERE distributor_name = ?;`;
   connection.query(
     query,
-    [distName, distAddress, distLocation, distTelephone, distId],
+    [
+      distributor_location,
+      distributor_address,
+      distributor_email,
+      distributor_phone,
+      distributor_name,
+    ],
     (err, result) => {
       if (err) {
         console.error(err);
@@ -370,10 +394,10 @@ app.put("/update/distributors", (req, res) => {
 app.put("/update/bankRecords", (req, res) => {
   const {
     bank_name,
-    usd_account,
-    kes_account,
-    pounds_account,
     branch,
+    kes_account,
+    usd_account,
+    pound_account,
     swift_code,
   } = req.body;
 
@@ -381,7 +405,14 @@ app.put("/update/bankRecords", (req, res) => {
   const query = `UPDATE bank_records SET usd_account = ?, kes_account = ?, pounds_account = ?, branch = ?, swift_code = ? WHERE bank_name = ?;`;
   connection.query(
     query,
-    [usd_account, kes_account, pounds_account, branch, swift_code, bank_name],
+    [
+      usd_account,
+      kes_account,
+      pound_account,
+      branch,
+      swift_code,
+      bank_name,
+    ],
     (err, result) => {
       if (err) {
         console.error(err);
@@ -511,16 +542,20 @@ app.put("/update/invoiceMessage", (req, res) => {
 });
 
 //delete operations
-// Delete bank route
-app.delete("/delete/bank:bankName", (req, res) => {
-  const bank_name = req.params.bankName;
 
-  // Delete the movie from the database
+
+// Delete customer route
+app.delete("/delete/bank", (req, res) => {
+  let bankName = req.query.bankName;
+
+  // Delete the bank from the database
   const query = `DELETE FROM bank_records WHERE bank_name = ?;`;
-  connection.query(query, [bank_name], (err, result) => {
+  connection.query(query, [bankName], (err, result) => {
     if (err) {
       console.error(err);
-      res.status(500).json({ error: "Error deleting bank from the database" });
+      res
+        .status(500)
+        .json({ error: "Error deleting customer from the database" });
     } else {
       res.json({ message: "Deleted successfully" });
     }
@@ -550,28 +585,8 @@ app.delete("/delete/distributor", (req, res) => {
   let distributorName = req.query.distributorName;
 
   // Delete the distributor from the database
-  const query = `DELETE FROM customer_details WHERE  customer_name = ?;`;
-  connection.query(query, [distributorName], (err, result) => {
-    if (err) {
-      console.error(err);
-      res
-        .status(500)
-        .json({ error: "Error deleting customer from the database" });
-    } else {
-      res.json({ message: "Deleted successfully" });
-    }
-  });
-});
-
-
-
-// Delete distributor route
-app.delete("/delete/distributor", (req, res) => {
-  const distId = req.params.distributorName;
-
-  // Delete the distributor from the database
   const query = `DELETE FROM distributor_records WHERE distributor_name = ?;`;
-  connection.query(query, [distId], (err, result) => {
+  connection.query(query, [distributorName], (err, result) => {
     if (err) {
       console.error(err);
       res
@@ -579,10 +594,13 @@ app.delete("/delete/distributor", (req, res) => {
         .json({ error: "Error deleting distributor from the database" });
     } else {
       res.json({ message: "Deleted successfully" });
-      console.log(distId)
     }
   });
 });
+
+
+
+
 
 // Delete  invoice item route
 app.delete("/delete/invoiceItem", (req, res) => {
@@ -622,11 +640,11 @@ app.delete("/delete/invoiceMsg", (req, res) => {
 
 // Delete  lpo item route
 app.delete("/delete/lpoItem", (req, res) => {
-  const { lpo_number, item_id } = req.body;
+  let itemName = req.query.itemName;
 
   // Delete the lpo item from the database
-  const query = `DELETE FROM lpo_s WHERE item_id = ? AND lpo_number = ?;`;
-  connection.query(query, [item_id, lpo_number], (err, result) => {
+  const query = `DELETE FROM lpo_s WHERE item_name = ? ;`;
+  connection.query(query, [itemName], (err, result) => {
     if (err) {
       console.error(err);
       res
@@ -660,4 +678,18 @@ app.delete("/delete/lpoMsg", (req, res) => {
 const port = 3000; // You can change this port number if needed
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+});
+
+//counting
+//count customers
+app.get("/countBanks", (req, res) => {
+  const query = "SELECT COUNT(*) as count_banks FROM bank_records;";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying customer records:", err);
+      res.status(500).json({ error: "Failed to count bank records" });
+      return;
+    }
+    res.json(results);
+  });
 });

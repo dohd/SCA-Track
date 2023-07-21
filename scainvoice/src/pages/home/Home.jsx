@@ -3,20 +3,34 @@ import { Group, MapsHomeWork } from '@mui/icons-material';
 import { Box, Paper, Typography } from '@mui/material';
 import DispatchedInvoice from '../invoice/DispatchedInvoice';
 import Customer from '../customer/Customer';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 export default function Home({ link }) {
-  
+
   const [selectedLink, setselectedLink] = useState('');
+
+  const [posts, setPosts] = useState({ count_banks: 0 });
 
   useEffect(() => {
     setselectedLink(link);
   }, [link]);
 
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/countBanks")
+      .then((result) => {
+        setPosts(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   const handleClick = (link) => {
     setselectedLink(link);
     window.location.href = `http://localhost:3000/${link}`;
-
   };
+
   const handleClickCustomer = () => {
     handleClick('customer');
   };
@@ -38,9 +52,7 @@ export default function Home({ link }) {
     >
       {selectedLink === '' && (
         <>
-          <Paper elevation={3} sx={{ p: 3 }}
-           onClick={() => handleClick('dispatched')}
-          >
+          <Paper elevation={3} sx={{ p: 3 }} onClick={() => handleClick('dispatched')}>
             <Typography variant="h4">Dispatched Invoice</Typography>
             <Box
               sx={{
@@ -52,12 +64,13 @@ export default function Home({ link }) {
               <MapsHomeWork
                 sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
               />
-              <Typography variant="h4">10</Typography>
+              <Typography variant="h4">
+
+              </Typography>
             </Box>
           </Paper>
 
-          <Paper elevation={3} sx={{ p: 3 }}
-             onClick={() => handleClickCustomer()}>
+          <Paper elevation={3} sx={{ p: 3 }} onClick={() => handleClickCustomer()}>
             <Typography variant="h4">Customers</Typography>
             <Box
               sx={{
@@ -66,15 +79,14 @@ export default function Home({ link }) {
                 justifyContent: 'center',
               }}
             >
-                <MapsHomeWork
+              <MapsHomeWork
                 sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
               />
               <Typography variant="h4">10</Typography>
-              
+
             </Box>
           </Paper>
-          <Paper elevation={3} sx={{ p: 3 }}
-           onClick={() => handleClickBank()}>
+          <Paper elevation={3} sx={{ p: 3 }} onClick={() => handleClickBank()}>
             <Typography variant="h4">Banks</Typography>
             <Box
               sx={{
@@ -83,15 +95,16 @@ export default function Home({ link }) {
                 justifyContent: 'center',
               }}
             >
-                <MapsHomeWork
+              <MapsHomeWork
                 sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
               />
-              <Typography variant="h4">10</Typography>
-              
+              <Typography variant="h4">
+                {posts.count_banks}
+              </Typography>
+
             </Box>
           </Paper>
-          <Paper elevation={3} sx={{ p: 3 }}
-           onClick={() => handleClick('lpo')}>
+          <Paper elevation={3} sx={{ p: 3 }} onClick={() => handleClick('lpo')}>
             <Typography variant="h4">Lpo</Typography>
             <Box
               sx={{
@@ -100,15 +113,14 @@ export default function Home({ link }) {
                 justifyContent: 'center',
               }}
             >
-                <MapsHomeWork
+              <MapsHomeWork
                 sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
               />
               <Typography variant="h4">10</Typography>
-              
+
             </Box>
           </Paper>
-          <Paper elevation={3} sx={{ p: 3 }}
-           onClick={() => handleClick('distributor')}>
+          <Paper elevation={3} sx={{ p: 3 }} onClick={() => handleClick('distributor')}>
             <Typography variant="h4">Distributors</Typography>
             <Box
               sx={{
@@ -117,16 +129,17 @@ export default function Home({ link }) {
                 justifyContent: 'center',
               }}
             >
-                <MapsHomeWork
+              <MapsHomeWork
                 sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
               />
               <Typography variant="h4">10</Typography>
-              
+
             </Box>
           </Paper>
         </>
       )}
-{/* If it is true, it will render the DispatchedInvoice component. Otherwise, it won't render anything. */}
+
+      {/* If it is true, it will render the DispatchedInvoice component. Otherwise, it won't render anything. */}
       {selectedLink === 'customer' && <Customer />}
       {selectedLink === 'invoice' && <DispatchedInvoice />}
     </Box>

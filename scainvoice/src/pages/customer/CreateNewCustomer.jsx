@@ -2,6 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Box } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
 
 const CustomerForm = () => {
   const {
@@ -10,6 +16,18 @@ const CustomerForm = () => {
     reset,
     formState: { errors },
   } = useForm();
+
+  const navigate = useNavigate();
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const openMyDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
 
   const [custEmail, setcustEmail] = useState("");
   const [custName, setCustName] = useState("");
@@ -33,7 +51,7 @@ const CustomerForm = () => {
           custLocation,
           telephone,
         });
-        alert("Customer added successfully!");
+        openMyDialog();
         handleClearForm();
       } catch (error) {
         console.error(error);
@@ -72,15 +90,53 @@ const CustomerForm = () => {
           marginRight: "auto",
         }}
       >
-        <h1
+        <div
           style={{
-            fontSize: "32px",
-            fontWeight: "500",
-            marginBottom: "10px",
+            display: "flex",
+            justifyContent: "space-between",
+            display: "flex",
+            flexDirection: "row",
           }}
         >
-          Create New Customer
-        </h1>
+          <div
+            style={{
+              width: "50%",
+            }}
+          >
+            <h1
+              style={{
+                fontSize: "32px",
+                fontWeight: "600",
+                marginBottom: "10px",
+              }}
+            >
+              New Customer
+            </h1>
+          </div>
+          <div
+            style={{
+              width: "50%",
+            }}
+          >
+            <button
+              style={{
+                backgroundColor: "green",
+                color: "white",
+                padding: "8px 16px",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                transition: "background-color 0.2s",
+                marginRight: "10px",
+                marginLeft: "80%",
+              }}
+              type="button"
+              onClick={() => navigate(-1)}
+            >
+              Back
+            </button>
+          </div>
+        </div>
 
         <div>
           <label htmlFor="custName">Customer Name: </label>
@@ -235,6 +291,18 @@ const CustomerForm = () => {
               Clear Form
             </button>
           </div>
+
+          <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+            <DialogTitle>Operation Successful.</DialogTitle>
+            <DialogContent>
+              <p> {custName} has been added to the database.</p>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseDialog} color="primary" autoFocus>
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Box>
       </form>
     </Box>

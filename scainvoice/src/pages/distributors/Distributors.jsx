@@ -3,6 +3,7 @@ import { Box,Paper,Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { Restore,Group } from '@mui/icons-material';
 
+
 const Distributor = () => {
   const navigate = useNavigate();
 

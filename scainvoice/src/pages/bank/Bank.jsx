@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import { Group, Restore, History } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+
 const Customer = () => {
   const navigate = useNavigate();
 
@@ -17,7 +18,7 @@ const Customer = () => {
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'left',
         height: '100%',
       }}
     >

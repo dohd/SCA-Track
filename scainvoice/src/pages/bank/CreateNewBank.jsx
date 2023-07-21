@@ -2,6 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Box } from "@mui/material";
 import axios from "axios";
+import {useNavigate} from 'react-router-dom';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+
+
 
 export default function CreateNewBank() {
   const {
@@ -10,6 +18,18 @@ export default function CreateNewBank() {
     reset,
     formState: { errors },
   } = useForm();
+
+  const navigate = useNavigate();
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const openMyDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
 
   const [bankName, setBankName] = useState("");
   const [bankBranch, setBankBranch] = useState("");
@@ -29,7 +49,7 @@ export default function CreateNewBank() {
           poundAcc,
           swift,
         });
-        alert("Bank added successfully!");
+        openMyDialog();
         handleClearForm();
       } catch (error) {
         console.error(error);
@@ -47,6 +67,7 @@ export default function CreateNewBank() {
     setPoundAcc("");
     setSwift("");
   };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -57,24 +78,69 @@ export default function CreateNewBank() {
         marginRight: "auto",
       }}
     >
-      <div>
+      <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        display: "flex",
+        flexDirection: "row",
+      }}>
+        <div
+        style={{
+          width: "50%",
+        }}>
         <h1
           style={{
             fontSize: "32px",
-            fontWeight: "500",
+            fontWeight: "600",
             marginBottom: "10px",
           }}
         >
           New Bank
         </h1>
+        </div>
+        <div
+        style={{
+          width: "50%",
+        }}
+        >
+        <button
+           style={{
+            backgroundColor: "green",
+            color: "white",
+            padding: "8px 16px",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+            transition: "background-color 0.2s",
+            marginRight: "10px",
+            marginLeft: "80%",
+          }}
+            type="button"
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </button>
+        </div>
       </div>
 
       <div>
-          <label htmlFor="bankName">Bank Name: </label>
+          <label htmlFor="bankName"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Bank Name: </label>
           <input
+          style={{
+             width: "100%", 
+             padding: "10px", 
+             border: "1px solid #ccc", 
+             borderRadius: "6px" 
+            }}
             type="text"
             id="bankName"
-            placeholder="Eneer Bank name"
+            placeholder="Enter Bank name"
             {...register("bankName", { required: true })}
             value={bankName}
             onChange={(e) => setBankName(e.target.value)}
@@ -83,8 +149,19 @@ export default function CreateNewBank() {
         </div>
 
         <div>
-          <label htmlFor="bankBranch">Bank Branch: </label>
+          <label htmlFor="bankBranch"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Bank Branch: </label>
           <input
+          style={{
+            width: "100%", 
+            padding: "10px", 
+            border: "1px solid #ccc", 
+            borderRadius: "6px" 
+           }}
             type="text"
             id="bankBranch"
             placeholder="Enter bank branch"
@@ -96,8 +173,19 @@ export default function CreateNewBank() {
         </div>
 
         <div>
-          <label htmlFor="kesAcc">KES Account: </label>
+          <label htmlFor="kesAcc"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >KES Account: </label>
           <input
+          style={{
+            width: "100%", 
+            padding: "10px", 
+            border: "1px solid #ccc", 
+            borderRadius: "6px" 
+           }}
             type="text"
             id="kesAcc"
             placeholder="Enter KES Account"
@@ -109,8 +197,19 @@ export default function CreateNewBank() {
         </div>
 
         <div>
-          <label htmlFor="usdAcc">USD Account: </label>
+          <label htmlFor="usdAcc"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >USD Account: </label>
           <input
+          style={{
+            width: "100%", 
+            padding: "10px", 
+            border: "1px solid #ccc", 
+            borderRadius: "6px" 
+           }}
             type="text"
             id="usdAcc"
             placeholder="Enter USD Account"
@@ -122,8 +221,19 @@ export default function CreateNewBank() {
         </div>
 
         <div>
-          <label htmlFor="poundAcc">Pounds Account: </label>
+          <label htmlFor="poundAcc"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Pounds Account: </label>
           <input
+          style={{
+            width: "100%", 
+            padding: "10px", 
+            border: "1px solid #ccc", 
+            borderRadius: "6px" 
+           }}
             type="text"
             id="poundAcc"
             placeholder="Enter Pound Account"
@@ -135,8 +245,19 @@ export default function CreateNewBank() {
         </div>
 
         <div>
-          <label htmlFor="swift">Swift Code: </label>
+          <label htmlFor="swift"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Swift Code: </label>
           <input
+          style={{
+            width: "100%", 
+            padding: "10px", 
+            border: "1px solid #ccc", 
+            borderRadius: "6px" 
+           }}
             type="text"
             id="swift"
             placeholder="Enter Swift Code"
@@ -152,10 +273,12 @@ export default function CreateNewBank() {
         sx={{
           display: "flex",
           justifyContent: "center",
-          height: "100%",
+          height: "30%",
           display: "flex",
           flexDirection: "row",
+          marginTop: "20px",
         }}
+
       >
         <div
           style={{
@@ -166,10 +289,12 @@ export default function CreateNewBank() {
             style={{
               backgroundColor: "green",
               color: "white",
-              Padding: "6px",
-              height: "10%",
-              width: "20%",
+              padding: "12px 20px",
+              border: "none",
               borderRadius: "6px",
+              cursor: "pointer",
+              transition: "background-color 0.2s",
+              marginRight: "10px",
             }}
             type="submit"
           >
@@ -182,14 +307,17 @@ export default function CreateNewBank() {
           }}
         >
           <button
-            style={{
-              backgroundColor: "green",
-              color: "white",
-              Padding: "6px",
-              height: "10%",
-              width: "30%",
-              borderRadius: "6px",
-            }}
+           style={{
+            backgroundColor: "green",
+            color: "white",
+            padding: "12px 20px",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+            transition: "background-color 0.2s",
+            marginRight: "10px",
+            marginLeft: "66%",
+          }}
             type="button"
             onClick={handleClearForm}
           >
@@ -197,6 +325,20 @@ export default function CreateNewBank() {
           </button>
         </div>
       </Box>
+
+      <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+        <DialogTitle>Operation Successful.</DialogTitle>
+        <DialogContent>
+          <p> {bankName} has been added to the database.</p>
+        </DialogContent>
+        <DialogActions>
+          
+          <Button onClick={handleCloseDialog} color="primary" autoFocus>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </form>
   );
 }

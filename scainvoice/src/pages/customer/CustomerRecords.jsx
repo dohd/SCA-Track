@@ -11,6 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import TextField from "@mui/material/TextField";
+import {useNavigate} from 'react-router-dom';
 
 const DataTable = () => {
   const [customers, setCustomers] = useState([]);
@@ -19,6 +20,8 @@ const DataTable = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editedCustomer, setEditedCustomer] = useState({});
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCustomers();
@@ -69,7 +72,8 @@ const DataTable = () => {
     const customer_name = updatedCustomer.customer_name;
     const kra_pin = updatedCustomer.kra_pin;
     try {
-      const response = await axios.put('http://localhost:3000/update/customers', { customer_address,
+      const response = await axios.put('http://localhost:3000/update/customers', { 
+      customer_address,
       customer_email,
       customer_location,
       customer_phone,
@@ -82,6 +86,7 @@ const DataTable = () => {
 
       console.log(response.data); // Assuming the response contains the updated movie details
       // Reset form fields
+      fetchCustomers();
     } catch (error) {
       console.error(error);
     }
@@ -140,7 +145,7 @@ const DataTable = () => {
     {
       field: "Action",
       headerName: "Action",
-      width: 150,
+      width: 100,
       renderCell: (params) => {
         const customerID = params.row.id;
         const customerName = params.row.customer_name;
@@ -148,12 +153,16 @@ const DataTable = () => {
         return (
           <>
             <button className="InvoiceListEdit" onClick={() => handleDelete(customerID, customerName)}>
-              Delete <br /> 
+              
               <DeleteIcon className="InvoiceListDelete" />
             </button>
 
-            <button className="InvoiceListEdit" onClick={() => handleEdit(customer)}>
-              Edit
+            <button className="InvoiceListEdit" 
+            style={{
+              marginLeft: "10px",
+            }}
+            onClick={() => handleEdit(customer)}>
+              
               <EditIcon className="InvoiceListEdit" />
             </button>
           </>
@@ -187,20 +196,58 @@ const DataTable = () => {
           marginRight: "0",
         }}
       >
-        <h1
+ <div
           style={{
-            fontSize: "32px",
-            fontWeight: "500",
-            marginBottom: "10px",
+            display: "flex",
+            justifyContent: "space-between",
+            display: "flex",
+            flexDirection: "row",
           }}
         >
-          Customer Records
-        </h1>
+          <div
+            style={{
+              width: "50%",
+            }}
+          >
+            <h1
+              style={{
+                fontSize: "32px",
+                fontWeight: "600",
+                marginBottom: "10px",
+              }}
+            >
+              Customer Records
+            </h1>
+          </div>
+          <div
+            style={{
+              width: "50%",
+            }}
+          >
+            <button
+              style={{
+                backgroundColor: "green",
+                color: "white",
+                padding: "8px 16px",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                transition: "background-color 0.2s",
+                marginRight: "10px",
+                marginLeft: "80%",
+              }}
+              type="button"
+              onClick={() => navigate(-1)}
+            >
+              Back
+            </button>
+          </div>
+        </div>
+
         <DataGrid
           rows={rowsWithIds}
           columns={columns}
           pageSize={5}
-          checkboxSelection
         />
       </div>
 

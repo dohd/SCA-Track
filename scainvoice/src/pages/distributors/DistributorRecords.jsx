@@ -63,8 +63,6 @@ const Distributors = () => {
     const distributor_email = updatedDistributor.distributor_email;
     const distributor_location = updatedDistributor.distributor_location;
     const distributor_phone = updatedDistributor.distributor_phone;
-    const distributor_po_number = updatedDistributor.distributor_po_number;
-    const distributor_street = updatedDistributor.distributor_street;
     const distributor_name = updatedDistributor.distributor_name;
     // const kra_pin = updateddistributor.kra_pin;
     try {
@@ -73,15 +71,12 @@ const Distributors = () => {
       distributor_email,
       distributor_location,
       distributor_phone,
-      distributor_po_number,
-      distributor_street,
       distributor_name,
-      // kra_pin,
-
     });
 
       console.log(response.data); // Assuming the response contains the updated movie details
       // Reset form fields
+      fetchDistributors();
     } catch (error) {
       console.error(error);
     }
@@ -126,7 +121,7 @@ const Distributors = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 100 },
     {
       field: "distributor_name",
       headerName: "Distributor name",
@@ -147,7 +142,7 @@ const Distributors = () => {
     {
       field: "Action",
       headerName: "Action",
-      width: 150,
+      width: 100,
       renderCell: (params) => {
         const distributorID = params.row.id;
         const distributorName = params.row.distributor_name;
@@ -159,7 +154,11 @@ const Distributors = () => {
               <DeleteIcon className="InvoiceListDelete" />
             </button>
 
-            <button className="InvoiceListEdit" onClick={() => handleEdit(distributor)}>
+            <button className="InvoiceListEdit" 
+            style={{
+              marginLeft: "10px",
+            }}
+            onClick={() => handleEdit(distributor)}>
               
               <EditIcon className="InvoiceListEdit" />
             </button>
@@ -209,7 +208,6 @@ const Distributors = () => {
            rows={rowsWithIds}
            columns={columns}
            pageSize={5}
-           checkboxSelection
         />
       </div>
 
@@ -251,16 +249,7 @@ const Distributors = () => {
             value={editedDistributor.distributor_email || ""}
             onChange={handleEditInputChange}
           />
-          <TextField
-          style={{
-            marginTop: "10px",
-          }}
-            name="distributor_street"
-            label="Street"
-            fullWidth
-            value={editedDistributor.distributor_street || ""}
-            onChange={handleEditInputChange}
-          />
+
           <TextField
           style={{
             marginTop: "10px",
