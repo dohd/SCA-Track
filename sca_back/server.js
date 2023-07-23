@@ -154,6 +154,20 @@ app.get("/read_bankRecords", (req, res) => {
   });
 });
 
+
+// Define API endpoint to fetch lpo-noumber 
+app.get("/read_lpo_number", (req, res) => {
+  const query = "SELECT lpo_no FROM `latest_id` ";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying lpo NO:", err);
+      res.status(500).json({ error: "Failed to fetch lpo NO" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
 // API endpoint to add a new invoice item
 app.post("/add_invoice_item", (req, res) => {
   const {
@@ -228,7 +242,7 @@ app.get("/read_invoiceMessages", (req, res) => {
 app.post("/add_lpo_item", (req, res) => {
   const {
     item_id,
-    lpo_number,
+    myLpoNo,
     item_name,
     quantity,
     unit_price,
@@ -241,7 +255,7 @@ app.post("/add_lpo_item", (req, res) => {
     query,
     [
       item_id,
-      lpo_number,
+      myLpoNo,
       item_name,
       quantity,
       unit_price,
@@ -257,7 +271,7 @@ app.post("/add_lpo_item", (req, res) => {
 
 // Define API endpoint to fetch lpo items
 app.get("/read_lpoItems", (req, res) => {
-  let lpo_number = req.query.lpo_number;
+  let lpo_number = req.query.myLpoNo;
   const query =
     "SELECT item_name, quantity, unit_price, total_price, currency  FROM lpo_s WHERE lpo_number = ?;";
   connection.query(query, [lpo_number], (err, results) => {
@@ -272,10 +286,10 @@ app.get("/read_lpoItems", (req, res) => {
 
 // API endpoint to add a new lpo message
 app.post("/add_lpo_message", (req, res) => {
-  const { lpo_number, message } = req.body;
+  const { myLpoNo, message } = req.body;
   const query =
     "INSERT INTO lpo_message(lpo_number, lpo_message) VALUES (?,?);";
-  connection.query(query, [lpo_number, message], (err, result) => {
+  connection.query(query, [myLpoNo, message], (err, result) => {
     if (err) throw err;
     res.sendStatus(200);
   });
@@ -297,7 +311,7 @@ app.get("/read_lpoMessage", (req, res) => {
 // API endpoint to add a new lpo details
 app.post("/add_lpo", (req, res) => {
   const { 
-    lpo_number, 
+    myLpoNo, 
     lpo_date, 
     days,
     finalTotal,
@@ -307,7 +321,7 @@ app.post("/add_lpo", (req, res) => {
   } = req.body;
   const query =
     "INSERT INTO lpo_dates (lpo_number , Lpo_date , days, total, sub_total, vat, distributor ) VALUES (?,?,?,?,?,?,?);";
-  connection.query(query, [lpo_number, lpo_date, days, finalTotal, overallTotal, vatPrice, distributor ], (err, result) => {
+  connection.query(query, [myLpoNo, lpo_date, days, finalTotal, overallTotal, vatPrice, distributor ], (err, result) => {
     if (err) throw err;
     res.sendStatus(200);
   });
@@ -401,7 +415,7 @@ app.put("/update/bankRecords", (req, res) => {
     swift_code,
   } = req.body;
 
-  // Update the customer deatils in the database
+  // Update the bank deatils in the database
   const query = `UPDATE bank_records SET usd_account = ?, kes_account = ?, pounds_account = ?, branch = ?, swift_code = ? WHERE bank_name = ?;`;
   connection.query(
     query,
@@ -421,6 +435,32 @@ app.put("/update/bankRecords", (req, res) => {
           .json({ error: "Error updating bank records in the database" });
       } else {
         res.json({ message: "Bank records updated successfully" });
+      }
+    }
+  );
+});
+
+// Update lpo number record route
+app.put("/update/lpo_number", (req, res) => {
+  const { 
+    nextValue,
+  } = req.body;
+
+  // Update the new lpo number in the database
+  const query = `UPDATE latest_id SET lpo_no= ?;`;
+  connection.query(
+    query,
+    [
+      nextValue,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({
+          error: "Error updating distributor records in the database",
+        });
+      } else {
+        res.json({ message: "Distributor records updated successfully" });
       }
     }
   );
@@ -467,11 +507,11 @@ app.put("/update/invoice", (req, res) => {
 
 // Update invoice message route
 app.put("/update/invoiceMessage", (req, res) => {
-  const { lpo_number, lpo_message } = req.body;
+  const { myLpoNo, lpo_message } = req.body;
 
   // Update the customer deatils in the database
   const query = `UPDATE invoice_message SET message  = ? WHERE invoice_number = ?;`;
-  connection.query(query, [lpo_message, lpo_number], (err, result) => {
+  connection.query(query, [lpo_message, myLpoNo], (err, result) => {
     if (err) {
       console.error(err);
       res

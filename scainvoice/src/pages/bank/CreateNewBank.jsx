@@ -72,10 +72,14 @@ export default function CreateNewBank() {
     <form
       onSubmit={handleSubmit(onSubmit)}
       style={{
-        height: 400,
         width: "60%",
         marginLeft: "auto",
         marginRight: "auto",
+        backgroundColor: "#FFDEAD",
+            maxWidth: "800px",
+            padding: "20px",
+            borderRadius: "6px",
+            marginBottom: "20px",
       }}
     >
       <div
@@ -316,7 +320,7 @@ export default function CreateNewBank() {
             cursor: "pointer",
             transition: "background-color 0.2s",
             marginRight: "10px",
-            marginLeft: "66%",
+            marginLeft: "60%",
           }}
             type="button"
             onClick={handleClearForm}

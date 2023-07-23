@@ -185,9 +185,12 @@ const BankRecords = () => {
       flexDirection: "column",
       height: "100%",
       height: 400,
-      width: "80%",
+      width: "84%",
       marginLeft: "250px",
       marginRight: "auto",
+        backgroundColor: "#EDEADE",
+            padding: "20px",
+            borderRadius: "6px",
     }}
   >
       <div
