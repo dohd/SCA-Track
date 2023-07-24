@@ -31,14 +31,18 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
-      {path:"",
-    element:<Login/>,},
-    {path:"/register",
-    element:<Register/>,},
+      
        
       {
         path: "/dashboard",
-        element:<Dashboard/>,
+       children:[
+        {
+          path:"",
+          element: <Dashboard />,
+          path:"dispatchedInvoice",
+          element:<DispatchedInvoice/>
+        }
+       ]
       },
       {
         path: "Invoice",
