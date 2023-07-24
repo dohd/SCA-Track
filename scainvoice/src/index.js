@@ -23,13 +23,15 @@ import BankRecords from './pages/bank/BankRecords';
 import CreateDistributor from "./pages/distributors/CreateDistributor";
 import DistributorRecords from "./pages/distributors/DistributorRecords";
 import DispatchedInvoice from "./pages/Invoice/DispatchedInvoice";
-
+import Register from "./components/authentification/Register";
+import Login from "./components/authentification/Login";
 const router = createBrowserRouter([
   {
     path: "*",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
+       
       {
         path: "dashboard",
        children:[
