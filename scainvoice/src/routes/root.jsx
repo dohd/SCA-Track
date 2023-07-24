@@ -9,7 +9,7 @@ import Login from "../components/authentification/Login";
 export default function Root() {
     return (
         <>
-         <Register/>
+       <Dashboard/>
           
             <div className="container">
                
