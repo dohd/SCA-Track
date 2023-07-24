@@ -270,11 +270,11 @@ app.post("/add_lpo_item", (req, res) => {
 });
 
 // Define API endpoint to fetch lpo items
-app.get("/read_lpoItems", (req, res) => {
-  let lpo_number = req.query.myLpoNo;
+app.get("/read_distributor", (req, res) => {
+  let selectedDistributor = req.query.selectedDistributor;
   const query =
-    "SELECT item_name, quantity, unit_price, total_price, currency  FROM lpo_s WHERE lpo_number = ?;";
-  connection.query(query, [lpo_number], (err, results) => {
+    "SELECT distributor_email , distributor_address, distributor_phone  FROM distributor_records WHERE distributor_name = ?;";
+  connection.query(query, [selectedDistributor], (err, results) => {
     if (err) {
       console.error("Error querying lpo records:", err);
       res.status(500).json({ error: "Failed to fetch lpo records" });

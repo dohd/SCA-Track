@@ -7,7 +7,6 @@ import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { v4 as uuidv4 } from "uuid";
 
 const myCurrency = [
   {
@@ -34,6 +33,7 @@ export default function CreateInvoice() {
 
   const [distributors, setMyDistributors] = useState([]); //distributors
   const [selectedDistributor, setSelectedDistributor] = useState("");
+  const [selectedCurrency, setSelectedCurrency] = useState("");
   const [itemList, setItemList] = useState([]);
   const [itemDescription, setItemDescription] = useState("");
   const [quantity, setQuantity] = useState(0);
@@ -41,6 +41,14 @@ export default function CreateInvoice() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [vatPrice, setVatPrice] = useState(0);
   const [overallTotalPrice, setOverallTotalPrice] = useState(0);
+  const [message, setMessage] = useState("");
+  const [lpo_date, setLpo_date] = useState("");
+  const [days, setDays] = useState("");
+  const [distDetails, setDistDetails] = useState([]);
+  const [lpo_number, setLpoNo] = useState([]);
+  const [old_lpo_number, setOldLpoNo] = useState([]);
+  const [new_lpo_number, setNewLpoNo] = useState([]);
+  const [data, setData] = useState([{ key: 'LPO-001' }]);
 
   const fetchDistributors = async () => {
     try {
@@ -59,6 +67,9 @@ export default function CreateInvoice() {
   const handleDistributorChange = (e) => {
     setSelectedDistributor(e.target.value);
   };
+  const handleCurrencyChange = (e) => {
+    setSelectedCurrency(e.target.value);
+  };
 
   useEffect(() => {
     // Recalculate VAT and Overall Total whenever totalPrice changes
@@ -66,10 +77,43 @@ export default function CreateInvoice() {
     setOverallTotalPrice(totalPrice + totalPrice * 0.16);
   }, [totalPrice]);
 
-  // useEffect hook to log the selected distributor outside the component
-  // useEffect(() => {}, [selectedDistributor]);
+  //  hook to log the selected distributor outside the component
+  useEffect(() => {}, [selectedDistributor]);
+  useEffect(() => {}, [selectedCurrency]);
 
-  // console.log("hello: ", selectedDistributor);
+
+  const fetchSelectedDistributor = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/read_distributor",
+        {
+          params: {
+            selectedDistributor,
+          },
+        }
+      );
+      setDistDetails(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchSelectedDistributor();
+
+  //fetch latest lpo number
+  const fetchLPoNumber = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/read_lpo_number"
+      );
+      setLpoNo(response.data);
+      // setData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchLPoNumber();
 
   const handleAddItem = () => {
     const newItem = {
@@ -85,6 +129,32 @@ export default function CreateInvoice() {
     setItemDescription("");
     setQuantity(0);
     setUnitPrice(0);
+  };
+
+
+  // increment the lpo number
+  const incrementDataValue = () => {
+    setData((prevData) => {
+      // Extract the numeric part from the current value
+      const numericValue = parseInt(prevData[0].key.split('-')[1], 10);
+
+      // Store the old string
+      setOldLpoNo(prevData[0].key);
+
+      // Increment the numeric part
+      const incrementedValue = numericValue + 1;
+
+      // Format the new value back to the desired string format
+      const formattedValue = `LPO-${String(incrementedValue).padStart(3, '0')}`;
+
+      // Store the new string
+      setNewLpoNo(formattedValue);
+
+      // Create a new array with the updated data
+      const newData = [{ key: formattedValue }];
+
+      return newData;
+    });
   };
 
   const columns = [
@@ -120,12 +190,10 @@ export default function CreateInvoice() {
     }));
   };
 
-  
-
   const handleDeleteItem = (itemID) => {
     const itemIDString = itemID.toString();
     const deletedItem = itemList.find((item) => item.id === itemIDString);
-  
+
     if (deletedItem) {
       setTotalPrice(totalPrice - deletedItem.subtotal);
       setItemList(itemList.filter((item) => item.id !== itemIDString));
@@ -155,6 +223,10 @@ export default function CreateInvoice() {
         }}
       >
         <div>
+        <button onClick={incrementDataValue}>Increment Data</button>
+
+{old_lpo_number && <p>Old Lpo: {old_lpo_number}</p>}
+{new_lpo_number && <p>New Lpo: {new_lpo_number}</p>}
           <h1
             style={{
               fontSize: "32px",
@@ -170,10 +242,22 @@ export default function CreateInvoice() {
               fontWeight: "500",
               marginBottom: "10px",
               display: "flex",
-              flexDirection: "row",
+              flexDirection: "row"
             }}
           >
-            LPO number:
+            LPO Number:  
+            <ul>
+        {lpo_number.map((lpo, index) => (
+          <li key={index}>
+            
+            <h3 id="myLpoNo" >
+             {lpo.lpo_no}
+          </h3>
+
+          </li>
+          
+        ))}
+      </ul>
           </h3>
 
           <div className="top_section" style={{ marginBottom: "20px" }}>
@@ -198,13 +282,99 @@ export default function CreateInvoice() {
                   </option>
                 ))}
               </select>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                marginTop: "20px",
+                justifyContent: "space-between",
+              }}
+            >
+              <div
+                style={{
+                  width: "60%",
+                }}
+              >
+                
+                <ul>
+                  {distDetails.map((info, index) => (
+                    <li key={index}>
+                      <h4>Address: {info.distributor_address}</h4>
+                      <h4>Phone: {info.distributor_phone}</h4>
+                      <h4>Email: {info.distributor_email}</h4>
+                    </li>
+                  ))}
+                </ul>
+                
+                <div
+                  style={{
+                    display: "flexr",
+                    flexDirection: "column",
+                    marginTop: "10px",
+                  }}
+                >
+                  <h4>Currency: </h4>
+                  <select
+                    style={{
+                      width: "80%",
+                      padding: "6px",
+                      borderRadius: "4px",
+                    }}
+                    value={selectedCurrency}
+                    onChange={handleCurrencyChange}
+                  >
+                    <option value="">-- Select a Currency --</option>
+                    {myCurrency.map((myCurrency) => (
+                      <option key={myCurrency.value} value=     {myCurrency.label}>
+                        {myCurrency.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
 
-              {selectedDistributor && (
-                <h4>Selected Distributor: {selectedDistributor}</h4>
-              )}
-              <h4>Address:</h4>
-              <h4>Phone:</h4>
-              <h4>Email: </h4>
+              <div
+                style={{
+                  marginBottom: "20px",
+                  width: "40%",
+                }}
+              >
+                <div style={{ flex: "1", marginRight: "10px" }}>
+                  <label htmlFor="date">Date:</label>
+                  <input
+                    style={{
+                      width: "100%",
+                      padding: "6px",
+                      borderRadius: "4px",
+                    }}
+                    type="date"
+                    id="lpo_date"
+                    {...register("Lpo_date", { required: true })}
+                    value={lpo_date}
+                    onChange={(e) => setLpo_date(e.target.value)}
+                  />
+                  {errors.lpo_date && <span>This field is required</span>}
+                </div>
+
+                <div style={{ marginBottom: "20px", marginTop: "16px" }}>
+                  <label htmlFor="days">Due in (days):</label>
+                  <input
+                    style={{
+                      width: "96%",
+                      padding: "6px",
+                      borderRadius: "4px",
+                    }}
+                    type="number"
+                    id="days"
+                    placeholder="20"
+                    {...register("days", { required: true })}
+                    value={days}
+                    onChange={(e) => setDays(e.target.value)}
+                  />
+                  {errors.days && <span>This field is required</span>}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -260,9 +430,9 @@ export default function CreateInvoice() {
               marginTop: "10px",
             }}
             type="number"
-            id="unitPrice" 
+            id="unitPrice"
             placeholder="Unit price"
-            value={unitPrice} 
+            value={unitPrice}
             onChange={(e) => setUnitPrice(parseFloat(e.target.value))}
           />
           {errors.quantity && <span>This field is required</span>}
@@ -295,9 +465,120 @@ export default function CreateInvoice() {
             Item List
           </h2>
           <DataGrid rows={rowsWithIds} columns={columns} pageSize={5} />
-          <h3>Sub-Total Price: {totalPrice}</h3>
-          <h3>Vat Price: {vatPrice}</h3>
-          <h3>Total Price: {overallTotalPrice}</h3>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginBottom: "10px",
+            marginTop: "20px",
+          }}
+        >
+          <div
+            style={{
+              marginBottom: "20px",
+              width: "60%",
+            }}
+          >
+            <h3
+              style={{
+                fontSize: "26px",
+                fontWeight: "500",
+                marginBottom: "10px",
+              }}
+            >
+              Message
+            </h3>
+            <textarea
+              id="message"
+              name="lpo_message"
+              rows="4"
+              cols="50"
+              placeholder="Enter message here..."
+              style={{ width: "100%", padding: "6px", borderRadius: "4px" }}
+              {...register("message", { required: true })}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            {errors.message && <span>This field is required</span>}
+          </div>
+
+          <div
+            style={{
+              marginBottom: "20px",
+              width: "40%",
+              paddingTop: "56px",
+              paddingLeft: "20px",
+            }}
+          >
+            <h3
+              style={{
+                fontSize: "16px",
+                fontWeight: "500",
+                marginBottom: "10px",
+              }}
+            >
+              Sub-Total Price: {totalPrice}
+            </h3>
+            <h3
+              style={{
+                fontSize: "16px",
+                fontWeight: "500",
+                marginBottom: "10px",
+              }}
+            >
+              Vat Price: {vatPrice}
+            </h3>
+            <h3
+              style={{
+                fontSize: "16px",
+                fontWeight: "500",
+                marginBottom: "10px",
+              }}
+            >
+              Total Price: {overallTotalPrice}
+            </h3>
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginBottom: "10px",
+            marginTop: "20px",
+            justifyContent: "space-between",
+          }}
+        >
+          <button
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              Padding: "10px",
+              height: 40,
+              width: "40%",
+              borderRadius: "6px",
+              marginBottom: "6px",
+              marginTop: "10px",
+            }}
+          >
+            Clear Form
+          </button>
+
+          <button
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              Padding: "10px",
+              height: 40,
+              width: "40%",
+              borderRadius: "6px",
+              marginBottom: "6px",
+              marginTop: "10px",
+            }}
+          >
+            Save
+          </button>
         </div>
       </div>
     </Box>

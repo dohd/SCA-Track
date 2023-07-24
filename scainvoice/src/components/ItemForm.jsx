@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DataTable from 'react-data-table-component';
+
 import { Form, Button, Toast } from 'react-bootstrap';
 
 const ItemForm = () => {
