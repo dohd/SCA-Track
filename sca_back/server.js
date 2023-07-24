@@ -239,28 +239,22 @@ app.get("/read_invoiceMessages", (req, res) => {
 });
 
 // API endpoint to add a new lpo item
-app.post("/add_lpo_item", (req, res) => {
-  const {
-    item_id,
-    myLpoNo,
-    item_name,
-    quantity,
-    unit_price,
-    total_price,
-    currency,
-  } = req.body;
-  const query =
-    "INSERT INTO lpo_s(item_id, lpo_number, item_name, quantity, unit_price, total_price, currency) VALUES (?,?, ?, ?, ?,?, ?);";
+app.post("/add_lpo_item", async (req, res) => {
+  const { lpoNumberString, itemList } = req.body;
+
+  for (const item of itemList) {
+    // Insert each item along with the corresponding LPONumber into the database table
+    const query =
+    "INSERT INTO lpo_s(lpo_number, item_name, quantity, unit_price, total_price, currency) VALUES (?,?, ?, ?, ?,?, ?);";
+    const values = [lpoNumberString, itemList.itemDescription, itemList.quantity, itemList.unitPrice, itemList.subtotal];
+
+    await pool.query(query, values);
+  }
+
   connection.query(
     query,
     [
-      item_id,
-      myLpoNo,
-      item_name,
-      quantity,
-      unit_price,
-      total_price,
-      currency,
+      
     ],
     (err, result) => {
       if (err) throw err;

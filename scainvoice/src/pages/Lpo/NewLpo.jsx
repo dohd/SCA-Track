@@ -46,9 +46,6 @@ export default function CreateInvoice() {
   const [days, setDays] = useState("");
   const [distDetails, setDistDetails] = useState([]);
   const [lpo_number, setLpoNo] = useState([]);
-  const [old_lpo_number, setOldLpoNo] = useState([]);
-  const [new_lpo_number, setNewLpoNo] = useState([]);
-  const [data, setData] = useState([{ key: 'LPO-001' }]);
 
   const fetchDistributors = async () => {
     try {
@@ -107,13 +104,14 @@ export default function CreateInvoice() {
         "http://localhost:3000/read_lpo_number"
       );
       setLpoNo(response.data);
-      // setData(response.data);
     } catch (error) {
       console.error(error);
     }
   };
+  useEffect(() => {
+    fetchLPoNumber();
+  }, []);
 
-  fetchLPoNumber();
 
   const handleAddItem = () => {
     const newItem = {
@@ -132,30 +130,33 @@ export default function CreateInvoice() {
   };
 
 
-  // increment the lpo number
-  const incrementDataValue = () => {
-    setData((prevData) => {
-      // Extract the numeric part from the current value
-      const numericValue = parseInt(prevData[0].key.split('-')[1], 10);
 
-      // Store the old string
-      setOldLpoNo(prevData[0].key);
 
-      // Increment the numeric part
-      const incrementedValue = numericValue + 1;
+  let lpoNumberString = "";
 
-      // Format the new value back to the desired string format
-      const formattedValue = `LPO-${String(incrementedValue).padStart(3, '0')}`;
+// Step 2: Assign the value of lpo.lpo_no to the string variable
+lpo_number.forEach((lpo) => {
+  lpoNumberString += lpo.lpo_no;
+});
 
-      // Store the new string
-      setNewLpoNo(formattedValue);
+// Step 3: Log the string variable
+console.log(lpoNumberString);
 
-      // Create a new array with the updated data
-      const newData = [{ key: formattedValue }];
+function incrementLpoNumber(currentLpoNumber) {
+  // Extract the numeric part and increment it
+  let numericPart = currentLpoNumber.slice(4);
+  let incrementedNumericPart = (parseInt(numericPart, 10) + 1).toString().padStart(3, "0");
 
-      return newData;
-    });
-  };
+  // Construct the new LPO number with the incremented numeric part
+  let newLpoNumber = "LPO-" + incrementedNumericPart;
+
+  // Log the output to the console
+  console.log("New LPO Number:", newLpoNumber);
+
+  return newLpoNumber;
+}
+
+let currentLpoNumber = incrementLpoNumber(lpoNumberString);
 
   const columns = [
     { field: "id", headerName: "NO", width: 80 },
@@ -200,6 +201,31 @@ export default function CreateInvoice() {
     }
   };
 
+
+   
+
+  // start sending data to backend
+    // Function to send the items to the backend
+    const sendItemsToBackend = () => {
+
+      const dataToSend = {
+        lpoNumberString,
+        itemList,
+      };
+
+      axios.post("http://localhost:3000/add_lpo_item", { dataToSend })
+        .then(response => {
+          // Handle the response from the backend if needed
+          console.log('Items sent successfully!');
+          alert("done");
+        })
+        .catch(error => {
+          // Handle any errors that occurred during the request
+          console.error('Error sending items to the backend:', error);
+          alert("error");
+        });
+    };
+
   const rowsWithIds = generateRowsWithIds(itemList);
 
   return (
@@ -223,10 +249,6 @@ export default function CreateInvoice() {
         }}
       >
         <div>
-        <button onClick={incrementDataValue}>Increment Data</button>
-
-{old_lpo_number && <p>Old Lpo: {old_lpo_number}</p>}
-{new_lpo_number && <p>New Lpo: {new_lpo_number}</p>}
           <h1
             style={{
               fontSize: "32px",
@@ -576,6 +598,7 @@ export default function CreateInvoice() {
               marginBottom: "6px",
               marginTop: "10px",
             }}
+            onClick={sendItemsToBackend}
           >
             Save
           </button>
