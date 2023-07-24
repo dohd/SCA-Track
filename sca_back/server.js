@@ -280,10 +280,12 @@ app.get("/read_distributor", (req, res) => {
 
 // API endpoint to add a new lpo message
 app.post("/add_lpo_message", (req, res) => {
-  const { myLpoNo, message } = req.body;
+  const { lpoNumberString,
+    message, } = req.body;
   const query =
     "INSERT INTO lpo_message(lpo_number, lpo_message) VALUES (?,?);";
-  connection.query(query, [myLpoNo, message], (err, result) => {
+  connection.query(query, [lpoNumberString,
+    message,], (err, result) => {
     if (err) throw err;
     res.sendStatus(200);
   });
@@ -305,17 +307,24 @@ app.get("/read_lpoMessage", (req, res) => {
 // API endpoint to add a new lpo details
 app.post("/add_lpo", (req, res) => {
   const { 
-    myLpoNo, 
-    lpo_date, 
-    days,
-    finalTotal,
-    overallTotal,
-    vatPrice,
-    distributor,
+    lpoNumberString,
+            lpo_date,
+            days,
+            totalPrice,
+            overallTotalPrice,
+            vatPrice,
+            selectedDistributor,
   } = req.body;
   const query =
     "INSERT INTO lpo_dates (lpo_number , Lpo_date , days, total, sub_total, vat, distributor ) VALUES (?,?,?,?,?,?,?);";
-  connection.query(query, [myLpoNo, lpo_date, days, finalTotal, overallTotal, vatPrice, distributor ], (err, result) => {
+  connection.query(query, [
+    lpoNumberString,
+    lpo_date,
+    days,
+    overallTotalPrice,
+    totalPrice,
+    vatPrice,
+    selectedDistributor,], (err, result) => {
     if (err) throw err;
     res.sendStatus(200);
   });
@@ -437,7 +446,7 @@ app.put("/update/bankRecords", (req, res) => {
 // Update lpo number record route
 app.put("/update/lpo_number", (req, res) => {
   const { 
-    nextValue,
+    currentLpoNumber,
   } = req.body;
 
   // Update the new lpo number in the database
@@ -445,7 +454,7 @@ app.put("/update/lpo_number", (req, res) => {
   connection.query(
     query,
     [
-      nextValue,
+      currentLpoNumber,
     ],
     (err, result) => {
       if (err) {

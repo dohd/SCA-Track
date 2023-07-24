@@ -228,6 +228,62 @@ let currentLpoNumber = incrementLpoNumber(lpoNumberString);
 
   const rowsWithIds = generateRowsWithIds(itemList);
 
+    //add lpo
+    const addDate = (data) => {
+      const handleSubmit = async (event) => {
+        try {
+          await axios.post("http://localhost:3000/add_lpo", {
+            lpoNumberString,
+            lpo_date,
+            days,
+            totalPrice,
+            overallTotalPrice,
+            vatPrice,
+            selectedDistributor,
+          });
+          alert("Date added successfully!");
+          // handleClearForm();
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      handleSubmit();
+      addMessage();
+    };
+
+    const addMessage = (data) => {
+      const handleSubmit = async (event) => {
+        try {
+          await axios.post("http://localhost:3000/add_lpo_message", {
+            lpoNumberString,
+            message,
+          });
+          alert("Message added successfully!");
+          // handleClearForm();
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      handleSubmit();
+      setNewLpoNo();
+  
+    };
+  
+    const setNewLpoNo = async ()  => {
+
+      try {
+        const response = await axios.put('http://localhost:3000/update/lpo_number', { 
+        
+        currentLpoNumber,
+      });
+  
+        console.log(response.data); // Assuming the response contains the updated movie details
+        // Reset form fields
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
   return (
     <Box
       sx={{
@@ -598,7 +654,7 @@ let currentLpoNumber = incrementLpoNumber(lpoNumberString);
               marginBottom: "6px",
               marginTop: "10px",
             }}
-            onClick={sendItemsToBackend}
+            onClick={addDate}
           >
             Save
           </button>
