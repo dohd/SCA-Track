@@ -27,21 +27,18 @@ import Register from "./components/authentification/Register";
 import Login from "./components/authentification/Login";
 const router = createBrowserRouter([
   {
-    path: "*",
+    path: "",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
+      {path:"",
+    element:<Login/>,},
+    {path:"/register",
+    element:<Register/>,},
        
       {
-        path: "dashboard",
-       children:[
-        {
-          path:"",
-          element: <Dashboard />,
-          path:"dispatchedInvoice",
-          element:<DispatchedInvoice/>
-        }
-       ]
+        path: "/dashboard",
+        element:<Dashboard/>,
       },
       {
         path: "Invoice",

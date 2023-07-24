@@ -66,7 +66,7 @@ const Login = () => {
                     </p>
                 </section>
             ) : (
-                <section>
+                <section style={{marginLeft:200}}>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Sign In</h1>
                     <form onSubmit={handleSubmit}>

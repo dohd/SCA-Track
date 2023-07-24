@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from 'axios'
+import { Link } from "react-router-dom";
 import Login from "./Login";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -91,14 +92,14 @@ const Register = () => {
     return (
         <div style={{marginLeft:200}}>
             {success ? (
-                <section style={successSectionStyle}>
+                <section >
                     <h1>Success!</h1>
                     <p>
                         <a href="#">Sign In</a>
                     </p>
                 </section>
             ) : (
-                <section style={registerSectionStyle}>
+                <section >
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Register</h1>
                     <form onSubmit={handleSubmit}>
@@ -166,15 +167,16 @@ const Register = () => {
                             Must match the first password input field.
                         </p>
                         </div>
-
+                        <Link to ="dashboard">
                         <button disabled={!validName || !validPwd || !validMatch ? true : false}>Sign Up</button>
-                    </form>
+                        </Link>
+                                            </form>
                     <p>
                         Already registered?<br />
                         <span className="line">
                           {/*put router link here*/
                           }
-                            <a href="#">Sign In</a>
+                            <a href="/login">Sign In</a>
                         </span>
                     </p>
                 </section>
@@ -184,24 +186,3 @@ const Register = () => {
 }
 
 export default Register
-const successSectionStyle = {
-    width: '100%',
-    maxWidth: '420px',
-    minHeight: '400px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    padding: '1rem',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)'
-};
-
-const registerSectionStyle = {
-    width: '100%',
-    maxWidth: '420px',
-    minHeight: '400px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    padding: '1rem',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)'
-};
