@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-
+import { Outlet } from 'react-router-dom';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 
@@ -74,15 +74,24 @@ Inside createTheme, we define the palette object with a mode property. The value
             <MenuIcon />
           </IconButton>
 
-          <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
-            Spartec   
-         </Typography>
+          <div style={{ display: "flex", alignItems: "center" }}>
+  <img
+    src="assets/logo.png" 
+    height="40px"
+    style={{ marginRight: "10px" }} 
+  />
+  <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+    Spartec
+  </Typography>
+</div>
+
          <IconButton>
           {/*color mode here*/}
          </IconButton>
         </Toolbar>
       </AppBar>
       <Sidelist {...{open,setOpen}}/>
+      <Outlet />
       </Box>
       
       

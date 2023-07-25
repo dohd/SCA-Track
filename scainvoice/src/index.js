@@ -25,16 +25,20 @@ import DistributorRecords from "./pages/distributors/DistributorRecords";
 import DispatchedInvoice from "./pages/Invoice/DispatchedInvoice";
 import Register from "./components/authentification/Register";
 import Login from "./components/authentification/Login";
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  
+  
+  
+  [
   {
-    path: "",
+    path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       
        
       {
-        path: "/dashboard",
+        path: "dashboard",
        children:[
         {
           path:"",

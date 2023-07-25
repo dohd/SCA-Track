@@ -1,10 +1,12 @@
 import { useRef, useState, useEffect, useContext } from 'react';
-
+ import form from "./form.css"
 
 import axios from 'axios';
-const LOGIN_URL = '';
+const LOGIN_URL = '/login';
 
 const Login = () => {
+   // State variable to track the selected option (user or admin)
+  const [selectedOption, setSelectedOption] = useState('user');
     
     const userRef = useRef();
     const errRef = useRef();
@@ -25,7 +27,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
+    /*    try {
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ user, pwd }),
                 {
@@ -53,10 +55,32 @@ const Login = () => {
             }
             errRef.current.focus();
         }
+        */
+
+    }
+     
+    
+    
+    const handleloguser=()=>{
+        console.log('logged user')
+        setSelectedOption('user');
+    }
+    const handlelogadmin=()=>{
+        console.log('logged admin')
+        setSelectedOption('admin');
+    }
+    const handlelogreg=()=>{
+        console.log('this is the reg section')
+    }
+    const handlesignin = ()=>{
+      console.log("/dashboard")
     }
 
+
+
     return (
-        <>
+        <div className="login-container">
+        
             {success ? (
                 <section>
                     <h1>You are logged in!</h1>
@@ -66,11 +90,40 @@ const Login = () => {
                     </p>
                 </section>
             ) : (
-                <section style={{marginLeft:200}}>
-                    <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h1>Sign In</h1>
+                <section className="login-form">
+    <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+    <h1 style={{ fontSize: '32px', marginBottom: '20px', color: '#333' }} > Login</h1>
+    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+      {/* "user" option */}
+      <h1
+        style={{
+          fontSize: '32px',
+          marginBottom: '20px',
+          color: selectedOption === 'user' ? '#333' : '#0000FF', // Change color based on selection
+          cursor: 'pointer',
+        }}
+        onClick={handleloguser}
+      >
+        User
+      </h1>
+      <br />
+      {/* "admin" option */}
+      <h1
+        style={{
+          fontSize: '32px',
+          marginBottom: '20px',
+          color: selectedOption === 'admin' ? '#333' : '#0000FF', 
+          cursor: 'pointer',
+        }}
+        onClick={handlelogadmin}
+      >
+        Admin
+      </h1>
+    </div>
+
+
                     <form onSubmit={handleSubmit}>
-                        <label htmlFor="username">Username:</label>
+                        <label htmlFor="username" style={{ fontSize: '32px', marginBottom: '20px', color: '#333' }}>Username:</label>
                         <input
                             type="text"
                             id="username"
@@ -78,29 +131,32 @@ const Login = () => {
                             autoComplete="off"
                             onChange={(e) => setUser(e.target.value)}
                             value={user}
-                            required
+                          //  required
                         />
 
-                        <label htmlFor="password">Password:</label>
+                        <label htmlFor="password" style={{ fontSize: '32px', marginBottom: '20px', color: '#333' }}>Password:</label>
                         <input
                             type="password"
                             id="password"
                             onChange={(e) => setPwd(e.target.value)}
                             value={pwd}
-                            required
+                          //  required
                         />
-                        <button>Sign In</button>
+                        <button
+              type="submit"
+              style={{ display: 'inline-block', color: 'blue', textDecoration: 'underline' }}
+              onClick={handlesignin}  >Sign in</button>
                     </form>
-                    <p>
+                    <p style= {{ fontSize: '32px', marginBottom: '20px', color: '#333' }}>
                         Need an Account?<br />
-                        <span className="line">
+                        <span className="line" style={{ display: 'inline-block', color: 'black ', textDecoration: 'underline' }} onClick={handlelogreg}>
                             {/*put router link here*/}
-                            <a href="#">Sign Up</a>
+                            Sign Up
                         </span>
                     </p>
                 </section>
             )}
-        </>
+        </div>
     )
 }
 

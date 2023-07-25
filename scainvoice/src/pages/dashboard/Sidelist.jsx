@@ -79,9 +79,10 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   );
 const Sidelist=({open,setOpen})=> {
   const navigate =useNavigate()
+
   const handlelogout= () =>{
-  dispatch({type:'UPDATE_USER',payload:null})
-  navigate('/')
+  console.log('logged out')
+  window.location.href = "/login";
   }
 
   const {selectedLink,setselectedLink}=useState('')
