@@ -97,14 +97,14 @@ and a component representing the component to render when the menu item is selec
     {
       title: 'Distributor',
       icon: <InboxIcon />,
-      link: 'distributor/',
+      link: 'distributor/ ',
       component: <Distributors {...{ setselectedLink, link: 'distributor' }} />,
     },
-      {title:'Invoice',icon:<MailIcon/>,link:'Invoice',component:<Invoice{...{setselectedLink,link:'Invoice'}}/>,
+      {title:'Invoice',icon:<MailIcon/>,link:'Invoice ',component:<Invoice{...{setselectedLink,link:'Invoice'}}/>,
   },
-      {title:'Customer',icon:<PeopleIcon/>,link:'customer/',component:<Customer{...{setselectedLink,link:'customer'}}/>},
-      {title:'Lpo',icon:<LayersIcon/>,link:'lpo',component:<Lpo{...{setselectedLink,link:'lpo'}}/>},
-      {title:'Bank',icon:<AccountBalanceIcon/>,link:'bank',component:<Bank{...{setselectedLink,link:'bank'}}/>},
+      {title:'Customer',icon:<PeopleIcon/>,link:'customer/ ',component:<Customer{...{setselectedLink,link:'customer'}}/>},
+      {title:'Lpo',icon:<LayersIcon/>,link:'lpo ',component:<Lpo{...{setselectedLink,link:'lpo'}}/>},
+      {title:'Bank',icon:<AccountBalanceIcon/>,link:'bank ',component:<Bank{...{setselectedLink,link:'bank'}}/>},
   ],[])
 
   return (
