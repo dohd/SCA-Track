@@ -24,12 +24,18 @@ import CreateDistributor from "./pages/distributors/CreateDistributor";
 import DistributorRecords from "./pages/distributors/DistributorRecords";
 import DispatchedInvoice from "./pages/invoice/DispatchedInvoice";
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  
+  
+  
+  [
   {
-    path: "*",
+    path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
+      
+       
       {
         path: "dashboard",
        children:[

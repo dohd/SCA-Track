@@ -1,12 +1,11 @@
 import React from "react";
-import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { Box, Paper, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
-import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 
 const myCurrency = [
   {
@@ -23,7 +22,7 @@ const myCurrency = [
   },
 ];
 
-export default function CreateInvoice() {
+export default function CreateLPO() {
   const {
     register,
     handleSubmit,
@@ -46,6 +45,8 @@ export default function CreateInvoice() {
   const [days, setDays] = useState("");
   const [distDetails, setDistDetails] = useState([]);
   const [lpo_number, setLpoNo] = useState([]);
+
+  const navigate = useNavigate();
 
   const fetchDistributors = async () => {
     try {
@@ -78,7 +79,6 @@ export default function CreateInvoice() {
   useEffect(() => {}, [selectedDistributor]);
   useEffect(() => {}, [selectedCurrency]);
 
-
   const fetchSelectedDistributor = async () => {
     try {
       const response = await axios.get(
@@ -100,18 +100,16 @@ export default function CreateInvoice() {
   //fetch latest lpo number
   const fetchLPoNumber = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/read_lpo_number"
-      );
+      const response = await axios.get("http://localhost:3000/read_lpo_number");
       setLpoNo(response.data);
     } catch (error) {
       console.error(error);
     }
   };
+
   useEffect(() => {
     fetchLPoNumber();
   }, []);
-
 
   const handleAddItem = () => {
     const newItem = {
@@ -129,34 +127,33 @@ export default function CreateInvoice() {
     setUnitPrice(0);
   };
 
-
-
-
   let lpoNumberString = "";
 
-// Step 2: Assign the value of lpo.lpo_no to the string variable
-lpo_number.forEach((lpo) => {
-  lpoNumberString += lpo.lpo_no;
-});
+  // Step 2: Assign the value of lpo.lpo_no to the string variable
+  lpo_number.forEach((lpo) => {
+    lpoNumberString += lpo.lpo_no;
+  });
 
-// Step 3: Log the string variable
-console.log(lpoNumberString);
+  // Step 3: Log the string variable
+  console.log(lpoNumberString);
 
-function incrementLpoNumber(currentLpoNumber) {
-  // Extract the numeric part and increment it
-  let numericPart = currentLpoNumber.slice(4);
-  let incrementedNumericPart = (parseInt(numericPart, 10) + 1).toString().padStart(3, "0");
+  function incrementLpoNumber(currentLpoNumber) {
+    // Extract the numeric part and increment it
+    let numericPart = currentLpoNumber.slice(4);
+    let incrementedNumericPart = (parseInt(numericPart, 10) + 1)
+      .toString()
+      .padStart(3, "0");
 
-  // Construct the new LPO number with the incremented numeric part
-  let newLpoNumber = "LPO-" + incrementedNumericPart;
+    // Construct the new LPO number with the incremented numeric part
+    let newLpoNumber = "LPO-" + incrementedNumericPart;
 
-  // Log the output to the console
-  console.log("New LPO Number:", newLpoNumber);
+    // Log the output to the console
+    console.log("New LPO Number:", newLpoNumber);
 
-  return newLpoNumber;
-}
+    return newLpoNumber;
+  }
 
-let currentLpoNumber = incrementLpoNumber(lpoNumberString);
+  let currentLpoNumber = incrementLpoNumber(lpoNumberString);
 
   const columns = [
     { field: "id", headerName: "NO", width: 80 },
@@ -201,88 +198,100 @@ let currentLpoNumber = incrementLpoNumber(lpoNumberString);
     }
   };
 
-
-   
-
-  // start sending data to backend
-    // Function to send the items to the backend
-    const sendItemsToBackend = () => {
-
-      const dataToSend = {
-        lpoNumberString,
-        itemList,
-      };
-
-      axios.post("http://localhost:3000/add_lpo_item", { dataToSend })
-        .then(response => {
-          // Handle the response from the backend if needed
-          console.log('Items sent successfully!');
-          alert("done");
-        })
-        .catch(error => {
-          // Handle any errors that occurred during the request
-          console.error('Error sending items to the backend:', error);
-          alert("error");
-        });
-    };
-
   const rowsWithIds = generateRowsWithIds(itemList);
 
-    //add lpo
-    const addDate = (data) => {
-      const handleSubmit = async (event) => {
-        try {
-          await axios.post("http://localhost:3000/add_lpo", {
-            lpoNumberString,
-            lpo_date,
-            days,
-            totalPrice,
-            overallTotalPrice,
-            vatPrice,
-            selectedDistributor,
-          });
-          alert("Date added successfully!");
-          // handleClearForm();
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      handleSubmit();
-      addMessage();
+  // start sending data to backend
+  // Function to send the items to the backend
+  const sendItemsToBackend = () => {
+    const dataToSend = {
+      lpoNumberString,
+      itemList,
     };
 
-    const addMessage = (data) => {
-      const handleSubmit = async (event) => {
-        try {
-          await axios.post("http://localhost:3000/add_lpo_message", {
-            lpoNumberString,
-            message,
-          });
-          alert("Message added successfully!");
-          // handleClearForm();
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      handleSubmit();
-      setNewLpoNo();
-  
-    };
-  
-    const setNewLpoNo = async ()  => {
-
-      try {
-        const response = await axios.put('http://localhost:3000/update/lpo_number', { 
-        
-        currentLpoNumber,
+    axios
+      .post("http://localhost:3000/add_lpo_item", { dataToSend })
+      .then((response) => {
+        // Handle the response from the backend if needed
+        console.log("Items sent successfully!");
+        alert("done");
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the request
+        console.error("Error sending items to the backend:", error);
+        alert("error");
       });
-  
-        console.log(response.data); // Assuming the response contains the updated movie details
-        // Reset form fields
+  };
+
+  //add lpo
+  const addDate = (data) => {
+    const handleSubmit = async (event) => {
+      try {
+        await axios.post("http://localhost:3000/add_lpo", {
+          lpoNumberString,
+          lpo_date,
+          days,
+          totalPrice,
+          overallTotalPrice,
+          vatPrice,
+          selectedDistributor,
+        });
+        alert("Date added successfully!");
+        // handleClearForm();
       } catch (error) {
         console.error(error);
       }
     };
+    handleSubmit();
+    addMessage();
+  };
+
+  const addMessage = (data) => {
+    const handleSubmit = async (event) => {
+      try {
+        await axios.post("http://localhost:3000/add_lpo_message", {
+          lpoNumberString,
+          message,
+        });
+        alert("Message added successfully!");
+        // handleClearForm();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    handleSubmit();
+    setNewLpoNo();
+  };
+
+  const setNewLpoNo = async () => {
+    try {
+      const response = await axios.put(
+        "http://localhost:3000/update/lpo_number",
+        {
+          currentLpoNumber,
+        }
+      );
+
+      console.log(response.data); // Assuming the response contains the updated movie details
+      // Reset form fields
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const clearForm = () => {
+    setItemDescription("");
+    setQuantity(0);
+    setUnitPrice(0);
+    setSelectedCurrency("");
+    setSelectedDistributor("");
+    setItemList([]);
+    setDays("");
+    setLpo_date("");
+    setMessage("");
+    setOverallTotalPrice(0);
+    setTotalPrice(0);
+    setVatPrice(0);
+  };
 
   return (
     <Box
@@ -304,38 +313,72 @@ let currentLpoNumber = incrementLpoNumber(lpoNumberString);
           borderRadius: "6px",
         }}
       >
-        <div>
-          <h1
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <div
             style={{
-              fontSize: "32px",
-              fontWeight: "500",
-              marginBottom: "10px",
+              width: "50%",
             }}
           >
-            Create New LPO
-          </h1>
+            <h1
+              style={{
+                fontSize: "32px",
+                fontWeight: "600",
+                marginBottom: "10px",
+              }}
+            >
+              New LPO
+            </h1>
+          </div>
+          <div
+            style={{
+              width: "50%",
+            }}
+          >
+            <button
+              style={{
+                backgroundColor: "green",
+                color: "white",
+                padding: "8px 16px",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                transition: "background-color 0.2s",
+                marginRight: "10px",
+                marginLeft: "80%",
+              }}
+              type="button"
+              onClick={() => navigate(-1)}
+            >
+              Back
+            </button>
+          </div>
+        </div>
+
+        <div>
           <h3
             style={{
               fontSize: "26px",
               fontWeight: "500",
               marginBottom: "10px",
               display: "flex",
-              flexDirection: "row"
+              flexDirection: "row",
             }}
           >
-            LPO Number:  
+            LPO Number: &nbsp;
             <ul>
-        {lpo_number.map((lpo, index) => (
-          <li key={index}>
-            
-            <h3 id="myLpoNo" >
-             {lpo.lpo_no}
-          </h3>
-
-          </li>
-          
-        ))}
-      </ul>
+              {lpo_number.map((lpo, index) => (
+                <li key={index}>
+                  <h3 id="myLpoNo">{lpo.lpo_no}</h3>
+                </li>
+              ))}
+            </ul>
           </h3>
 
           <div className="top_section" style={{ marginBottom: "20px" }}>
@@ -361,6 +404,8 @@ let currentLpoNumber = incrementLpoNumber(lpoNumberString);
                 ))}
               </select>
             </div>
+
+
             <div
               style={{
                 display: "flex",
@@ -374,7 +419,6 @@ let currentLpoNumber = incrementLpoNumber(lpoNumberString);
                   width: "60%",
                 }}
               >
-                
                 <ul>
                   {distDetails.map((info, index) => (
                     <li key={index}>
@@ -384,7 +428,7 @@ let currentLpoNumber = incrementLpoNumber(lpoNumberString);
                     </li>
                   ))}
                 </ul>
-                
+
                 <div
                   style={{
                     display: "flexr",
@@ -404,7 +448,7 @@ let currentLpoNumber = incrementLpoNumber(lpoNumberString);
                   >
                     <option value="">-- Select a Currency --</option>
                     {myCurrency.map((myCurrency) => (
-                      <option key={myCurrency.value} value=     {myCurrency.label}>
+                      <option key={myCurrency.value} value={myCurrency.label}>
                         {myCurrency.label}
                       </option>
                     ))}
@@ -497,7 +541,6 @@ let currentLpoNumber = incrementLpoNumber(lpoNumberString);
             value={quantity}
             onChange={(e) => setQuantity(parseInt(e.target.value))}
           />
-          {errors.custID && <span>This field is required</span>}
 
           <label>Unit Price:</label>
           <input
@@ -578,7 +621,6 @@ let currentLpoNumber = incrementLpoNumber(lpoNumberString);
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
-            {errors.message && <span>This field is required</span>}
           </div>
 
           <div
@@ -610,7 +652,7 @@ let currentLpoNumber = incrementLpoNumber(lpoNumberString);
             <h3
               style={{
                 fontSize: "16px",
-                fontWeight: "500",
+                fontWeight: "600",
                 marginBottom: "10px",
               }}
             >
@@ -639,6 +681,7 @@ let currentLpoNumber = incrementLpoNumber(lpoNumberString);
               marginBottom: "6px",
               marginTop: "10px",
             }}
+            onClick={clearForm}
           >
             Clear Form
           </button>

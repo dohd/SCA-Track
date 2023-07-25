@@ -41,7 +41,7 @@ const AppBar = styled(MuiAppBar, {
 
 export default function Dashboard() {
   
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [dark, setDark] = useState(true);
   
 {/*In the code above, we define a state variable dark using the useState hook, and initialize it with the value true. We also have a setDark function to update the value of dark when needed.
@@ -83,6 +83,7 @@ Inside createTheme, we define the palette object with a mode property. The value
         </Toolbar>
       </AppBar>
       <Sidelist {...{open,setOpen}}/>
+      
       </Box>
       
       

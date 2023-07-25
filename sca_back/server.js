@@ -69,6 +69,21 @@ app.get("/read_customers", (req, res) => {
   });
 });
 
+app.get("/read_customer", (req, res) => {
+  let selectedCustomer = req.query.selectedCustomer;
+  const query =
+    "SELECT customer_email , customer_address, customer_phone  FROM customer_details WHERE customer_name = ?;";
+  connection.query(query, [selectedCustomer], (err, results) => {
+    if (err) {
+      console.error("Error querying lpo records:", err);
+      res.status(500).json({ error: "Failed to fetch lpo records" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+
 // API endpoint to add a new distributors
 app.post("/add_distributors", (req, res) => {
   const { 
@@ -105,6 +120,21 @@ app.get("/read_distributors", (req, res) => {
     if (err) {
       console.error("Error querying distributor details:", err);
       res.status(500).json({ error: "Failed to fetch distributor details" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// Define API endpoint to fetch lpo items
+app.get("/read_distributor", (req, res) => {
+  let selectedDistributor = req.query.selectedDistributor;
+  const query =
+    "SELECT distributor_email , distributor_address, distributor_phone  FROM distributor_records WHERE distributor_name = ?;";
+  connection.query(query, [selectedDistributor], (err, results) => {
+    if (err) {
+      console.error("Error querying lpo records:", err);
+      res.status(500).json({ error: "Failed to fetch lpo records" });
       return;
     }
     res.json(results);
@@ -154,10 +184,38 @@ app.get("/read_bankRecords", (req, res) => {
   });
 });
 
+// Define API endpoint to fetch lpo items
+app.get("/read_bank", (req, res) => {
+  let selectedBank = req.query.selectedBank;
+  const query =
+    "SELECT usd_account , kes_account, pounds_account, branch, swift_code FROM bank_records WHERE bank_name = ?;";
+  connection.query(query, [selectedBank], (err, results) => {
+    if (err) {
+      console.error("Error querying lpo records:", err);
+      res.status(500).json({ error: "Failed to fetch lpo records" });
+      return;
+    }
+    res.json(results);
+  });
+});
 
-// Define API endpoint to fetch lpo-noumber 
+
+// Define API endpoint to fetch lpo-number 
 app.get("/read_lpo_number", (req, res) => {
   const query = "SELECT lpo_no FROM `latest_id` ";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying lpo NO:", err);
+      res.status(500).json({ error: "Failed to fetch lpo NO" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// Define API endpoint to fetch invoice-number 
+app.get("/read_invoice_number", (req, res) => {
+  const query = "SELECT invoice_no FROM `latest_id` ";
   connection.query(query, (err, results) => {
     if (err) {
       console.error("Error querying lpo NO:", err);
@@ -263,20 +321,7 @@ app.post("/add_lpo_item", async (req, res) => {
   );
 });
 
-// Define API endpoint to fetch lpo items
-app.get("/read_distributor", (req, res) => {
-  let selectedDistributor = req.query.selectedDistributor;
-  const query =
-    "SELECT distributor_email , distributor_address, distributor_phone  FROM distributor_records WHERE distributor_name = ?;";
-  connection.query(query, [selectedDistributor], (err, results) => {
-    if (err) {
-      console.error("Error querying lpo records:", err);
-      res.status(500).json({ error: "Failed to fetch lpo records" });
-      return;
-    }
-    res.json(results);
-  });
-});
+
 
 // API endpoint to add a new lpo message
 app.post("/add_lpo_message", (req, res) => {
@@ -327,6 +372,19 @@ app.post("/add_lpo", (req, res) => {
     selectedDistributor,], (err, result) => {
     if (err) throw err;
     res.sendStatus(200);
+  });
+});
+
+// Define API endpoint to read lpo
+app.get("/read_lpos", (req, res) => {
+  const query = "SELECT * FROM lpo_dates;";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying bank records:", err);
+      res.status(500).json({ error: "Failed to fetch bank records" });
+      return;
+    }
+    res.json(results);
   });
 });
 
