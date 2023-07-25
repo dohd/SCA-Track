@@ -235,14 +235,14 @@ export default function CreateLPO() {
           vatPrice,
           selectedDistributor,
         });
-        alert("Date added successfully!");
-        // handleClearForm();
+        
       } catch (error) {
         console.error(error);
       }
     };
     handleSubmit();
     addMessage();
+    // sendItemsToBackend();
   };
 
   const addMessage = (data) => {
@@ -252,7 +252,7 @@ export default function CreateLPO() {
           lpoNumberString,
           message,
         });
-        alert("Message added successfully!");
+        // alert("Message added successfully!");
         // handleClearForm();
       } catch (error) {
         console.error(error);
@@ -272,7 +272,7 @@ export default function CreateLPO() {
       );
 
       console.log(response.data); // Assuming the response contains the updated movie details
-      // Reset form fields
+      clearForm();
     } catch (error) {
       console.error(error);
     }

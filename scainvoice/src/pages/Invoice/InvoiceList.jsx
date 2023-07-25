@@ -3,146 +3,136 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/material";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import EditIcon from "@mui/icons-material/Edit";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import { useNavigate } from "react-router-dom";
 
-const columns = [
-  { field: "InvoiceNumber", headerName: "InvoiceNumber", width: 130 },
-  { field: "CompanyName", headerName: "Company name", width: 130 },
-  { field: "Amount", headerName: "Amount", type: "number", width: 90 },
-  { field: "Status", headerName: "Status", width: 130 },
-  { field: "DateIssued", headerName: "DateIssued", width: 130 },
-  { field: "DueDate", headerName: "DueDate", width: 130 },
-  {
-    field: "Action",
-    headerName: "Action",
-    width: 150,
-    renderCell: (params) => {
-      return (
-        <>
-          <Link to={"/invoice/" + params.row.InvoiceNumber}>
-            <button className="InvoiceListEdit">Edit</button>
-          </Link>
+const InvoiceRecords = () => {
+  const [invoices, setInvoices] = useState([]);
+  const navigate = useNavigate();
 
-          <DeleteIcon className="InvoiceListDelete" />
-        </>
-      );
+  useEffect(() => {
+    fetchInvoices();
+  }, []);
+
+  const fetchInvoices = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/read_invoices");
+      setInvoices(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchInvoices();
+
+  const columns = [
+    { field: "id", headerName: " No", width: 80 },
+    { field: "invoice_number", headerName: "Invoice  No", width: 110 },
+    { field: "customer", headerName: "Customer name", width: 250 },
+    { field: "total", headerName: "Amount", type: "number", width: 100 },
+    { field: "Status", headerName: "Status", width: 100 },
+    { field: "invoice_date", headerName: "Date Issued", width: 100 },
+    { field: "advance_payment", headerName: "Advance Payment (%)", width: 160 },
+    {
+      field: "Action",
+      headerName: "Action",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={"/invoice/" + params.row.InvoiceNumber}>
+              <button className="InvoiceListEdit">Edit</button>
+            </Link>
+  
+            <DeleteIcon className="InvoiceListDelete" />
+          </>
+        );
+      },
     },
-  },
-];
+  ];
 
-const rows = [
-  {
-    id: 1,
-    CompanyName: "Britam",
-    Amount: 55000,
-    Status: "Paid",
-    DateIssued: "1-1-2023",
-    DueDate: "1-2-2023",
-  },
-  {
-    id: 2,
-    CompanyName: "SidianBank",
-    Amount: 20000,
-    Status: "Pending",
-    DateIssued: "1-3-2023",
-    DueDate: "3-4-2023",
-  },
-  {
-    id: 3,
-    CompanyName: "Britam",
-    Amount: 55000,
-    Status: "Paid",
-    DateIssued: "1-1-2023",
-    DueDate: "1-2-2023",
-  },
-  {
-    id: 4,
-    CompanyName: "Britam",
-    Amount: 55000,
-    Status: "Paid",
-    DateIssued: "1-1-2023",
-    DueDate: "1-2-2023",
-  },
-  {
-    id: 5,
-    CompanyName: "SidianBank",
-    Amount: 20000,
-    Status: "Pending",
-    DateIssued: "1-3-2023",
-    DueDate: "3-4-2023",
-  },
-  {
-    id: 6,
-    CompanyName: "Britam",
-    Amount: 55000,
-    Status: "Paid",
-    DateIssued: "1-1-2023",
-    DueDate: "1-2-2023",
-  },
-  {
-    id: 7,
-    CompanyName: "Britam",
-    Amount: 55000,
-    Status: "Paid",
-    DateIssued: "1-1-2023",
-    DueDate: "1-2-2023",
-  },
-  {
-    id: 8,
-    CompanyName: "SidianBank",
-    Amount: 20000,
-    Status: "Pending",
-    DateIssued: "1-3-2023",
-    DueDate: "3-4-2023",
-  },
-  {
-    id: 9,
-    CompanyName: "Britam",
-    Amount: 55000,
-    Status: "Paid",
-    DateIssued: "1-1-2023",
-    DueDate: "1-2-2023",
-  },
-];
+  const generateRowsWithIds = (rows) => {
+    return rows.map((row, index) => ({
+      ...row,
+      id: `${(index + 1).toString().padStart(3, "0")}`,
+    }));
+  };
 
-const Customer = () => {
+  const rowsWithIds = generateRowsWithIds(invoices);
+
   return (
     <Box
     sx={{
       display: "flex",
       justifyContent: "center",
+      flexDirection: "column",
       height: "100%",
+      height: 500,
+      width: "80%",
+      marginLeft: "250px",
+      marginRight: "auto",
+      backgroundColor: "#EDEADE",
+      padding: "20px",
+      borderRadius: "6px",
     }}
   >
     <div
       style={{
-        height: 480,
-        width: "80%",
-        marginLeft: "280px",
-        marginRight: "0",
+        display: "flex",
+        justifyContent: "space-between",
+        display: "flex",
+        flexDirection: "row",
       }}
     >
-      <h1
-        style={{
-          fontSize: "32px",
-          fontWeight: "500",
-          marginBottom: "10px",
-        }}
-      >
-       Invoice Records
-      </h1>
-    <DataGrid
-        rows={rows} disableSelectionOnClick
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 10 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-      />
+      <div
+          style={{
+            width: "50%",
+          }}
+        >
+          <h1
+            style={{
+              fontSize: "32px",
+              fontWeight: "600",
+              marginBottom: "10px",
+            }}
+          >
+            Invoice Records
+          </h1>
+        </div>
+        <div
+          style={{
+            width: "50%",
+          }}
+        >
+          <button
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer",
+              transition: "background-color 0.2s",
+              marginRight: "10px",
+              marginLeft: "80%",
+            }}
+            type="button"
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </button>
+        </div>
    </div>
-    </Box>
+   <DataGrid rows={rowsWithIds} columns={columns} pageSize={5} />
+  </Box>
   );
 };
-export default Customer;
+export default InvoiceRecords;

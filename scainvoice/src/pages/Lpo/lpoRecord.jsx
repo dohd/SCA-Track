@@ -30,6 +30,7 @@ const LpoRecords = () => {
       console.error(error);
     }
   };
+  fetchLpos();
 
   const columns = [
     { field: "id", headerName: " No", width: 80 },
@@ -65,6 +66,8 @@ const LpoRecords = () => {
   };
 
   const rowsWithIds = generateRowsWithIds(lpo);
+  // console.log(lpo);
+
   return (
     <Box
       sx={{

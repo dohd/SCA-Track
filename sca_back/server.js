@@ -229,7 +229,6 @@ app.get("/read_invoice_number", (req, res) => {
 // API endpoint to add a new invoice item
 app.post("/add_invoice_item", (req, res) => {
   const {
-    item_id,
     invoice_number,
     item_name,
     quantity,
@@ -273,10 +272,10 @@ app.get("/read_invoiceItems", (req, res) => {
 
 // API endpoint to add a new invoice message
 app.post("/add_invoice_message", (req, res) => {
-  const { invoice_number, invoice_message } = req.body;
+  const { invoiceNumberString, message, } = req.body;
   const query =
     "INSERT INTO invoice_message(invoice_number, message) VALUES (?, ?);";
-  connection.query(query, [invoice_number, invoice_message], (err, result) => {
+  connection.query(query, [invoiceNumberString, message,], (err, result) => {
     if (err) throw err;
     res.sendStatus(200);
   });
@@ -310,10 +309,7 @@ app.post("/add_lpo_item", async (req, res) => {
   }
 
   connection.query(
-    query,
-    [
-      
-    ],
+    query,values,
     (err, result) => {
       if (err) throw err;
       res.sendStatus(200);
@@ -348,6 +344,31 @@ app.get("/read_lpoMessage", (req, res) => {
     res.json(results);
   });
 });
+// API endpoint to add a new lpo details
+app.post("/add_invoice", (req, res) => {
+  const { 
+    invoiceNumberString,
+    invoice_date,
+    advancePayment,
+    totalPrice,
+    overallTotalPrice,
+    vatPrice,
+    selectedCustomer,
+  } = req.body;
+  const query =
+    "INSERT INTO invoice_details (invoice_number , invoice_date , advance_payment, total, sub_total, vat, customer ) VALUES (?,?,?,?,?,?,?);";
+  connection.query(query, [
+    invoiceNumberString,
+    invoice_date,
+    advancePayment,
+    totalPrice,
+    overallTotalPrice,
+    vatPrice,
+    selectedCustomer,], (err, result) => {
+    if (err) throw err;
+    res.sendStatus(200);
+  });
+});
 
 // API endpoint to add a new lpo details
 app.post("/add_lpo", (req, res) => {
@@ -378,6 +399,19 @@ app.post("/add_lpo", (req, res) => {
 // Define API endpoint to read lpo
 app.get("/read_lpos", (req, res) => {
   const query = "SELECT * FROM lpo_dates;";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying bank records:", err);
+      res.status(500).json({ error: "Failed to fetch bank records" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// Define API endpoint to read invoice
+app.get("/read_invoices", (req, res) => {
+  const query = "SELECT * FROM invoice_details;";
   connection.query(query, (err, results) => {
     if (err) {
       console.error("Error querying bank records:", err);
@@ -522,6 +556,32 @@ app.put("/update/lpo_number", (req, res) => {
         });
       } else {
         res.json({ message: "Distributor records updated successfully" });
+      }
+    }
+  );
+});
+
+// Update invoice number record route
+app.put("/update/invoice_number", (req, res) => {
+  const { 
+    currentInvoiveNumber,
+  } = req.body;
+
+  // Update the new lpo number in the database
+  const query = `UPDATE latest_id SET invoice_no= ?;`;
+  connection.query(
+    query,
+    [
+      currentInvoiveNumber,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({
+          error: "Error updating  records in the database",
+        });
+      } else {
+        res.json({ message: " records updated successfully" });
       }
     }
   );

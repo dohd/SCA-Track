@@ -165,12 +165,13 @@ export default function NewInvoice() {
       let newInvoiceNumber = "INV-" + incrementedNumericPart;
   
       // Log the output to the console
-      console.log("New INV Number:", newInvoiceNumber);
+      // console.log("New INV Number:", newInvoiceNumber);
   
       return newInvoiceNumber;
     }
 
-    let icurrentInvoiveNumber = incrementInvoiceNumber(invoiceNumberString);
+    let currentInvoiveNumber = incrementInvoiceNumber(invoiceNumberString);
+    console.log("New INV Number:", currentInvoiveNumber); 
 
 //adds item to the list
     const handleAddItem = () => {
@@ -241,6 +242,28 @@ export default function NewInvoice() {
     }, [totalPrice]);
 
 
+    // sending data to DB
+    // Function to send the items to the backend
+  const sendItemsToBackend = () => {
+    const dataToSend = {
+      invoiceNumberString,
+      itemList,
+    };
+
+    axios
+      .post("http://localhost:3000/add_invoice_item", { dataToSend })
+      .then((response) => {
+        // Handle the response from the backend if needed
+        console.log("Items sent successfully!");
+        alert("done");
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the request
+        console.error("Error sending items to the backend:", error);
+        alert("error");
+      });
+  };
+
     const clearForm = () => {
       setItemDescription("");
       setQuantity(0);
@@ -256,6 +279,62 @@ export default function NewInvoice() {
       setVatPrice(0);
       setSelectedBank("");
     };
+
+      //add invoice
+  const addInvoice = (data) => {
+    const handleSubmit = async (event) => {
+      try {
+        await axios.post("http://localhost:3000/add_invoice", {
+          invoiceNumberString,
+          invoice_date,
+          advancePayment,
+          totalPrice,
+          overallTotalPrice,
+          vatPrice,
+          selectedCustomer,
+        });
+        
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    handleSubmit();
+    addMessage();
+    // sendItemsToBackend();
+  };
+
+  const addMessage = (data) => {
+    const handleSubmit = async (event) => {
+      try {
+        await axios.post("http://localhost:3000/add_invoice_message", {
+          invoiceNumberString,
+          message,
+        });
+        // alert("Message added successfully!");
+        // handleClearForm();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    handleSubmit();
+    setNewInvoiceNo();
+  };
+
+  const setNewInvoiceNo = async () => {
+    try {
+      const response = await axios.put(
+        "http://localhost:3000/update/invoice_number",
+        {
+          currentInvoiveNumber,
+        }
+      );
+
+      console.log(response.data); // Assuming the response contains the updated movie details
+      clearForm();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
     return (
       <Box
@@ -443,7 +522,7 @@ export default function NewInvoice() {
                 </div>
 
                 <div style={{ marginBottom: "20px", marginTop: "16px" }}>
-                  <label htmlFor="days">Due in (days):</label>
+                  <label htmlFor="advance_payment">Advance payment (%) :</label>
                   <input
                     style={{
                       width: "96%",
@@ -457,7 +536,6 @@ export default function NewInvoice() {
                     value={advancePayment}
                     onChange={(e) => setAdvancepayment(e.target.value)}
                   />
-                  {errors.days && <span>This field is required</span>}
                 </div>
 
               </div>
@@ -694,7 +772,7 @@ export default function NewInvoice() {
               marginBottom: "6px",
               marginTop: "10px",
             }}
-            // onClick={addDate}
+            onClick={addInvoice}
           >
             Save
           </button>

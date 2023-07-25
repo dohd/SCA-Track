@@ -179,7 +179,7 @@ and a component representing the component to render when the menu item is selec
         <Divider />
         <Tooltip title="Logout" sx={{ mt: 1 }}>
           <IconButton onClick={handlelogout}>
-            <Logout />
+            <Logout /> 
           </IconButton>
         </Tooltip>
       </Drawer>
