@@ -84,10 +84,14 @@ const CustomerForm = () => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         style={{
-          height: 400,
           width: "60%",
           marginLeft: "auto",
           marginRight: "auto",
+          backgroundColor: "#FFDEAD",
+          maxWidth: "800px",
+          padding: "20px",
+          borderRadius: "6px",
+          marginBottom: "20px",
         }}
       >
         <div
@@ -139,11 +143,23 @@ const CustomerForm = () => {
         </div>
 
         <div>
-          <label htmlFor="custName">Customer Name: </label>
+          <label htmlFor="custName"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Customer Name: </label>
           <input
+
+style={{
+  width: "100%", 
+  padding: "10px", 
+  border: "1px solid #ccc", 
+  borderRadius: "6px" 
+ }}
             type="text"
             id="custName"
-            placeholder="enter customer name"
+            placeholder="Enter customer name"
             {...register("custName", { required: true })}
             value={custName}
             onChange={(e) => setCustName(e.target.value)}
@@ -151,8 +167,19 @@ const CustomerForm = () => {
           {errors.custName && <span>This field is required</span>}
         </div>
         <div>
-          <label htmlFor="custEmail">Customer Email: </label>
+          <label htmlFor="custEmail"
+                    style={{ 
+                      display: "block", 
+                      marginBottom: "5px", 
+                    }}
+          >Customer Email: </label>
           <input
+                      style={{
+                        width: "100%", 
+                        padding: "10px", 
+                        border: "1px solid #ccc", 
+                        borderRadius: "6px" 
+                       }}
             type="text"
             id="custEmail"
             placeholder="enter customer email"
@@ -164,8 +191,20 @@ const CustomerForm = () => {
         </div>
 
         <div>
-          <label htmlFor="custPIN">Customer KRA PIN: </label>
+          <label htmlFor="custPIN"
+           style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Customer KRA PIN: </label>
           <input
+style={{
+  width: "100%", 
+  padding: "10px", 
+  border: "1px solid #ccc", 
+  borderRadius: "6px" 
+ }}
+
             type="text"
             id="custPIN"
             placeholder="KRA PIN"
@@ -177,8 +216,20 @@ const CustomerForm = () => {
         </div>
 
         <div>
-          <label htmlFor="custStreet">Customer Street: </label>
+          <label htmlFor="custStreet"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Customer Street: </label>
           <input
+  style={{
+    width: "100%", 
+    padding: "10px", 
+    border: "1px solid #ccc", 
+    borderRadius: "6px" 
+   }}
+
             type="text"
             id="custStreet"
             placeholder="customer street"
@@ -190,8 +241,19 @@ const CustomerForm = () => {
         </div>
 
         <div>
-          <label htmlFor="custAddress">Customer Address: </label>
+          <label htmlFor="custAddress"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Customer Address: </label>
           <input
+           style={{
+            width: "100%", 
+            padding: "10px", 
+            border: "1px solid #ccc", 
+            borderRadius: "6px" 
+           }}
             type="text"
             id="custAddress"
             placeholder="customer address"
@@ -203,8 +265,20 @@ const CustomerForm = () => {
         </div>
 
         <div>
-          <label htmlFor="custPONumber">Customer Po Number: </label>
+          <label htmlFor="custPONumber"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Customer Po Number: </label>
           <input
+
+style={{
+  width: "100%", 
+  padding: "10px", 
+  border: "1px solid #ccc", 
+  borderRadius: "6px" 
+ }}
             type="text"
             id="custPONumber"
             placeholder="customer po number"
@@ -216,8 +290,19 @@ const CustomerForm = () => {
         </div>
 
         <div>
-          <label htmlFor="custLocation">Customer Location: </label>
+          <label htmlFor="custLocation"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Customer Location: </label>
           <input
+          style={{
+             width: "100%", 
+             padding: "10px", 
+             border: "1px solid #ccc", 
+             borderRadius: "6px" 
+            }}
             type="text"
             id="custLocation"
             placeholder="customer location"
@@ -229,8 +314,19 @@ const CustomerForm = () => {
         </div>
 
         <div>
-          <label htmlFor="telephone">Telephone: </label>
+          <label htmlFor="telephone"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Telephone: </label>
           <input
+          style={{
+            width: "100%", 
+            padding: "10px", 
+            border: "1px solid #ccc", 
+            borderRadius: "6px" 
+           }}
             type="text"
             id="telephone"
             placeholder="0723543332"
@@ -245,11 +341,13 @@ const CustomerForm = () => {
         </div>
 
         <Box
-          sx={{
+           sx={{
             display: "flex",
             justifyContent: "center",
-            height: "100%",
+            height: "30%",
+            display: "flex",
             flexDirection: "row",
+            marginTop: "20px",
           }}
         >
           <div
@@ -259,12 +357,14 @@ const CustomerForm = () => {
           >
             <button
               style={{
-                backgroundColor: "red",
+                backgroundColor: "green",
                 color: "white",
-                Padding: "6px",
-                height: "10%",
-                width: "20%",
+                padding: "12px 20px",
+                border: "none",
                 borderRadius: "6px",
+                cursor: "pointer",
+                transition: "background-color 0.2s",
+                marginRight: "10px",
               }}
               type="submit"
             >
@@ -278,12 +378,15 @@ const CustomerForm = () => {
           >
             <button
               style={{
-                backgroundColor: "red",
+                backgroundColor: "green",
                 color: "white",
-                Padding: "6px",
-                height: "10%",
-                width: "30%",
+                padding: "12px 20px",
+                border: "none",
                 borderRadius: "6px",
+                cursor: "pointer",
+                transition: "background-color 0.2s",
+                marginRight: "10px",
+                marginLeft: "60%",
               }}
               type="button"
               onClick={handleClearForm}

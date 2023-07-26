@@ -5,18 +5,15 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import {useNavigate} from 'react-router-dom';
-
-
+import { useNavigate } from "react-router-dom";
 
 const BankRecords = () => {
-
   const [banks, setBanks] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedBank, setSelectedBank] = useState({});
@@ -32,13 +29,15 @@ const BankRecords = () => {
 
   const fetchBanks = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/read_bankRecords");
+      const response = await axios.get(
+        "http://localhost:3000/read_bankRecords"
+      );
       setBanks(response.data);
     } catch (error) {
       console.error(error);
     }
   };
-  
+
   const handleDelete = (bankID, bankName) => {
     setSelectedBank({ bankID, bankName });
     setDialogOpen(true);
@@ -59,12 +58,11 @@ const BankRecords = () => {
     deleteBank(bankName);
   };
 
-  const handleConfirmEdit = async (event)  => {
+  const handleConfirmEdit = async (event) => {
     event.preventDefault();
 
     const { bankID } = selectedBank;
-    const updatedBank = { ...selectedBank
-      , ...editedBank };
+    const updatedBank = { ...selectedBank, ...editedBank };
     console.log("Update bank:", bankID, "Updated details:", updatedBank);
     const bank_name = updatedBank.bank_name;
     const branch = updatedBank.branch;
@@ -73,15 +71,17 @@ const BankRecords = () => {
     const pound_account = updatedBank.pound_account;
     const swift_code = updatedBank.swift_code;
     try {
-      const response = await axios.put('http://localhost:3000/update/bankRecords', { 
-        bank_name,
-        branch,
-        kes_account,
-        usd_account,
-        pound_account,
-        swift_code,
-
-    });
+      const response = await axios.put(
+        "http://localhost:3000/update/bankRecords",
+        {
+          bank_name,
+          branch,
+          kes_account,
+          usd_account,
+          pound_account,
+          swift_code,
+        }
+      );
 
       console.log(response.data); // Assuming the response contains the updated movie details
       // Reset form fields
@@ -92,9 +92,8 @@ const BankRecords = () => {
     setEditDialogOpen(false);
   };
 
-
   const deleteBank = async () => {
-    const {bankName } = selectedBank;
+    const { bankName } = selectedBank;
     try {
       const response = await axios.delete(`http://localhost:3000/delete/bank`, {
         params: {
@@ -102,7 +101,7 @@ const BankRecords = () => {
         },
       });
       console.log(response.data); // Assuming the response contains the success message
-    
+
       alert("Deleted Successfuly!");
       fetchBanks(); //update the list
     } catch (error) {
@@ -132,40 +131,42 @@ const BankRecords = () => {
 
   const columns = [
     { field: "id", headerName: " ID", width: 100 },
-    { field: 'bank_name', headerName: 'Bank Name', width: 200 },
-    { field: 'branch', headerName: 'Bank Branch', width: 150 },
-    { field: 'kes_account', headerName: 'KES Account', width: 120 },
-    { field: 'pounds_account', headerName: 'Pound Account', width: 120 },
-    { field: 'usd_account', headerName: 'USD Account', width: 120 },
-    { field: 'swift_code', headerName: 'Swift Code', width: 120 },
+    { field: "bank_name", headerName: "Bank Name", width: 200 },
+    { field: "branch", headerName: "Bank Branch", width: 150 },
+    { field: "kes_account", headerName: "KES Account", width: 100 },
+    { field: "pounds_account", headerName: "Pound Account", width: 120 },
+    { field: "usd_account", headerName: "USD Account", width: 100 },
+    { field: "swift_code", headerName: "Swift Code", width: 100 },
     {
       field: "Action",
       headerName: "Action",
-      width:100,
+      width: 100,
       renderCell: (params) => {
         const bankID = params.row.id;
         const bankName = params.row.bank_name;
         const bank = params.row;
         return (
           <>
-            <button className="InvoiceListEdit" onClick={() => handleDelete(bankID, bankName)}>
-              
+            <button
+              className="InvoiceListEdit"
+              onClick={() => handleDelete(bankID, bankName)}
+            >
               <DeleteIcon className="InvoiceListDelete" />
             </button>
 
-            <button className="InvoiceListEdit" 
-            style={{
-              marginLeft: "10px",
-            }}
-            onClick={() => handleEdit(bank)}>
-              
+            <button
+              className="InvoiceListEdit"
+              style={{
+                marginLeft: "10px",
+              }}
+              onClick={() => handleEdit(bank)}
+            >
               <EditIcon className="InvoiceListEdit" />
             </button>
           </>
         );
       },
     },
-  
   ];
 
   const generateRowsWithIds = (rows) => {
@@ -176,61 +177,64 @@ const BankRecords = () => {
   };
 
   const rowsWithIds = generateRowsWithIds(banks);
-  
+
   return (
     <Box
-    sx={{
-      display: "flex",
-      justifyContent: "center",
-      flexDirection: "column",
-      height: "100%",
-      height: 400,
-      width: "84%",
-      marginLeft: "250px",
-      marginRight: "auto",
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        height: "100%",
+        height: 500,
+        width: "80%",
+        marginLeft: "250px",
+        marginRight: "auto",
         backgroundColor: "#EDEADE",
-            padding: "20px",
-            borderRadius: "6px",
-    }}
-  >
+        padding: "20px",
+        borderRadius: "6px",
+      }}
+    >
       <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        display: "flex",
-        flexDirection: "row",
-      }}>
-        <div
         style={{
-          width: "50%",
-        }}>
-        <h1
+          display: "flex",
+          justifyContent: "space-between",
+          display: "flex",
+          flexDirection: "row",
+          marginTop: "20px",
+        }}
+      >
+        <div
           style={{
-            fontSize: "32px",
-            fontWeight: "600",
-            marginBottom: "10px",
+            width: "50%",
           }}
         >
-          Bank Records
-        </h1>
+          <h1
+            style={{
+              fontSize: "32px",
+              fontWeight: "600",
+              marginBottom: "10px",
+            }}
+          >
+            Bank Records
+          </h1>
         </div>
         <div
-        style={{
-          width: "50%",
-        }}
-        >
-        <button
-           style={{
-            backgroundColor: "green",
-            color: "white",
-            padding: "8px 16px",
-            border: "none",
-            borderRadius: "6px",
-            cursor: "pointer",
-            transition: "background-color 0.2s",
-            marginRight: "10px",
-            marginLeft: "80%",
+          style={{
+            width: "50%",
           }}
+        >
+          <button
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer",
+              transition: "background-color 0.2s",
+              marginRight: "10px",
+              marginLeft: "80%",
+            }}
             type="button"
             onClick={() => navigate(-1)}
           >
@@ -238,17 +242,15 @@ const BankRecords = () => {
           </button>
         </div>
       </div>
-    
-      <DataGrid
-          rows={rowsWithIds}
-          columns={columns}
-          pageSize={5}
-      />
+
+      <DataGrid rows={rowsWithIds} columns={columns} pageSize={5} />
 
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>
         <DialogTitle>Delete Confirmation</DialogTitle>
         <DialogContent>
-          <p>Are you sure you want to delete: <br /> {selectedBank.bankName}?</p>
+          <p>
+            Are you sure you want to delete: <br /> {selectedBank.bankName}?
+          </p>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="primary">
@@ -260,14 +262,13 @@ const BankRecords = () => {
         </DialogActions>
       </Dialog>
 
-
       <Dialog open={editDialogOpen} onClose={handleCloseEditDialog}>
         <DialogTitle>Edit Bank Details</DialogTitle>
         <DialogContent>
           <TextField
-          style={{
-            marginTop: "10px",
-          }}
+            style={{
+              marginTop: "10px",
+            }}
             name="bank_name"
             label="Bank Name"
             fullWidth
@@ -275,9 +276,9 @@ const BankRecords = () => {
             onChange={handleEditInputChange}
           />
           <TextField
-          style={{
-            marginTop: "10px",
-          }}
+            style={{
+              marginTop: "10px",
+            }}
             name="bank_brach"
             label="Branch"
             fullWidth
@@ -285,9 +286,9 @@ const BankRecords = () => {
             onChange={handleEditInputChange}
           />
           <TextField
-          style={{
-            marginTop: "10px",
-          }}
+            style={{
+              marginTop: "10px",
+            }}
             name="kes_account"
             label="KES Account"
             fullWidth
@@ -295,9 +296,9 @@ const BankRecords = () => {
             onChange={handleEditInputChange}
           />
           <TextField
-          style={{
-            marginTop: "10px",
-          }}
+            style={{
+              marginTop: "10px",
+            }}
             name="usd_account"
             label="USD Account"
             fullWidth
@@ -305,9 +306,9 @@ const BankRecords = () => {
             onChange={handleEditInputChange}
           />
           <TextField
-          style={{
-            marginTop: "10px",
-          }}
+            style={{
+              marginTop: "10px",
+            }}
             name="pound_account"
             label="Pound Account"
             fullWidth
@@ -315,9 +316,9 @@ const BankRecords = () => {
             onChange={handleEditInputChange}
           />
           <TextField
-          style={{
-            marginTop: "10px",
-          }}
+            style={{
+              marginTop: "10px",
+            }}
             name="swift"
             label="Swift code"
             fullWidth
@@ -334,11 +335,8 @@ const BankRecords = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
-    
     </Box>
   );
 };
 
 export default BankRecords;
-

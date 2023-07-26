@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Box } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { Box } from "@mui/material";
+import axios from "axios";
+import {useNavigate} from 'react-router-dom';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 
 export default function CreateDistributor() {
   const {
@@ -10,6 +16,9 @@ export default function CreateDistributor() {
     reset,
     formState: { errors },
   } = useForm();
+
+  const navigate = useNavigate();
+
 
   const [distID, setdistID] = useState("");
   const [distName, setDistName] = useState("");
@@ -51,25 +60,80 @@ export default function CreateDistributor() {
   return (
     <form
     onSubmit={handleSubmit(onSubmit)}
-      style={{
-        height: 400,
+         style={{
         width: "60%",
         marginLeft: "auto",
         marginRight: "auto",
+        backgroundColor: "#FFDEAD",
+        maxWidth: "800px",
+        padding: "20px",
+        borderRadius: "6px",
+        marginBottom: "20px",
       }}
     >
-      <div>
-        <h1
+      <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        display: "flex",
+        flexDirection: "row",
+      }}>
+        <div
+        style={{
+          width: "50%",
+        }}>
+          <h1
           style={{
             fontSize: "32px",
-            fontWeight: "500",
+            fontWeight: "600",
             marginBottom: "10px",
           }}
         >
-          Create New Distributor
+          New Distributor
         </h1>
-        <label htmlFor="distID">Distributor ID: </label>
+        </div>
+        <div
+        style={{
+          width: "50%",
+        }}
+        >
+             <button
+           style={{
+            backgroundColor: "green",
+            color: "white",
+            padding: "8px 16px",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+            transition: "background-color 0.2s",
+            marginRight: "10px",
+            marginLeft: "80%",
+          }}
+            type="button"
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </button>
+
+        </div>
+      </div>
+
+
+      <div>
+               
+        <label htmlFor="distID"
+         style={{ 
+          display: "block", 
+          marginBottom: "5px", 
+        }}
+        >Distributor ID: </label>
         <input
+        style={{
+          width: "100%", 
+          padding: "10px", 
+          border: "1px solid #ccc", 
+          borderRadius: "6px" 
+         }}
           type="text"
           id="distID"
           placeholder="Distributor ID"
@@ -82,8 +146,19 @@ export default function CreateDistributor() {
 
 
       <div>
-        <label htmlFor="distName">Distributor Name: </label>
+        <label htmlFor="distName"
+         style={{ 
+          display: "block", 
+          marginBottom: "5px", 
+        }}
+        >Distributor Name: </label>
         <input
+        style={{
+          width: "100%", 
+          padding: "10px", 
+          border: "1px solid #ccc", 
+          borderRadius: "6px" 
+         }}
           type="text"
           id="distName"
           placeholder="Enter Distributor Dame"
@@ -95,8 +170,19 @@ export default function CreateDistributor() {
       </div>
 
       <div>
-        <label htmlFor="distEmail">Distributor Email: </label>
+        <label htmlFor="distEmail"
+         style={{ 
+          display: "block", 
+          marginBottom: "5px", 
+        }}
+        >Distributor Email: </label>
         <input
+        style={{
+          width: "100%", 
+          padding: "10px", 
+          border: "1px solid #ccc", 
+          borderRadius: "6px" 
+         }}
           type="email"
           id="distEmail"
           placeholder="enter distributor email"
@@ -108,8 +194,19 @@ export default function CreateDistributor() {
       </div>
 
       <div>
-        <label htmlFor="distLocation">Distributor Location: </label>
+        <label htmlFor="distLocation"
+         style={{ 
+          display: "block", 
+          marginBottom: "5px", 
+        }}
+        >Distributor Location: </label>
         <input
+        style={{
+          width: "100%", 
+          padding: "10px", 
+          border: "1px solid #ccc", 
+          borderRadius: "6px" 
+         }}
           type="text"
           id="distLocation"
           placeholder="enter distributor location"
@@ -121,8 +218,19 @@ export default function CreateDistributor() {
       </div>
 
       <div>
-        <label htmlFor="dtelephone">Telephone: </label>
+        <label htmlFor="dtelephone"
+         style={{ 
+          display: "block", 
+          marginBottom: "5px", 
+        }}
+        >Telephone: </label>
         <input
+        style={{
+          width: "100%", 
+          padding: "10px", 
+          border: "1px solid #ccc", 
+          borderRadius: "6px" 
+         }}
           type="phone"
           id="dtelephone"
           placeholder="0723543332"
@@ -137,8 +245,19 @@ export default function CreateDistributor() {
       </div>
 
       <div>
-        <label htmlFor="distAddress">Distributors Address: </label>
+        <label htmlFor="distAddress"
+         style={{ 
+          display: "block", 
+          marginBottom: "5px", 
+        }}
+        >Distributors Address: </label>
         <input
+        style={{
+          width: "100%", 
+          padding: "10px", 
+          border: "1px solid #ccc", 
+          borderRadius: "6px" 
+         }}
           type="text"
           id="distAddress"
           placeholder="distributrors address"
@@ -153,8 +272,10 @@ export default function CreateDistributor() {
         sx={{
           display: "flex",
           justifyContent: "center",
-          height: "100%",
+          height: "30%",
+          display: "flex",
           flexDirection: "row",
+          marginTop: "20px",
         }}
       >
         <div
@@ -163,14 +284,16 @@ export default function CreateDistributor() {
           }}
         >
           <button
-            style={{
-              backgroundColor: "green",
-              color: "white",
-              Padding: "6px",
-              height: "10%",
-              width: "20%",
-              borderRadius: "6px",
-            }}
+              style={{
+                backgroundColor: "green",
+                color: "white",
+                padding: "12px 20px",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                transition: "background-color 0.2s",
+                marginRight: "10px",
+              }}
             type="submit"
           >
             Submit
@@ -182,13 +305,16 @@ export default function CreateDistributor() {
           }}
         >
           <button
-            style={{
+             style={{
               backgroundColor: "green",
               color: "white",
-              Padding: "6px",
-              height: "10%",
-              width: "30%",
+              padding: "12px 20px",
+              border: "none",
               borderRadius: "6px",
+              cursor: "pointer",
+              transition: "background-color 0.2s",
+              marginRight: "10px",
+              marginLeft: "60%",
             }}
             type="button"
             onClick={handleClearForm}

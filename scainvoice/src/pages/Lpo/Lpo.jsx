@@ -18,7 +18,7 @@ export default function Lpo() {
     <Box
     sx={{
       display: 'flex',
-      justifyContent: 'start',
+      justifyContent: 'center',
       height: '100%',
     }}
   >
@@ -26,7 +26,7 @@ export default function Lpo() {
 <Box sx={{ margin: 2 }}>
         <Paper
           elevation={3}
-          sx={{ p: 3, width: 400, cursor: 'pointer' }}
+          sx={{ p: 3, width: 360, cursor: 'pointer' }}
           onClick={handleNewLpoClick}
         >
           <Typography variant="h4">New LPO</Typography>
@@ -45,7 +45,7 @@ export default function Lpo() {
 
       <Box sx={{ margin: 2 }}>
         <Paper elevation={3}
-          sx={{ p: 3, width: 400, cursor: 'pointer' }}
+          sx={{ p: 3, width: 360, cursor: 'pointer' }}
           onClick={handleLpoRecordsClick}
         >
           <Typography variant="h4">LPO Records</Typography>

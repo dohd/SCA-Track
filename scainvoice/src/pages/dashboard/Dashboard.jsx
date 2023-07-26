@@ -73,9 +73,17 @@ Inside createTheme, we define the palette object with a mode property. The value
           >
             <MenuIcon />
           </IconButton>
-
+          <Box
+            component="img"
+            sx={{
+            height: 0,
+            width:100,
+            }}
+            alt="Spartec Consortium Africa."
+            src="logo512.png"
+          />
           <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
-            Spartec   
+            Spartec  Consotrium Africa 
          </Typography>
          <IconButton>
           {/*color mode here*/}

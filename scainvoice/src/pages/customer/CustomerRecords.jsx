@@ -5,13 +5,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const DataTable = () => {
   const [customers, setCustomers] = useState([]);
@@ -56,13 +56,17 @@ const DataTable = () => {
     deleteCustomer(customerName);
   };
 
-  
-  const handleConfirmEdit = async (event)  => {
+  const handleConfirmEdit = async (event) => {
     event.preventDefault();
 
     const { customerID } = selectedCustomer;
     const updatedCustomer = { ...selectedCustomer, ...editedCustomer };
-    console.log("Update customer:", customerID, "Updated details:", updatedCustomer);
+    console.log(
+      "Update customer:",
+      customerID,
+      "Updated details:",
+      updatedCustomer
+    );
     const customer_address = updatedCustomer.customer_address;
     const customer_email = updatedCustomer.customer_email;
     const customer_location = updatedCustomer.customer_location;
@@ -72,17 +76,19 @@ const DataTable = () => {
     const customer_name = updatedCustomer.customer_name;
     const kra_pin = updatedCustomer.kra_pin;
     try {
-      const response = await axios.put('http://localhost:3000/update/customers', { 
-      customer_address,
-      customer_email,
-      customer_location,
-      customer_phone,
-      customer_po_number,
-      customer_street,
-      customer_name,
-      kra_pin,
-
-    });
+      const response = await axios.put(
+        "http://localhost:3000/update/customers",
+        {
+          customer_address,
+          customer_email,
+          customer_location,
+          customer_phone,
+          customer_po_number,
+          customer_street,
+          customer_name,
+          kra_pin,
+        }
+      );
 
       console.log(response.data); // Assuming the response contains the updated movie details
       // Reset form fields
@@ -93,25 +99,25 @@ const DataTable = () => {
     setEditDialogOpen(false);
   };
 
-  
   const deleteCustomer = async () => {
-    const {customerName } = selectedCustomer;
+    const { customerName } = selectedCustomer;
     try {
-      const response = await axios.delete(`http://localhost:3000/delete/customer`, {
-        params: {
-          customerName,
-        },
-      });
+      const response = await axios.delete(
+        `http://localhost:3000/delete/customer`,
+        {
+          params: {
+            customerName,
+          },
+        }
+      );
       console.log(response.data); // Assuming the response contains the success message
-    
+
       alert("Deleted Successfuly!");
       fetchCustomers(); //update the list
     } catch (error) {
       console.error(error);
     }
   };
-
-
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
@@ -152,17 +158,20 @@ const DataTable = () => {
         const customer = params.row;
         return (
           <>
-            <button className="InvoiceListEdit" onClick={() => handleDelete(customerID, customerName)}>
-              
+            <button
+              className="InvoiceListEdit"
+              onClick={() => handleDelete(customerID, customerName)}
+            >
               <DeleteIcon className="InvoiceListDelete" />
             </button>
 
-            <button className="InvoiceListEdit" 
-            style={{
-              marginLeft: "10px",
-            }}
-            onClick={() => handleEdit(customer)}>
-              
+            <button
+              className="InvoiceListEdit"
+              style={{
+                marginLeft: "10px",
+              }}
+              onClick={() => handleEdit(customer)}
+            >
               <EditIcon className="InvoiceListEdit" />
             </button>
           </>
@@ -185,18 +194,18 @@ const DataTable = () => {
       sx={{
         display: "flex",
         justifyContent: "center",
+        flexDirection: "column",
         height: "100%",
+        height: 500,
+        width: "80%",
+        marginLeft: "250px",
+        marginRight: "auto",
+        backgroundColor: "#EDEADE",
+        padding: "20px",
+        borderRadius: "6px",
       }}
     >
-      <div
-        style={{
-          height: 480,
-          width: "80%",
-          marginLeft: "280px",
-          marginRight: "0",
-        }}
-      >
- <div
+        <div
           style={{
             display: "flex",
             justifyContent: "space-between",
@@ -241,20 +250,21 @@ const DataTable = () => {
             >
               Back
             </button>
-          </div>
         </div>
-
-        <DataGrid
-          rows={rowsWithIds}
-          columns={columns}
-          pageSize={5}
-        />
+        
       </div>
+      <DataGrid 
+        rows={rowsWithIds} 
+        columns={columns} 
+        pageSize={5} />
 
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>
         <DialogTitle>Delete Confirmation</DialogTitle>
         <DialogContent>
-          <p>Are you sure you want to delete: <br /> {selectedCustomer.customerName}?</p>
+          <p>
+            Are you sure you want to delete: <br />{" "}
+            {selectedCustomer.customerName}?
+          </p>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="primary">
@@ -266,14 +276,13 @@ const DataTable = () => {
         </DialogActions>
       </Dialog>
 
-
       <Dialog open={editDialogOpen} onClose={handleCloseEditDialog}>
         <DialogTitle>Edit Customer Details</DialogTitle>
         <DialogContent>
           <TextField
-          style={{
-            marginTop: "10px",
-          }}
+            style={{
+              marginTop: "10px",
+            }}
             name="customer_name"
             label="Customer Name"
             fullWidth
@@ -281,9 +290,9 @@ const DataTable = () => {
             onChange={handleEditInputChange}
           />
           <TextField
-          style={{
-            marginTop: "10px",
-          }}
+            style={{
+              marginTop: "10px",
+            }}
             name="customer_email"
             label="Email"
             fullWidth
@@ -291,9 +300,9 @@ const DataTable = () => {
             onChange={handleEditInputChange}
           />
           <TextField
-          style={{
-            marginTop: "10px",
-          }}
+            style={{
+              marginTop: "10px",
+            }}
             name="customer_street"
             label="Street"
             fullWidth
@@ -301,9 +310,9 @@ const DataTable = () => {
             onChange={handleEditInputChange}
           />
           <TextField
-          style={{
-            marginTop: "10px",
-          }}
+            style={{
+              marginTop: "10px",
+            }}
             name="customer_address"
             label="Address"
             fullWidth
@@ -311,9 +320,9 @@ const DataTable = () => {
             onChange={handleEditInputChange}
           />
           <TextField
-          style={{
-            marginTop: "10px",
-          }}
+            style={{
+              marginTop: "10px",
+            }}
             name="customer_location"
             label="Location"
             fullWidth
@@ -321,9 +330,9 @@ const DataTable = () => {
             onChange={handleEditInputChange}
           />
           <TextField
-          style={{
-            marginTop: "10px",
-          }}
+            style={{
+              marginTop: "10px",
+            }}
             name="kra_pin"
             label="Pin No"
             fullWidth
@@ -331,9 +340,9 @@ const DataTable = () => {
             onChange={handleEditInputChange}
           />
           <TextField
-          style={{
-            marginTop: "10px",
-          }}
+            style={{
+              marginTop: "10px",
+            }}
             name="customer_phone"
             label="Phone"
             fullWidth
@@ -350,8 +359,6 @@ const DataTable = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
-
     </Box>
   );
 };

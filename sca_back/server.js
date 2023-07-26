@@ -229,25 +229,24 @@ app.get("/read_invoice_number", (req, res) => {
 // API endpoint to add a new invoice item
 app.post("/add_invoice_item", (req, res) => {
   const {
-    invoice_number,
-    item_name,
+    invoiceNumberString,
+    itemDescription,
     quantity,
-    unit_price,
-    total_price,
-    currency,
+    unitPrice,
+    totalPrice,
+    selectedCurrency,
   } = req.body;
   const query =
-    "INSERT INTO invoices(item_id, invoice_number, item_name, quantity, unit_price, total_price, currency) VALUES (?,?, ?, ?, ?,?, ?);";
+    "INSERT INTO invoices(invoice_number, item_name, quantity, unit_price, total_price, currency) VALUES (?,?, ?, ?, ?,?);";
   connection.query(
     query,
     [
-      item_id,
-      invoice_number,
-      item_name,
+      invoiceNumberString,
+      itemDescription,
       quantity,
-      unit_price,
-      total_price,
-      currency,
+      unitPrice,
+      totalPrice,
+      selectedCurrency,
     ],
     (err, result) => {
       if (err) throw err;
@@ -258,9 +257,10 @@ app.post("/add_invoice_item", (req, res) => {
 
 // Define API endpoint to fetch invoice items
 app.get("/read_invoiceItems", (req, res) => {
+  let  invoiceNumberString = req.query. invoiceNumberString;
   const query =
-    "SELECT item_name, quantity, unit_price, total_price, currency  FROM invoices WHERE invoice_number = ?;";
-  connection.query(query, [invoice_number], (err, results) => {
+    " SELECT * FROM invoices WHERE invoice_number = ?;";
+  connection.query(query, [invoiceNumberString], (err, results) => {
     if (err) {
       console.error("Error querying invoice records:", err);
       res.status(500).json({ error: "Failed to fetch invoice records" });
@@ -297,27 +297,44 @@ app.get("/read_invoiceMessages", (req, res) => {
 
 // API endpoint to add a new lpo item
 app.post("/add_lpo_item", async (req, res) => {
-  const { lpoNumberString, itemList } = req.body;
-
-  for (const item of itemList) {
-    // Insert each item along with the corresponding LPONumber into the database table
-    const query =
-    "INSERT INTO lpo_s(lpo_number, item_name, quantity, unit_price, total_price, currency) VALUES (?,?, ?, ?, ?,?, ?);";
-    const values = [lpoNumberString, itemList.itemDescription, itemList.quantity, itemList.unitPrice, itemList.subtotal];
-
-    await pool.query(query, values);
-  }
-
-  connection.query(
-    query,values,
-    (err, result) => {
-      if (err) throw err;
-      res.sendStatus(200);
-    }
-  );
+  const {
+    lpoNumberString,
+    itemDescription,
+    quantity,
+    unitPrice,
+    totalPrice,
+    selectedCurrency,
+  } = req.body;
+  const query =
+    "INSERT INTO lpo_s(lpo_number, item_name, quantity, unit_price, total_price, currency) VALUES (?,?, ?, ?, ?,?);";
+  connection.query(query, [
+    lpoNumberString,
+    itemDescription,
+    quantity,
+    unitPrice,
+    totalPrice,
+    selectedCurrency,
+  ], (err, result) => {
+    if (err) throw err;
+    res.sendStatus(200);
+  });
 });
 
+// Define API endpoint to fetch lpo itemsr 
+app.get("/read_lpoItems", (req, res) => {
 
+  let  lpoNumberString = req.query. lpoNumberString;
+
+  const query = "SELECT * FROM lpo_s WHERE lpo_number = ? ";
+  connection.query(query,[lpoNumberString],(err, results) => {
+    if (err) {
+      console.error("Error querying lpo items.", err);
+      res.status(500).json({ error: "Failed to fetch lpo NO" });
+      return;
+    }
+    res.json(results);
+  });
+});
 
 // API endpoint to add a new lpo message
 app.post("/add_lpo_message", (req, res) => {
@@ -376,7 +393,7 @@ app.post("/add_lpo", (req, res) => {
     lpoNumberString,
             lpo_date,
             days,
-            totalPrice,
+            subtotalPrice,
             overallTotalPrice,
             vatPrice,
             selectedDistributor,
@@ -388,7 +405,7 @@ app.post("/add_lpo", (req, res) => {
     lpo_date,
     days,
     overallTotalPrice,
-    totalPrice,
+    subtotalPrice,
     vatPrice,
     selectedDistributor,], (err, result) => {
     if (err) throw err;
@@ -765,11 +782,13 @@ app.delete("/delete/distributor", (req, res) => {
 
 // Delete  invoice item route
 app.delete("/delete/invoiceItem", (req, res) => {
-  const { invoice_number, item_id } = req.body;
+  
+  let invoiceNumberString  = req.query. invoiceNumberString;
+  let  itemName = req.query.itemName;
 
   // Delete the invoice item from the database
-  const query = `DELETE FROM invoices WHERE item_id = ? AND invoice_number = ?;`;
-  connection.query(query, [item_id, invoice_number], (err, result) => {
+  const query = `DELETE FROM invoices WHERE item_name = ? AND invoice_number = ?;`;
+  connection.query(query, [itemName, invoiceNumberString], (err, result) => {
     if (err) {
       console.error(err);
       res
@@ -801,11 +820,12 @@ app.delete("/delete/invoiceMsg", (req, res) => {
 
 // Delete  lpo item route
 app.delete("/delete/lpoItem", (req, res) => {
-  let itemName = req.query.itemName;
+  let  lpoNumberString = req.query. lpoNumberString;
+  let  itemName = req.query.itemName;
 
   // Delete the lpo item from the database
-  const query = `DELETE FROM lpo_s WHERE item_name = ? ;`;
-  connection.query(query, [itemName], (err, result) => {
+  const query = `DELETE FROM lpo_s WHERE item_name = ? AND lpo_number = ?;`;
+  connection.query(query, [itemName,lpoNumberString], (err, result) => {
     if (err) {
       console.error(err);
       res
@@ -835,14 +855,10 @@ app.delete("/delete/lpoMsg", (req, res) => {
   });
 });
 
-// Start the server
-const port = 3000; // You can change this port number if needed
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+
 
 //counting
-//count customers
+//count banks
 app.get("/countBanks", (req, res) => {
   const query = "SELECT COUNT(*) as count_banks FROM bank_records;";
   connection.query(query, (err, results) => {
@@ -853,4 +869,63 @@ app.get("/countBanks", (req, res) => {
     }
     res.json(results);
   });
+});
+
+//count customers
+app.get("/countCustomers", (req, res) => {
+  const query = "SELECT COUNT(*) as count_customers FROM customer_details;";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying customer records:", err);
+      res.status(500).json({ error: "Failed to count bank records" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+//count distributors
+app.get("/countDistributors", (req, res) => {
+  const query = "SELECT COUNT(*) as count_dist FROM distributor_records;";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying customer records:", err);
+      res.status(500).json({ error: "Failed to count bank records" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+//count invoices
+app.get("/countInvoices", (req, res) => {
+  const query = "SELECT COUNT(*) as count_invoices FROM invoice_details;";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying customer records:", err);
+      res.status(500).json({ error: "Failed to count bank records" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+//count LPOs
+app.get("/countLPOs", (req, res) => {
+  const query = "SELECT COUNT(*) as count_LPOs FROM lpo_dates;";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying customer records:", err);
+      res.status(500).json({ error: "Failed to count bank records" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+
+// Start the server
+const port = 3000; // You can change this port number if needed
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });

@@ -43,6 +43,7 @@ export default function NewInvoice() {
   const [quantity, setQuantity] = useState(0);
   const [unitPrice, setUnitPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [subtotalPrice, setSubTotalPrice] = useState(0);
   const [vatPrice, setVatPrice] = useState(0);
   const [overallTotalPrice, setOverallTotalPrice] = useState(0);
   const [message, setMessage] = useState("");
@@ -173,40 +174,112 @@ export default function NewInvoice() {
     let currentInvoiveNumber = incrementInvoiceNumber(invoiceNumberString);
     console.log("New INV Number:", currentInvoiveNumber); 
 
-//adds item to the list
-    const handleAddItem = () => {
-      const newItem = {
-        itemDescription: itemDescription,
-        quantity: quantity,
-        unitPrice: unitPrice,
-        subtotal: quantity * unitPrice,
+  // start sending data to backend
+    //add invoice items
+    const addItem = (data) => {
+      const handleSubmit = async (event) => {
+        try {
+          await axios.post("http://localhost:3000/add_invoice_item", {
+            invoiceNumberString,
+            itemDescription,
+            quantity,
+            unitPrice,
+            totalPrice,
+            selectedCurrency,
+          });
+          setItemDescription("");
+          setQuantity(0);
+          setUnitPrice(0);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      handleSubmit();
+    };
+
+    useEffect(() => {
+      // Whenever quantity or unit price changes, update the total price and send it to the backend
+      const total = quantity * unitPrice;
+      setTotalPrice(total);
+    }, [quantity, unitPrice]);
+
+    useEffect(() => {
+      // Calculate the total from the data whenever the data changes
+      const calculateTotal = () => {
+        const subtotalArr = itemList.map((item) => item.total_price);
+        const totalAmount = subtotalArr.reduce((acc, curr) => acc + curr, 0);
+        setSubTotalPrice(totalAmount);
       };
   
-      setItemList([...itemList, newItem]);
-      setTotalPrice(totalPrice + newItem.subtotal);
-      // Reset the form fields after adding the item
-      setItemDescription("");
-      setQuantity(0);
-      setUnitPrice(0);
+      calculateTotal();
+    }, [itemList]);
+
+    useEffect(() => {
+      // Calculate the VAT (16% of the total) whenever the total changes
+      const calculateVAT = () => {
+        const vatAmount = subtotalPrice * 0.16;
+        setVatPrice(vatAmount);
+      };
+  
+      calculateVAT();
+    }, [subtotalPrice]);
+
+    useEffect(() => {
+      // Calculate the overall total (total + VAT) whenever the VAT changes
+      const calculateOverallTotal = () => {
+        const overallTotalAmount = subtotalPrice + vatPrice;
+        setOverallTotalPrice(overallTotalAmount);
+      };
+  
+      calculateOverallTotal();
+    }, [vatPrice]);
+
+    const handleQuantityChange = (event) => {
+      setQuantity(Number(event.target.value));
     };
+  
+    const handleUnitPriceChange = (event) => {
+      setUnitPrice(Number(event.target.value));
+    };
+  
+    const fetchInvoiceItems = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/read_invoiceItems", {
+          params: {
+            invoiceNumberString,
+          },
+        });
+        setItemList(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchInvoiceItems();
+
+    useEffect(() => {
+      fetchInvoiceItems();
+    }, []);
 
     const columns = [
       { field: "id", headerName: "NO", width: 80 },
-      { field: "itemDescription", headerName: "Description", width: 300 },
+      { field: "item_name", headerName: "Description", width: 300 },
       { field: "quantity", headerName: "Qty", width: 80 },
-      { field: "unitPrice", headerName: "Unit price", width: 100 },
-      { field: "subtotal", headerName: "Total Price", width: 100 },
+      { field: "unit_price", headerName: "Unit price", width: 100 },
+      { field: "total_price", headerName: "Total Price", width: 100 },
       {
         field: "Action",
         headerName: "Action",
         width: 100,
         renderCell: (params) => {
           const itemID = params.row.id;
+          const itemName = params.row.item_name;
           return (
             <>
               <button
                 className="InvoiceListEdit"
-                onClick={() => handleDeleteItem(itemID)}
+                onClick={() => handleDelete(itemID, itemName)}
               >
                 <DeleteIcon className="InvoiceListDelete" />
               </button>
@@ -225,44 +298,32 @@ export default function NewInvoice() {
 
     const rowsWithIds = generateRowsWithIds(itemList);
 
-    const handleDeleteItem = (itemID) => {
-      const itemIDString = itemID.toString();
-      const deletedItem = itemList.find((item) => item.id === itemIDString);
-  
-      if (deletedItem) {
-        setTotalPrice(totalPrice - deletedItem.subtotal);
-        setItemList(itemList.filter((item) => item.id !== itemIDString));
-      }
-    };
+  //delete item
+  const handleDelete = async (itemID, itemName) => {
 
-    useEffect(() => {
-      // Recalculate VAT and Overall Total whenever totalPrice changes
-      setVatPrice(totalPrice * 0.16);
-      setOverallTotalPrice(totalPrice + totalPrice * 0.16);
-    }, [totalPrice]);
-
-
-    // sending data to DB
-    // Function to send the items to the backend
-  const sendItemsToBackend = () => {
-    const dataToSend = {
-      invoiceNumberString,
-      itemList,
-    };
-
-    axios
-      .post("http://localhost:3000/add_invoice_item", { dataToSend })
-      .then((response) => {
-        // Handle the response from the backend if needed
-        console.log("Items sent successfully!");
-        alert("done");
-      })
-      .catch((error) => {
-        // Handle any errors that occurred during the request
-        console.error("Error sending items to the backend:", error);
-        alert("error");
-      });
+    try {
+      const response = await axios.delete(
+        `http://localhost:3000/delete/invoiceItem`,
+        {
+          params: {
+            invoiceNumberString,
+            itemName,
+          },
+        }
+      );
+      console.log(response.data); 
+      setItemDescription("");
+      setQuantity(0);
+      setUnitPrice(0);
+      alert("Deleted Successfuly!");
+      fetchInvoiceItems(); //update the list
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+
+ 
 
     const clearForm = () => {
       setItemDescription("");
@@ -354,6 +415,7 @@ export default function NewInvoice() {
           backgroundColor: "#FFDEAD",
           padding: "20px",
           borderRadius: "6px",
+          marginLeft: "60px",
         }}
       >
       <div
@@ -610,7 +672,7 @@ export default function NewInvoice() {
               marginBottom: "6px",
               marginTop: "10px",
             }}
-            onClick={handleAddItem}
+            onClick={addItem}
           >
             Add Item
           </button>
@@ -678,7 +740,7 @@ export default function NewInvoice() {
                 marginBottom: "10px",
               }}
             >
-              Sub-Total Price: {totalPrice}
+              Sub-Total Price: {subtotalPrice}
             </h3>
             <h3
               style={{

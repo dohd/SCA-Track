@@ -76,10 +76,10 @@ export default function CreateNewBank() {
         marginLeft: "auto",
         marginRight: "auto",
         backgroundColor: "#FFDEAD",
-            maxWidth: "800px",
-            padding: "20px",
-            borderRadius: "6px",
-            marginBottom: "20px",
+        maxWidth: "800px",
+        padding: "20px",
+        borderRadius: "6px",
+        marginBottom: "20px",
       }}
     >
       <div
@@ -136,7 +136,7 @@ export default function CreateNewBank() {
           }}
           >Bank Name: </label>
           <input
-          style={{
+            style={{
              width: "100%", 
              padding: "10px", 
              border: "1px solid #ccc", 

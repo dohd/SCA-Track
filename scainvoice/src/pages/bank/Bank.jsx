@@ -16,16 +16,16 @@ const Customer = () => {
 
   return (
     <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'left',
-        height: '100%',
-      }}
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      height: '100%',
+    }}
     >
       <Box sx={{ margin: 2 }}>
         <Paper
           elevation={3}
-          sx={{ p: 3, width: 300, cursor: 'pointer' }}
+          sx={{ p: 3, width: 360, cursor: 'pointer' }}
           onClick={handleNewBankClick}
         >
           <Typography variant="h4">New Bank</Typography>
@@ -44,7 +44,7 @@ const Customer = () => {
 
       <Box sx={{ margin: 2 }}>
         <Paper elevation={3}
-          sx={{ p: 3, width: 300, cursor: 'pointer' }}
+          sx={{ p: 3, width: 360, cursor: 'pointer' }}
           onClick={handleBankRecordsClick}
         >
           <Typography variant="h4">Bank Records</Typography>
