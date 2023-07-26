@@ -7,7 +7,7 @@ const root = () => {
     
   return (
    <>
-   <Dashboard/>
+   <Login/>
   
    </>
   )

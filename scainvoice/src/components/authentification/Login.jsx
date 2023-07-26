@@ -72,9 +72,23 @@ const Login = () => {
     const handlelogreg=()=>{
         console.log('this is the reg section')
     }
-    const handlesignin = ()=>{
-      console.log("/dashboard")
+   // State variable to hold the desired dashboard path for redirection
+  const [redirectTo, setRedirectTo] = useState('');
+
+  const handlesignin = () => {
+    // Set the desired dashboard path based on the selected role
+    if (selectedOption === 'user') {
+      setRedirectTo('/dashboard');
+    } else if (selectedOption === 'admin') {
+      setRedirectTo('/dashboard');
     }
+  };
+  // Watch for changes in the redirectTo state variable and perform redirection when it changes
+  useEffect(() => {
+    if (redirectTo) {
+      window.location.href = redirectTo;
+    }
+  }, [redirectTo]);
 
 
 
