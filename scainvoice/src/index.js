@@ -15,14 +15,14 @@ import LpoRecord from "./pages/Lpo/lpoRecord";
 import NewLpo from "./pages/Lpo/NewLpo";
 import Bank from "./pages/bank/Bank";
 import Customer from './pages/customer/Customer';
-import CreateInvoice from './pages/Invoice/CreateInvoice';
-import Invoice from './pages/Invoice/Invoice';
-import InvoiceList from './pages/Invoice/InvoiceList';
+import CreateInvoice from './pages/invoice/CreateInvoice';
+import Invoice from './pages/invoice/Invoice';
+import InvoiceList from './pages/invoice/InvoiceList';
 import CreateNewBank from './pages/bank/CreateNewBank';
 import BankRecords from './pages/bank/BankRecords';
 import CreateDistributor from "./pages/distributors/CreateDistributor";
 import DistributorRecords from "./pages/distributors/DistributorRecords";
-import DispatchedInvoice from "./pages/Invoice/DispatchedInvoice";
+import DispatchedInvoice from "./pages/invoice/DispatchedInvoice";
 import Register from "./components/authentification/Register";
 import Login from "./components/authentification/Login";
 const router = createBrowserRouter(
@@ -35,6 +35,8 @@ const router = createBrowserRouter(
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
+      
+       
       {
         path:"/register",
         element:<Register/>,

@@ -41,7 +41,7 @@ const AppBar = styled(MuiAppBar, {
 
 export default function Dashboard() {
   
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [dark, setDark] = useState(true);
   
 {/*In the code above, we define a state variable dark using the useState hook, and initialize it with the value true. We also have a setDark function to update the value of dark when needed.
@@ -73,25 +73,25 @@ Inside createTheme, we define the palette object with a mode property. The value
           >
             <MenuIcon />
           </IconButton>
-
-          <div style={{ display: "flex", alignItems: "center" }}>
-  <img
-    src="assets/logo.png" 
-    height="40px"
-    style={{ marginRight: "10px" }} 
-  />
-  <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-    Spartec
-  </Typography>
-</div>
-
+          <Box
+            component="img"
+            sx={{
+            height: 0,
+            width:100,
+            }}
+            alt="Spartec Consortium Africa."
+            src="logo512.png"
+          />
+          <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
+            Spartec  Consotrium Africa 
+         </Typography>
          <IconButton>
           {/*color mode here*/}
          </IconButton>
         </Toolbar>
       </AppBar>
       <Sidelist {...{open,setOpen}}/>
-     
+      
       </Box>
       
       

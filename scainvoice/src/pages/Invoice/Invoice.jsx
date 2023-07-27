@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import { Group, Restore, History } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+
 const Invoice = () => {
   const navigate = useNavigate();
 
@@ -24,7 +25,7 @@ const Invoice = () => {
       <Box sx={{ margin: 2 }}>
         <Paper
           elevation={3}
-          sx={{ p: 3, width: 300, cursor: 'pointer' }}
+          sx={{ p: 3, width: 360, cursor: 'pointer' }}
           onClick={handleNewInvoiceClick}
         >
           <Typography variant="h4">New Invoice</Typography>
@@ -42,8 +43,9 @@ const Invoice = () => {
       </Box>
 
       <Box sx={{ margin: 2 }}>
+        
         <Paper elevation={3}
-          sx={{ p: 3, width: 300, cursor: 'pointer' }}
+          sx={{ p: 3, width: 360, cursor: 'pointer' }}
           onClick={handleInvoiceRecordsClick}
         >
           <Typography variant="h4">Invoice Records</Typography>

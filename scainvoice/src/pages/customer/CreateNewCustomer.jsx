@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import axios from "axios";
-import { Padding } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
 
 const CustomerForm = () => {
   const {
@@ -12,30 +17,45 @@ const CustomerForm = () => {
     formState: { errors },
   } = useForm();
 
-  const [custId, setCustID] = useState("");
+  const navigate = useNavigate();
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const openMyDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
+  const [custEmail, setcustEmail] = useState("");
   const [custName, setCustName] = useState("");
+  const [custPIN, setCustPIN] = useState("");
   const [custStreet, setCustStreet] = useState("");
   const [custAddress, setCustAddress] = useState("");
   const [custPONumber, setCustPONumber] = useState("");
   const [custLocation, setCustLocation] = useState("");
   const [telephone, setTelephone] = useState("");
-  const[custEmail, setcustEmail]= useState("");
+  const [custID, setCustID] = useState([]);
 
   const onSubmit = (data) => {
     const handleSubmit = async (event) => {
       try {
         await axios.post("http://localhost:3000/add_customers", {
-          custId,
+          custIDString,
+          custEmail,
           custName,
+          custPIN,
           custStreet,
           custAddress,
           custPONumber,
           custLocation,
           telephone,
-          custEmail,
         });
-        alert("Customer added successfully!");
+        openMyDialog();
         handleClearForm();
+        setNewCustID();
       } catch (error) {
         console.error(error);
       }
@@ -45,14 +65,75 @@ const CustomerForm = () => {
 
   const handleClearForm = () => {
     // Reset the form fields
-    setCustID("");
+    setcustEmail("");
     setCustName("");
     setCustLocation("");
     setCustPONumber("");
     setCustAddress("");
     setTelephone("");
-    setcustEmail("");
+    setCustPIN("");
+    setCustStreet("");
   };
+
+   //fetch latest Customer ID
+   const fetchCustID = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/read_custID"
+      );
+      setCustID(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCustID();
+  }, []);
+
+  let custIDString = "";
+
+  // Step 2: Assign the value of invoice.invoice_no to the string variable
+  custID.forEach((cusstomerID) => {
+    custIDString += cusstomerID.cust_id;
+  });
+
+  // Step 3: Log the string variable
+  console.log(custIDString);
+
+  function incrementCustID(currentCustID) {
+    // Extract the numeric part and increment it
+    let numericPart = currentCustID.slice(4);
+    let incrementedNumericPart = (parseInt(numericPart, 10) + 1).toString().padStart(3, "0");
+
+    // Construct the new customer number with the incremented numeric part
+    let newCustID = "SCA-" + incrementedNumericPart;
+
+    // Log the output to the console
+
+    return newCustID;
+  }
+
+  let currentCustomerID = incrementCustID(custIDString);
+  console.log("New CUST Number:", currentCustomerID); 
+
+
+  const setNewCustID = async () => {
+    try {
+      const response = await axios.put(
+        "http://localhost:3000/update/custID",
+        {
+          currentCustomerID,
+        }
+      );
+
+      console.log(response.data); // Assuming the response contains the updated movie details
+    } catch (error) {
+      console.error(error);
+    }
+    window.location.reload();
+  };
+
 
   return (
     <Box
@@ -66,40 +147,100 @@ const CustomerForm = () => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         style={{
-          height: 400,
           width: "60%",
           marginLeft: "auto",
           marginRight: "auto",
+          backgroundColor: "#FFDEAD",
+          maxWidth: "800px",
+          padding: "20px",
+          borderRadius: "6px",
+          marginBottom: "20px",
         }}
       >
-        <div>
-          <h1
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <div
             style={{
-              fontSize: "32px",
-              fontWeight: "500",
-              marginBottom: "10px",
+              width: "50%",
             }}
           >
-            Create New Customer
-          </h1>
-          <label htmlFor="custid">Customer pin No: </label>
-          <input
-            type="text"
-            id="custID"
-            placeholder="Krapin"
-            {...register("custID", { required: true })}
-            value={custId}
-            onChange={(e) => setCustID(e.target.value)}
-          />
-          {errors.custID && <span>This field is required</span>}
+            <h1
+              style={{
+                fontSize: "32px",
+                fontWeight: "600",
+                marginBottom: "10px",
+              }}
+            >
+              New Customer
+            </h1>
+          </div>
+          <div
+            style={{
+              width: "50%",
+            }}
+          >
+            <button
+              style={{
+                backgroundColor: "green",
+                color: "white",
+                padding: "8px 16px",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                transition: "background-color 0.2s",
+                marginRight: "10px",
+                marginLeft: "80%",
+              }}
+              type="button"
+              onClick={() => navigate(-1)}
+            >
+              Back
+            </button>
+          </div>
         </div>
+        <h3
+            style={{
+              fontSize: "26px",
+              fontWeight: "500",
+              marginBottom: "10px",
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            Cusromer ID: &nbsp;
+            <ul>
+              {custID.map((id, index) => (
+                <li key={index}>
+                  <h3 id="custID">{id.cust_id}</h3>
+                </li>
+              ))}
+            </ul>
+          </h3>
 
         <div>
-          <label htmlFor="custName">Customer Name: </label>
+          <label htmlFor="custName"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Customer Name: </label>
           <input
+
+style={{
+  width: "100%", 
+  padding: "10px", 
+  border: "1px solid #ccc", 
+  borderRadius: "6px" 
+ }}
             type="text"
             id="custName"
-            placeholder="enter customer name"
+            placeholder="Enter customer name"
             {...register("custName", { required: true })}
             value={custName}
             onChange={(e) => setCustName(e.target.value)}
@@ -107,8 +248,19 @@ const CustomerForm = () => {
           {errors.custName && <span>This field is required</span>}
         </div>
         <div>
-          <label htmlFor="custEmail">Customer Email: </label>
+          <label htmlFor="custEmail"
+                    style={{ 
+                      display: "block", 
+                      marginBottom: "5px", 
+                    }}
+          >Customer Email: </label>
           <input
+                      style={{
+                        width: "100%", 
+                        padding: "10px", 
+                        border: "1px solid #ccc", 
+                        borderRadius: "6px" 
+                       }}
             type="text"
             id="custEmail"
             placeholder="enter customer email"
@@ -120,8 +272,45 @@ const CustomerForm = () => {
         </div>
 
         <div>
-          <label htmlFor="custStreet">Customer Street: </label>
+          <label htmlFor="custPIN"
+           style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Customer KRA PIN: </label>
           <input
+style={{
+  width: "100%", 
+  padding: "10px", 
+  border: "1px solid #ccc", 
+  borderRadius: "6px" 
+ }}
+
+            type="text"
+            id="custPIN"
+            placeholder="KRA PIN"
+            {...register("custPIN", { required: true })}
+            value={custPIN}
+            onChange={(e) => setCustPIN(e.target.value)}
+          />
+          {errors.custPIN && <span>This field is required</span>}
+        </div>
+
+        <div>
+          <label htmlFor="custStreet"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Customer Street: </label>
+          <input
+  style={{
+    width: "100%", 
+    padding: "10px", 
+    border: "1px solid #ccc", 
+    borderRadius: "6px" 
+   }}
+
             type="text"
             id="custStreet"
             placeholder="customer street"
@@ -129,12 +318,23 @@ const CustomerForm = () => {
             value={custStreet}
             onChange={(e) => setCustStreet(e.target.value)}
           />
-          {errors.custStreet && <span></span>}
+          {errors.custStreet && <span>This field is required</span>}
         </div>
 
         <div>
-          <label htmlFor="custAddress">Customer Street: </label>
+          <label htmlFor="custAddress"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Customer Address: </label>
           <input
+           style={{
+            width: "100%", 
+            padding: "10px", 
+            border: "1px solid #ccc", 
+            borderRadius: "6px" 
+           }}
             type="text"
             id="custAddress"
             placeholder="customer address"
@@ -142,12 +342,24 @@ const CustomerForm = () => {
             value={custAddress}
             onChange={(e) => setCustAddress(e.target.value)}
           />
-          {errors.custAddress && <span></span>}
+          {errors.custAddress && <span>This field is required</span>}
         </div>
 
         <div>
-          <label htmlFor="custPONumber">Customer Po Number: </label>
+          <label htmlFor="custPONumber"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Customer Po Number: </label>
           <input
+
+style={{
+  width: "100%", 
+  padding: "10px", 
+  border: "1px solid #ccc", 
+  borderRadius: "6px" 
+ }}
             type="text"
             id="custPONumber"
             placeholder="customer po number"
@@ -155,12 +367,23 @@ const CustomerForm = () => {
             value={custPONumber}
             onChange={(e) => setCustPONumber(e.target.value)}
           />
-          {errors.custPONumber && <span></span>}
+          {errors.custPONumber && <span>This field is required</span>}
         </div>
 
         <div>
-          <label htmlFor="custLocation">Customer Location: </label>
+          <label htmlFor="custLocation"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Customer Location: </label>
           <input
+          style={{
+             width: "100%", 
+             padding: "10px", 
+             border: "1px solid #ccc", 
+             borderRadius: "6px" 
+            }}
             type="text"
             id="custLocation"
             placeholder="customer location"
@@ -168,12 +391,23 @@ const CustomerForm = () => {
             value={custLocation}
             onChange={(e) => setCustLocation(e.target.value)}
           />
-          {errors.custLocation && <span></span>}
+          {errors.custLocation && <span>This field is required</span>}
         </div>
 
         <div>
-          <label htmlFor="telephone">Telephone: </label>
+          <label htmlFor="telephone"
+          style={{ 
+            display: "block", 
+            marginBottom: "5px", 
+          }}
+          >Telephone: </label>
           <input
+          style={{
+            width: "100%", 
+            padding: "10px", 
+            border: "1px solid #ccc", 
+            borderRadius: "6px" 
+           }}
             type="text"
             id="telephone"
             placeholder="0723543332"
@@ -184,16 +418,17 @@ const CustomerForm = () => {
             value={telephone}
             onChange={(e) => setTelephone(e.target.value)}
           />
-          {errors.telephone && <span></span>}
+          {errors.custLocation && <span>This field is required</span>}
         </div>
 
         <Box
-          sx={{
+           sx={{
             display: "flex",
             justifyContent: "center",
-            height: "100%",
+            height: "30%",
             display: "flex",
             flexDirection: "row",
+            marginTop: "20px",
           }}
         >
           <div
@@ -201,16 +436,19 @@ const CustomerForm = () => {
               width: "50%",
             }}
           >
-            <button 
-             style={{
-              backgroundColor: "red",
-              color: "white",
-              Padding: "6px",
-              height: "10%",
-              width: "20%",
-              borderRadius: "6px",
-            }}
-            type="submit" >
+            <button
+              style={{
+                backgroundColor: "green",
+                color: "white",
+                padding: "12px 20px",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                transition: "background-color 0.2s",
+                marginRight: "10px",
+              }}
+              type="submit"
+            >
               Submit
             </button>
           </div>
@@ -220,19 +458,35 @@ const CustomerForm = () => {
             }}
           >
             <button
-            style={{
-              backgroundColor: "red",
-              color: "white",
-              Padding: "6px",
-              height: "10%",
-              width: "30%",
-              borderRadius: "6px",
-            }}
-            
-            type="button" onClick={handleClearForm}>
+              style={{
+                backgroundColor: "green",
+                color: "white",
+                padding: "12px 20px",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                transition: "background-color 0.2s",
+                marginRight: "10px",
+                marginLeft: "60%",
+              }}
+              type="button"
+              onClick={handleClearForm}
+            >
               Clear Form
             </button>
           </div>
+
+          <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+            <DialogTitle>Operation Successful.</DialogTitle>
+            <DialogContent>
+              <p> {custName} has been added to the database.</p>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseDialog} color="primary" autoFocus>
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Box>
       </form>
     </Box>
