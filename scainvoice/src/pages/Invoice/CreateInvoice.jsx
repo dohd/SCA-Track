@@ -403,6 +403,7 @@ export default function NewInvoice() {
     } catch (error) {
       console.error(error);
     }
+    window.location.reload();
   };
 
     return (
