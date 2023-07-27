@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import App from "./App";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
 
@@ -24,16 +25,14 @@ import DistributorRecords from "./pages/distributors/DistributorRecords";
 import DispatchedInvoice from "./pages/Invoice/DispatchedInvoice";
 import Register from "./components/authentification/Register";
 import Login from "./components/authentification/Login";
-
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  
+  
+  
+  [
   {
-    path: "/login",
+    path: "",
     element: <Root />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/",
-    element: <Login />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -41,11 +40,15 @@ const router = createBrowserRouter([
         element:<Register/>,
       }, 
       
-      {
-        path:"/dashboard/*",
-        element: <Dashboard />,
-      },
        
+      {
+        
+          path:"/dashboard/*",
+          element: <Dashboard />,
+          
+        },
+       
+      
       {
         path: "Invoice",
         children: [
@@ -57,6 +60,7 @@ const router = createBrowserRouter([
             path: "new-in", 
             element: <CreateInvoice /> 
           },
+
           {
             path: "invoice-records",
             element: <InvoiceList />,
@@ -69,70 +73,78 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <Distributors />,
-          },
-          {
-            path: "newd",
-            element: <CreateDistributor />,
-          },
-          {
-            path: "drecords",
-            element: <DistributorRecords />,
-          },
+        },
+        {
+          path: "newd",
+          element: <CreateDistributor />,
+      },
+      {
+        path: "drecords",
+        element: <DistributorRecords />,
+    },
         ]
       },
-      {
-        path: "lpo",
-        children: [
-          {
-            path: "",
-            element: <Lpo />,
-          },
-          {
-            path: "NewLpo",
-            element: <NewLpo />
-          },
-          {
-            path: "lpoRecord",
-            element: <LpoRecord />
-          },
-        ],
-      },
-      {
-        path: "bank",
-        children:[
-          {
-            path:"",
-            element:<Bank/>,
-          },
-          {
-            path:"newbank",
-            element:<CreateNewBank/>,
-          },
-          {
-            path:"brecords",
-            element:<BankRecords/>,
-          },
+    
+                
+            
+           
+            {
+                path: "lpo",
+                children: [
+                        {
+                          path: "",
+                          element: <Lpo />,
+                        },
+                        {
+                          path: "NewLpo",
+                          element: <NewLpo />
+                        },
+                        {
+                          path: "lpoRecord",
+                          element: <LpoRecord />
+                        },
+                      ],
+                    },
+                
+               
+            
+            {
+                path: "bank",
+                children:[
+                    {path:"",
+                element:<Bank/>},
+                {
+                    path:"newbank",
+                    element:<CreateNewBank/>,
+                },
+                {
+                    path:"brecords",
+                    element:<BankRecords/>,
+                },
+                ]
+            },
+            {
+                path: "customer",
+               
+               
+                children: [
+                    {
+                        path:"",
+                        element: <Customer />,
+                    },{
+                        path: "new",
+                        element: <CreateNewCustomer />,
+                        
+                    },
+                    {
+                        path: "records",
+                        element: <CustomerRecords />,
+                       
+                    },
+                ],
+            },
         ]
-      },
-      {
-        path: "customer",
-        children: [
-          {
-            path:"",
-            element: <Customer />,
-          },
-          {
-            path: "new",
-            element: <CreateNewCustomer />,
-          },
-          {
-            path: "records",
-            element: <CustomerRecords />,
-          },
-        ],
-      },
-    ]
-  }
+    }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

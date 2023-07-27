@@ -7,8 +7,8 @@ const root = () => {
     
   return (
    <>
-   <Login/>
-  
+   <Dashboard/>
+  <Outlet/>
    </>
   )
 }
