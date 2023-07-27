@@ -50,6 +50,7 @@ export default function NewInvoice() {
   const [banks, setBanks] = useState([]);
   const [selectedBank, setSelectedBank] = useState("");
   const [bankDetails, setBankDetails] = useState([]);
+  const [selectedAccount, setSelectedAccount] = useState("");
 
   const navigate = useNavigate();
 
@@ -89,11 +90,15 @@ export default function NewInvoice() {
   const handleBankChange = (e) => {
     setSelectedBank(e.target.value);
   };
+  const handleAccountChange = (e) => {
+    setSelectedAccount(e.target.value);
+  };
 
    //  hook to log the selected customer and currency outside the component
    useEffect(() => {}, [selectedCustomer]);
    useEffect(() => {}, [selectedCurrency]);
    useEffect(() => {}, [selectedBank]);
+   useEffect(() => {}, [selectedAccount]);
 
    const fetchSelectedCustomer = async () => {
     try {
@@ -175,7 +180,10 @@ export default function NewInvoice() {
     console.log("New INV Number:", currentInvoiveNumber); 
 
   // start sending data to backend
-    //add invoice items
+    //add invoice item
+
+    console.log(selectedAccount);
+
     const addItem = (data) => {
       const handleSubmit = async (event) => {
         try {
@@ -783,6 +791,8 @@ export default function NewInvoice() {
                   </option>
                 ))}
               </select>
+
+    
             </div>
 
         <div>
