@@ -140,7 +140,8 @@ const DataTable = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "Customer ID", width: 100 },
+    { field: "id", headerName: "No", width: 50 },
+    { field: "cust_id", headerName: "ID", width: 100 },
     { field: "customer_name", headerName: "Customer Name", width: 180 },
     { field: "customer_email", headerName: "Email", width: 200 },
     { field: "customer_street", headerName: "Street", width: 140 },
@@ -183,7 +184,7 @@ const DataTable = () => {
   const generateRowsWithIds = (rows) => {
     return rows.map((row, index) => ({
       ...row,
-      id: `SCA-${(index + 1).toString().padStart(3, "0")}`, // Generate ID in the format SCA-001
+      id: `${(index + 1).toString().padStart(3, "0")}`, // Generate ID in the format SCA-001
     }));
   };
 

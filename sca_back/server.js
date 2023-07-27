@@ -26,6 +26,7 @@ connection.connect((err) => {
 // API endpoint to add a new customers
 app.post("/add_customers", (req, res) => {
   const {
+    custIDString,
     custEmail,
     custName,
     custPIN,
@@ -36,10 +37,11 @@ app.post("/add_customers", (req, res) => {
     telephone,
   } = req.body;
   const query =
-    "INSERT INTO customer_details(customer_email, customer_name,customer_street,customer_address,customer_po_number, customer_location, customer_phone,kra_pin) VALUES(?,?,?,?,?,?,?,?);";
+    "INSERT INTO customer_details(cust_id, customer_email, customer_name,customer_street,customer_address,customer_po_number, customer_location, customer_phone,kra_pin) VALUES(?,?,?,?,?,?,?,?,?);";
   connection.query(
     query,
     [
+      custIDString,
       custEmail,
       custName,
       custStreet,
@@ -87,7 +89,7 @@ app.get("/read_customer", (req, res) => {
 // API endpoint to add a new distributors
 app.post("/add_distributors", (req, res) => {
   const { 
-    distID,
+    distIDString,
     distName,
     distAddress,
     distLocation,
@@ -99,7 +101,7 @@ app.post("/add_distributors", (req, res) => {
   connection.query(
     query,
     [
-      distID, 
+      distIDString, 
       distAddress, 
       distLocation, 
       distName, 
@@ -216,6 +218,32 @@ app.get("/read_lpo_number", (req, res) => {
 // Define API endpoint to fetch invoice-number 
 app.get("/read_invoice_number", (req, res) => {
   const query = "SELECT invoice_no FROM `latest_id` ";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying lpo NO:", err);
+      res.status(500).json({ error: "Failed to fetch lpo NO" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// Define API endpoint to fetch invoice-number 
+app.get("/read_custID", (req, res) => {
+  const query = "SELECT cust_id FROM `latest_id` ";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying lpo NO:", err);
+      res.status(500).json({ error: "Failed to fetch lpo NO" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// Define API endpoint to fetch invoice-number 
+app.get("/read_distID", (req, res) => {
+  const query = "SELECT dist_id FROM `latest_id` ";
   connection.query(query, (err, results) => {
     if (err) {
       console.error("Error querying lpo NO:", err);
@@ -590,6 +618,58 @@ app.put("/update/invoice_number", (req, res) => {
     query,
     [
       currentInvoiveNumber,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({
+          error: "Error updating  records in the database",
+        });
+      } else {
+        res.json({ message: " records updated successfully" });
+      }
+    }
+  );
+});
+
+// Update customer ID number record route
+app.put("/update/custID", (req, res) => {
+  const { 
+    currentCustomerID,
+  } = req.body;
+
+  // Update the new lpo number in the database
+  const query = `UPDATE latest_id SET cust_id = ?;`;
+  connection.query(
+    query,
+    [
+      currentCustomerID,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({
+          error: "Error updating  records in the database",
+        });
+      } else {
+        res.json({ message: " records updated successfully" });
+      }
+    }
+  );
+});
+
+// Update distributor ID number record route
+app.put("/update/distID", (req, res) => {
+  const { 
+    currentDistrubutorID,
+  } = req.body;
+
+  // Update the new lpo number in the database
+  const query = `UPDATE latest_id SET dist_id = ?;`;
+  connection.query(
+    query,
+    [
+      currentDistrubutorID,
     ],
     (err, result) => {
       if (err) {

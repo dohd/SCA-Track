@@ -130,13 +130,13 @@ const BankRecords = () => {
   };
 
   const columns = [
-    { field: "id", headerName: " ID", width: 100 },
+    { field: "id", headerName: " No", width: 50 },
     { field: "bank_name", headerName: "Bank Name", width: 200 },
-    { field: "branch", headerName: "Bank Branch", width: 150 },
-    { field: "kes_account", headerName: "KES Account", width: 100 },
-    { field: "pounds_account", headerName: "Pound Account", width: 120 },
-    { field: "usd_account", headerName: "USD Account", width: 100 },
-    { field: "swift_code", headerName: "Swift Code", width: 100 },
+    { field: "branch", headerName: "Bank Branch", width: 160 },
+    { field: "kes_account", headerName: "KES Account", width: 120 },
+    { field: "pounds_account", headerName: "Pound Account", width: 110 },
+    { field: "usd_account", headerName: "USD Account", width: 110 },
+    { field: "swift_code", headerName: "Swift Code", width: 110 },
     {
       field: "Action",
       headerName: "Action",
@@ -172,7 +172,7 @@ const BankRecords = () => {
   const generateRowsWithIds = (rows) => {
     return rows.map((row, index) => ({
       ...row,
-      id: `B-${(index + 1).toString().padStart(3, "0")}`, // Generate ID in the format SCA-001
+      id: `${(index + 1).toString().padStart(3, "0")}`, // Generate ID in the format SCA-001
     }));
   };
 

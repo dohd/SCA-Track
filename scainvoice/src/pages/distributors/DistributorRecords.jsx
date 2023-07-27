@@ -137,7 +137,12 @@ const Distributors = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 100 },
+    { field: "id", headerName: "No", width: 50 },
+    {
+      field: "distributor_id",
+      headerName: "ID",
+      width: 100,
+    },
     {
       field: "distributor_name",
       headerName: "Distributor name",
@@ -190,7 +195,7 @@ const Distributors = () => {
   const generateRowsWithIds = (rows) => {
     return rows.map((row, index) => ({
       ...row,
-      id: `D-${(index + 1).toString().padStart(3, "0")}`, // Generate ID in the format D-001
+      id: `${(index + 1).toString().padStart(3, "0")}`, // Generate ID in the format D-001
     }));
   };
 
