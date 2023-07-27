@@ -242,14 +242,7 @@ export default function NewInvoice() {
       calculateOverallTotal();
     }, [vatPrice]);
 
-    const handleQuantityChange = (event) => {
-      setQuantity(Number(event.target.value));
-    };
-  
-    const handleUnitPriceChange = (event) => {
-      setUnitPrice(Number(event.target.value));
-    };
-  
+
     const fetchInvoiceItems = async () => {
       try {
         const response = await axios.get("http://localhost:3000/read_invoiceItems", {
@@ -357,12 +350,13 @@ export default function NewInvoice() {
           invoiceNumberString,
           invoice_date,
           advancePayment,
-          totalPrice,
+          subtotalPrice,
           overallTotalPrice,
           vatPrice,
           selectedCustomer,
+          selectedBank,
         });
-        
+        alert(overallTotalPrice);
       } catch (error) {
         console.error(error);
       }
