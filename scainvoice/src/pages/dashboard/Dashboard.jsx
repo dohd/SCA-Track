@@ -91,7 +91,7 @@ Inside createTheme, we define the palette object with a mode property. The value
         </Toolbar>
       </AppBar>
       <Sidelist {...{open,setOpen}}/>
-      <Outlet />
+     
       </Box>
       
       

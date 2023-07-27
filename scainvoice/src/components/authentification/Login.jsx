@@ -27,7 +27,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-    /*    try {
+       try {
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ user, pwd }),
                 {
@@ -55,7 +55,7 @@ const Login = () => {
             }
             errRef.current.focus();
         }
-        */
+        
 
     }
      
@@ -71,16 +71,35 @@ const Login = () => {
     }
     const handlelogreg=()=>{
         console.log('this is the reg section')
+        setRedirectTo('/register');
     }
    // State variable to hold the desired dashboard path for redirection
   const [redirectTo, setRedirectTo] = useState('');
 
-  const handlesignin = () => {
-    // Set the desired dashboard path based on the selected role
-    if (selectedOption === 'user') {
-      setRedirectTo('/dashboard');
-    } else if (selectedOption === 'admin') {
-      setRedirectTo('/dashboard');
+  const handlesignin = async () => {
+    try {
+      // Your sign-in logic here...
+      // For example, perform a request to your server to validate credentials
+
+      // Simulate sign-in success (remove this in your actual implementation)
+      const signInSuccessful = true;
+
+      if (signInSuccessful) {
+        // If sign-in is successful, set the desired dashboard path based on the selected role
+        if (selectedOption === 'user') {
+          console.log('redirect to userdashboard')
+          setRedirectTo('/dashboard'); // Redirect user to '/dashboard'
+        } else if (selectedOption === 'admin') {
+          console.log('redirect to admin dashboard')
+          setRedirectTo('/dashboard'); // Redirect admin to '/dashboard' as well (change this as needed)
+        }
+      } else {
+        // If sign-in fails, show an error message (you can customize this based on your needs)
+        setErrMsg('Invalid credentials. Please try again.');
+      }
+    } catch (err) {
+      // Handle any errors that occurred during the sign-in process (if applicable)
+      console.error('Sign-in error:', err);
     }
   };
   // Watch for changes in the redirectTo state variable and perform redirection when it changes

@@ -3,7 +3,7 @@ import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from 'axios'
 import form from "./form.css"
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Login from "./Login";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -94,9 +94,13 @@ const Register = () => {
             errRef.current.focus();
         }
     }
+    const navigate = useNavigate();
     const handlereg=()=>{
-        console.log('registered');
+        navigate('/dashboard')
     }
+    const handlelogin=()=>{
+      navigate('/login')
+  }
     
 
    
@@ -138,7 +142,7 @@ const Register = () => {
               <label htmlFor="password" style={{ fontSize: '32px', marginBottom: '20px', color: '#333' }}>Password:</label>
               <input
                 type="password"
-                id="password"
+                id="pass"
                 onChange={(e) => setPwd(e.target.value)}
                 value={pwd}
                 required
@@ -180,7 +184,7 @@ const Register = () => {
           </form>
           <p style={{ fontSize: '32px', marginBottom: '20px', color: '#333' }}>
             Already registered?<br />
-            <span className="line" style={{ display: 'inline-block', color: 'black ', textDecoration: 'underline' }} >
+            <span className="line" style={{ display: 'inline-block', color: 'black ', textDecoration: 'underline' }}onClick={handlelogin} >
               Sign In </span>
           </p>
         </section>
