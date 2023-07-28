@@ -1,3 +1,4 @@
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -31,21 +32,19 @@ const router = createBrowserRouter(
   
   [
   {
-    path: "",
+    path: "/*",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
-      
-       
       {
-        path:"/register",
+        path:"register",
         element:<Register/>,
       }, 
       
        
       {
         
-          path:"/dashboard/*",
+          path:"dashboard",
           element: <Dashboard />,
           
         },
