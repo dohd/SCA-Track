@@ -272,7 +272,6 @@ export default function CreateNewBank() {
           {errors.swift && <span>This field is required</span>}
         </div>
 
-
       <Box
         sx={{
           display: "flex",

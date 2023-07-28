@@ -75,12 +75,10 @@ const CustomerForm = () => {
     setCustStreet("");
   };
 
-   //fetch latest Customer ID
-   const fetchCustID = async () => {
+  //fetch latest Customer ID
+  const fetchCustID = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/read_custID"
-      );
+      const response = await axios.get("http://localhost:3000/read_custID");
       setCustID(response.data);
     } catch (error) {
       console.error(error);
@@ -99,12 +97,14 @@ const CustomerForm = () => {
   });
 
   // Step 3: Log the string variable
-  console.log(custIDString);
+  // console.log(custIDString);
 
   function incrementCustID(currentCustID) {
     // Extract the numeric part and increment it
     let numericPart = currentCustID.slice(4);
-    let incrementedNumericPart = (parseInt(numericPart, 10) + 1).toString().padStart(3, "0");
+    let incrementedNumericPart = (parseInt(numericPart, 10) + 1)
+      .toString()
+      .padStart(3, "0");
 
     // Construct the new customer number with the incremented numeric part
     let newCustID = "SCA-" + incrementedNumericPart;
@@ -115,17 +115,13 @@ const CustomerForm = () => {
   }
 
   let currentCustomerID = incrementCustID(custIDString);
-  console.log("New CUST Number:", currentCustomerID); 
-
+  console.log("New CUST Number:", currentCustomerID);
 
   const setNewCustID = async () => {
     try {
-      const response = await axios.put(
-        "http://localhost:3000/update/custID",
-        {
-          currentCustomerID,
-        }
-      );
+      const response = await axios.put("http://localhost:3000/update/custID", {
+        currentCustomerID,
+      });
 
       console.log(response.data); // Assuming the response contains the updated movie details
     } catch (error) {
@@ -133,7 +129,6 @@ const CustomerForm = () => {
     }
     window.location.reload();
   };
-
 
   return (
     <Box
@@ -204,40 +199,43 @@ const CustomerForm = () => {
             </button>
           </div>
         </div>
+        
         <h3
-            style={{
-              fontSize: "26px",
-              fontWeight: "500",
-              marginBottom: "10px",
-              display: "flex",
-              flexDirection: "row",
-            }}
-          >
-            Cusromer ID: &nbsp;
-            <ul>
-              {custID.map((id, index) => (
-                <li key={index}>
-                  <h3 id="custID">{id.cust_id}</h3>
-                </li>
-              ))}
-            </ul>
-          </h3>
+          style={{
+            fontSize: "26px",
+            fontWeight: "500",
+            marginBottom: "10px",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          Cusromer ID: &nbsp;
+          <ul>
+            {custID.map((id, index) => (
+              <li key={index}>
+                <h3 id="custID">{id.cust_id}</h3>
+              </li>
+            ))}
+          </ul>
+        </h3>
 
         <div>
-          <label htmlFor="custName"
-          style={{ 
-            display: "block", 
-            marginBottom: "5px", 
-          }}
-          >Customer Name: </label>
+          <label
+            htmlFor="custName"
+            style={{
+              display: "block",
+              marginBottom: "5px",
+            }}
+          >
+            Customer Name:{" "}
+          </label>
           <input
-
-style={{
-  width: "100%", 
-  padding: "10px", 
-  border: "1px solid #ccc", 
-  borderRadius: "6px" 
- }}
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+            }}
             type="text"
             id="custName"
             placeholder="Enter customer name"
@@ -248,19 +246,22 @@ style={{
           {errors.custName && <span>This field is required</span>}
         </div>
         <div>
-          <label htmlFor="custEmail"
-                    style={{ 
-                      display: "block", 
-                      marginBottom: "5px", 
-                    }}
-          >Customer Email: </label>
+          <label
+            htmlFor="custEmail"
+            style={{
+              display: "block",
+              marginBottom: "5px",
+            }}
+          >
+            Customer Email:{" "}
+          </label>
           <input
-                      style={{
-                        width: "100%", 
-                        padding: "10px", 
-                        border: "1px solid #ccc", 
-                        borderRadius: "6px" 
-                       }}
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+            }}
             type="text"
             id="custEmail"
             placeholder="enter customer email"
@@ -272,20 +273,22 @@ style={{
         </div>
 
         <div>
-          <label htmlFor="custPIN"
-           style={{ 
-            display: "block", 
-            marginBottom: "5px", 
-          }}
-          >Customer KRA PIN: </label>
+          <label
+            htmlFor="custPIN"
+            style={{
+              display: "block",
+              marginBottom: "5px",
+            }}
+          >
+            Customer KRA PIN:{" "}
+          </label>
           <input
-style={{
-  width: "100%", 
-  padding: "10px", 
-  border: "1px solid #ccc", 
-  borderRadius: "6px" 
- }}
-
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+            }}
             type="text"
             id="custPIN"
             placeholder="KRA PIN"
@@ -297,20 +300,22 @@ style={{
         </div>
 
         <div>
-          <label htmlFor="custStreet"
-          style={{ 
-            display: "block", 
-            marginBottom: "5px", 
-          }}
-          >Customer Street: </label>
+          <label
+            htmlFor="custStreet"
+            style={{
+              display: "block",
+              marginBottom: "5px",
+            }}
+          >
+            Customer Street:{" "}
+          </label>
           <input
-  style={{
-    width: "100%", 
-    padding: "10px", 
-    border: "1px solid #ccc", 
-    borderRadius: "6px" 
-   }}
-
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+            }}
             type="text"
             id="custStreet"
             placeholder="customer street"
@@ -322,19 +327,22 @@ style={{
         </div>
 
         <div>
-          <label htmlFor="custAddress"
-          style={{ 
-            display: "block", 
-            marginBottom: "5px", 
-          }}
-          >Customer Address: </label>
+          <label
+            htmlFor="custAddress"
+            style={{
+              display: "block",
+              marginBottom: "5px",
+            }}
+          >
+            Customer Address:{" "}
+          </label>
           <input
-           style={{
-            width: "100%", 
-            padding: "10px", 
-            border: "1px solid #ccc", 
-            borderRadius: "6px" 
-           }}
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+            }}
             type="text"
             id="custAddress"
             placeholder="customer address"
@@ -346,20 +354,22 @@ style={{
         </div>
 
         <div>
-          <label htmlFor="custPONumber"
-          style={{ 
-            display: "block", 
-            marginBottom: "5px", 
-          }}
-          >Customer Po Number: </label>
+          <label
+            htmlFor="custPONumber"
+            style={{
+              display: "block",
+              marginBottom: "5px",
+            }}
+          >
+            Customer Po Number:{" "}
+          </label>
           <input
-
-style={{
-  width: "100%", 
-  padding: "10px", 
-  border: "1px solid #ccc", 
-  borderRadius: "6px" 
- }}
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+            }}
             type="text"
             id="custPONumber"
             placeholder="customer po number"
@@ -371,18 +381,21 @@ style={{
         </div>
 
         <div>
-          <label htmlFor="custLocation"
-          style={{ 
-            display: "block", 
-            marginBottom: "5px", 
-          }}
-          >Customer Location: </label>
+          <label
+            htmlFor="custLocation"
+            style={{
+              display: "block",
+              marginBottom: "5px",
+            }}
+          >
+            Customer Location:{" "}
+          </label>
           <input
-          style={{
-             width: "100%", 
-             padding: "10px", 
-             border: "1px solid #ccc", 
-             borderRadius: "6px" 
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
             }}
             type="text"
             id="custLocation"
@@ -395,19 +408,22 @@ style={{
         </div>
 
         <div>
-          <label htmlFor="telephone"
-          style={{ 
-            display: "block", 
-            marginBottom: "5px", 
-          }}
-          >Telephone: </label>
+          <label
+            htmlFor="telephone"
+            style={{
+              display: "block",
+              marginBottom: "5px",
+            }}
+          >
+            Telephone:{" "}
+          </label>
           <input
-          style={{
-            width: "100%", 
-            padding: "10px", 
-            border: "1px solid #ccc", 
-            borderRadius: "6px" 
-           }}
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+            }}
             type="text"
             id="telephone"
             placeholder="0723543332"
@@ -422,7 +438,7 @@ style={{
         </div>
 
         <Box
-           sx={{
+          sx={{
             display: "flex",
             justifyContent: "center",
             height: "30%",

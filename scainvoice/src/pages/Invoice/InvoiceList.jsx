@@ -15,7 +15,6 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import html2pdf from "html2pdf.js"; // Import the html2pdf library
 
-
 const InvoiceRecords = () => {
   const [invoices, setInvoices] = useState([]);
   const navigate = useNavigate();
@@ -28,6 +27,7 @@ const InvoiceRecords = () => {
   const [custDetails, setCustDetails] = useState([]);
   const [selectedBank, setSelectedBank] = useState("");
   const [bankDetails, setBankDetails] = useState([]);
+  const [message, setMessage] = useState([]);
 
   useEffect(() => {
     fetchInvoices();
@@ -99,7 +99,7 @@ const InvoiceRecords = () => {
       filename: "invoice.pdf",
       image: { type: "jpeg", quality: 1.0 }, // Increase quality for images
       html2canvas: { scale: 2, useCORS: true }, // Use CORS to handle cross-origin images
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      jsPDF: { unit: "mm", format: "letter", orientation: "portrait" },
     };
 
     html2pdf().from(pdfContainer).set(opt).save();
@@ -116,7 +116,6 @@ const InvoiceRecords = () => {
         }
       );
       setItemList(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -145,7 +144,22 @@ const InvoiceRecords = () => {
         },
       });
       setCustDetails(response.data);
-      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchMessage = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/read_invoiceMessages",
+        {
+          params: {
+            invoiceNumberString,
+          },
+        }
+      );
+      setMessage(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -153,6 +167,7 @@ const InvoiceRecords = () => {
 
   fetchSelectedCustomer();
   fetchSelectedBank();
+  fetchMessage();
 
   const columns = [
     { field: "id", headerName: " No", width: 80 },
@@ -185,10 +200,11 @@ const InvoiceRecords = () => {
 
   const columns_2 = [
     { field: "id", headerName: "NO", width: 80 },
-    { field: "item_name", headerName: "Description", width: 300 },
+    { field: "item_name", headerName: "Description", width: 240 },
     { field: "quantity", headerName: "Qty", width: 80 },
     { field: "unit_price", headerName: "Unit price", width: 100 },
     { field: "total_price", headerName: "Total Price", width: 100 },
+    { field: "currency", headerName: "Currency", width: 80 },
   ];
 
   const generateRowsWithIds = (rows) => {
@@ -197,6 +213,7 @@ const InvoiceRecords = () => {
       id: `${(index + 1).toString().padStart(3, "0")}`,
     }));
   };
+
   const generateRowsWithIds2 = (rows) => {
     return rows.map((row, index) => ({
       ...row,
@@ -206,9 +223,6 @@ const InvoiceRecords = () => {
 
   const rowsWithIds = generateRowsWithIds(invoices);
   const rowsWithIds2 = generateRowsWithIds2(itemList);
-
-
-
 
   return (
     <Box
@@ -273,6 +287,7 @@ const InvoiceRecords = () => {
           </button>
         </div>
       </div>
+
       <DataGrid rows={rowsWithIds} columns={columns} pageSize={5} />
 
       <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="lg">
@@ -289,16 +304,16 @@ const InvoiceRecords = () => {
               >
                 Invoice Number: {selectedInvoice.invoice_number}
               </p>
-
-              <p
+              <p>Date: {selectedInvoice.invoice_date}</p>
+              <h3
                 style={{
-                  fontSize: "20px",
-                  fontWeight: "600",
+                  fontSize: "22px",
+                  fontWeight: "500",
                   marginBottom: "10px",
                 }}
               >
                 Customer Name: {selectedInvoice.customer}
-              </p>
+              </h3>
 
               <ul
                 style={{
@@ -307,114 +322,125 @@ const InvoiceRecords = () => {
               >
                 {custDetails.map((info, index) => (
                   <li key={index}>
-                    <h4>Address: {info.customer_address}</h4>
-                    <h4>Phone: {info.customer_phone}</h4>
-                    <h4>Email: {info.customer_email}</h4>
+                    <h4>Customer Address: {info.customer_address}</h4>
+                    <h4>Customer Phone: {info.customer_phone}</h4>
+                    <h4>Customer Email: {info.customer_email}</h4>
                   </li>
                 ))}
               </ul>
-              <p
-              style={{
-                marginBottom: "10px",
-              }}
-              >Items List</p>
+              <h3
+                style={{
+                  fontSize: "22px",
+                  fontWeight: "500",
+                  marginBottom: "10px",
+                }}
+              >
+                Items List
+              </h3>
 
               <DataGrid rows={rowsWithIds2} columns={columns_2} pageSize={5} />
 
-              
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginBottom: "10px",
+                  marginTop: "20px",
+                }}
+              >
                 <div
                   style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    marginBottom: "10px",
-                    marginTop: "20px",
+                    marginBottom: "20px",
+                    width: "60%",
                   }}
                 >
-                  <div
-                    style={{
-                      marginBottom: "20px",
-                      width: "60%",
-                    }}
-                  >
-                    <h3
-                      style={{
-                        fontSize: "26px",
-                        fontWeight: "500",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      Message
-                    </h3>
-                    <p>Hello</p>
-                  </div>
-                  <div
-                    style={{
-                      marginBottom: "20px",
-                      width: "40%",
-                      paddingTop: "56px",
-                      paddingLeft: "20px",
-                    }}
-                  >
-                    <h3
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: "500",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      Sub-Total: {selectedInvoice.sub_total}
-                    </h3>
-                    <h3
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: "500",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      VAT price: {selectedInvoice.vat}
-                    </h3>
-                    <h3
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: "600",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      Total Price: {selectedInvoice.total}
-                    </h3>
-                  </div>
-                </div>
-
-                <div>
                   <h3
                     style={{
-                      fontSize: "16px",
-                      fontWeight: "600",
+                      fontSize: "22px",
+                      fontWeight: "500",
+                      marginBottom: "10px",
                     }}
                   >
-                    Bank Details
+                    Message
                   </h3>
-                  <h3
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: "600",
-                    }}
-                  >
-                    Spartec Consotrium Africa-Limited (SCA)
-                  </h3>
-                  <h3>Bank: {selectedBank}</h3>
                   <ul>
-                    {bankDetails.map((info, index) => (
+                    {message.map((msg, index) => (
                       <li key={index}>
-                        <h4>KES Account: {info.kes_account}</h4>
-                        <h4>USD Account: {info.usd_account}</h4>
-                        <h4>Pounds Account: {info.pounds_account}</h4>
-                        <h4>Branch: {info.branch}</h4>
-                        <h4>SwiftCode: {info.swift_code}</h4>
+                        <p>{msg.message}</p>
                       </li>
                     ))}
                   </ul>
                 </div>
+                <div
+                  style={{
+                    marginBottom: "20px",
+                    width: "40%",
+                    paddingTop: "56px",
+                    paddingLeft: "20px",
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "500",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Sub-Total: {selectedInvoice.sub_total}
+                  </h3>
+                  <h3
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "500",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    VAT price: {selectedInvoice.vat}
+                  </h3>
+                  <h3
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Total Price: {selectedInvoice.total}
+                  </h3>
+                </div>
+              </div>
+
+              <div>
+                <h3
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Bank Details
+                </h3>
+                <h3
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    marginBottom: "6px",
+                  }}
+                >
+                  Spartec Consotrium Africa-Limited (SCA)
+                </h3>
+
+                <h3>Bank: {selectedBank}</h3>
+                <ul>
+                  {bankDetails.map((info, index) => (
+                    <li key={index}>
+                      <h4>KES Account: {info.kes_account}</h4>
+                      <h4>USD Account: {info.usd_account}</h4>
+                      <h4>Pounds Account: {info.pounds_account}</h4>
+                      <h4>Branch: {info.branch}</h4>
+                      <h4>SwiftCode: {info.swift_code}</h4>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </DialogContent>
         )}
@@ -431,6 +457,7 @@ const InvoiceRecords = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      
     </Box>
   );
 };

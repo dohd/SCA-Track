@@ -66,11 +66,10 @@ export default function CreateLPO() {
   const handleDistributorChange = (e) => {
     setSelectedDistributor(e.target.value);
   };
+
   const handleCurrencyChange = (e) => {
     setSelectedCurrency(e.target.value);
   };
-
-
 
   //  hook to log the selected distributor outside the component
   useEffect(() => {}, [selectedDistributor]);
@@ -107,8 +106,6 @@ export default function CreateLPO() {
   useEffect(() => {
     fetchLPoNumber();
   }, []);
-
- 
 
   let lpoNumberString = "";
 
@@ -156,7 +153,6 @@ export default function CreateLPO() {
             <button
               className="InvoiceListEdit"
               onClick={() => handleDelete(itemID, itemName)}
-
             >
               <DeleteIcon className="InvoiceListDelete" />
             </button>
@@ -173,86 +169,78 @@ export default function CreateLPO() {
     }));
   };
 
-
-
   const rowsWithIds = generateRowsWithIds(lpoItems);
 
   // start sending data to backend
-    //add lpo items
-    const addItem = (data) => {
-      const handleSubmit = async (event) => {
-        try {
-          await axios.post("http://localhost:3000/add_lpo_item", {
-            lpoNumberString,
-            itemDescription,
-            quantity,
-            unitPrice,
-            totalPrice,
-            selectedCurrency,
-          });
-          setItemDescription("");
-          setQuantity(0);
-          setUnitPrice(0);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      handleSubmit();
+  //add lpo items
+  const addItem = (data) => {
+    const handleSubmit = async (event) => {
+      try {
+        await axios.post("http://localhost:3000/add_lpo_item", {
+          lpoNumberString,
+          itemDescription,
+          quantity,
+          unitPrice,
+          totalPrice,
+          selectedCurrency,
+        });
+        setItemDescription("");
+        setQuantity(0);
+        setUnitPrice(0);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    handleSubmit();
+  };
+
+  useEffect(() => {
+    // Whenever quantity or unit price changes, update the total price and send it to the backend
+    const total = quantity * unitPrice;
+    setTotalPrice(total);
+  }, [quantity, unitPrice]);
+
+  useEffect(() => {
+    // Calculate the total from the data whenever the data changes
+    const calculateTotal = () => {
+      const subtotalArr = lpoItems.map((item) => item.total_price);
+      const totalAmount = subtotalArr.reduce((acc, curr) => acc + curr, 0);
+      setSubTotalPrice(totalAmount);
     };
 
-    useEffect(() => {
-      // Whenever quantity or unit price changes, update the total price and send it to the backend
-      const total = quantity * unitPrice;
-      setTotalPrice(total);
-    }, [quantity, unitPrice]);
+    calculateTotal();
+  }, [lpoItems]);
 
-    useEffect(() => {
-      // Calculate the total from the data whenever the data changes
-      const calculateTotal = () => {
-        const subtotalArr = lpoItems.map((item) => item.total_price);
-        const totalAmount = subtotalArr.reduce((acc, curr) => acc + curr, 0);
-        setSubTotalPrice(totalAmount);
-      };
-  
-      calculateTotal();
-    }, [lpoItems]);
-
-    useEffect(() => {
-      // Calculate the VAT (16% of the total) whenever the total changes
-      const calculateVAT = () => {
-        const vatAmount = subtotalPrice * 0.16;
-        setVatPrice(vatAmount);
-      };
-  
-      calculateVAT();
-    }, [subtotalPrice]);
-
-    useEffect(() => {
-      // Calculate the overall total (total + VAT) whenever the VAT changes
-      const calculateOverallTotal = () => {
-        const overallTotalAmount = subtotalPrice + vatPrice;
-        setOverallTotalPrice(overallTotalAmount);
-      };
-  
-      calculateOverallTotal();
-    }, [vatPrice]);
-  
-
-    const handleQuantityChange = (event) => {
-      setQuantity(Number(event.target.value));
+  useEffect(() => {
+    // Calculate the VAT (16% of the total) whenever the total changes
+    const calculateVAT = () => {
+      const vatAmount = subtotalPrice * 0.16;
+      setVatPrice(vatAmount);
     };
-  
-    const handleUnitPriceChange = (event) => {
-      setUnitPrice(Number(event.target.value));
+
+    calculateVAT();
+  }, [subtotalPrice]);
+
+  useEffect(() => {
+    // Calculate the overall total (total + VAT) whenever the VAT changes
+    const calculateOverallTotal = () => {
+      const overallTotalAmount = subtotalPrice + vatPrice;
+      setOverallTotalPrice(overallTotalAmount);
     };
-  
 
+    calculateOverallTotal();
+  }, [vatPrice]);
 
+  const handleQuantityChange = (event) => {
+    setQuantity(Number(event.target.value));
+  };
 
+  const handleUnitPriceChange = (event) => {
+    setUnitPrice(Number(event.target.value));
+  };
 
   //delete item
   const handleDelete = async (itemID, itemName) => {
-
     try {
       const response = await axios.delete(
         `http://localhost:3000/delete/lpoItem`,
@@ -263,7 +251,7 @@ export default function CreateLPO() {
           },
         }
       );
-      console.log(response.data); 
+      console.log(response.data);
       setItemDescription("");
       setQuantity(0);
       setUnitPrice(0);
@@ -273,29 +261,26 @@ export default function CreateLPO() {
       console.error(error);
     }
   };
- 
 
-    
-  
-    const fetchLpoItems = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/read_lpoItems", {
-          params: {
-            lpoNumberString,
-          },
-        });
-        setLpoItems(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const fetchLpoItems = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/read_lpoItems", {
+        params: {
+          lpoNumberString,
+        },
+      });
+      setLpoItems(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  fetchLpoItems();
+
+  useEffect(() => {
     fetchLpoItems();
-
-    useEffect(() => {
-      fetchLpoItems();
-    }, []);
+  }, []);
 
   //add lpo
   const addDate = (data) => {
@@ -310,7 +295,6 @@ export default function CreateLPO() {
           vatPrice,
           selectedDistributor,
         });
-        
       } catch (error) {
         console.error(error);
       }
@@ -480,7 +464,6 @@ export default function CreateLPO() {
                 ))}
               </select>
             </div>
-
 
             <div
               style={{
@@ -781,6 +764,7 @@ export default function CreateLPO() {
           </button>
         </div>
       </div>
+      
     </Box>
   );
 }

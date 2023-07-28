@@ -172,6 +172,7 @@ export default function CreateDistributor() {
           </button>
         </div>
       </div>
+      
       <h3
         style={{
           fontSize: "26px",
@@ -190,7 +191,7 @@ export default function CreateDistributor() {
           ))}
         </ul>
       </h3>
-      
+
       <div>
         <label
           htmlFor="distName"

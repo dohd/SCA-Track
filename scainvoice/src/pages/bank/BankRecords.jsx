@@ -335,6 +335,7 @@ const BankRecords = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      
     </Box>
   );
 };

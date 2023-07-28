@@ -311,9 +311,10 @@ app.post("/add_invoice_message", (req, res) => {
 
 // Define API endpoint to fetch invoice message
 app.get("/read_invoiceMessages", (req, res) => {
+  let invoiceNumberString = req.query.invoiceNumberString;
   const query =
     "SELECT message  FROM invoice_message WHERE invoice_number = ?;";
-  connection.query(query, [invoice_number], (err, results) => {
+  connection.query(query, [invoiceNumberString], (err, results) => {
     if (err) {
       console.error("Error querying invoice messages:", err);
       res.status(500).json({ error: "Failed to read invoice messages" });
@@ -379,8 +380,9 @@ app.post("/add_lpo_message", (req, res) => {
 
 // Define API endpoint to fetch lpo message
 app.get("/read_lpoMessage", (req, res) => {
-  const query = "SELECT message  FROM lpo_message WHERE lpo_number = ?;";
-  connection.query(query, [lpo_number], (err, results) => {
+  let lpoNumberString = req.query.lpoNumberString;
+  const query = "SELECT lpo_message  FROM lpo_message WHERE lpo_number = ?;";
+  connection.query(query, [lpoNumberString], (err, results) => {
     if (err) {
       console.error("Error querying lpo messages:", err);
       res.status(500).json({ error: "Failed to read lpo messages" });
