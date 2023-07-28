@@ -77,11 +77,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const Sidelist = ({ open, setOpen }) => {
-  const navigate = useNavigate();
-  const handlelogout = () => {
-    dispatch({ type: "UPDATE_USER", payload: null });
-    navigate("/");
-  };
+  
 
   const { selectedLink, setselectedLink } = useState("");
   {
@@ -134,6 +130,11 @@ and a component representing the component to render when the menu item is selec
     ],
     []
   );
+  const navigate = useNavigate();
+  const logouthandle =()=>{
+    console.log("alert")
+    navigate("/")
+  }
   
   return (
     <>
@@ -178,7 +179,7 @@ and a component representing the component to render when the menu item is selec
         </List>
         <Divider />
         <Tooltip title="Logout" sx={{ mt: 1 }}>
-          <IconButton onClick={handlelogout}>
+          <IconButton onClick={logouthandle}>
             <Logout /> 
           </IconButton>
         </Tooltip>

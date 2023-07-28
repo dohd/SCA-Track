@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    background: linear-gradient(45deg, white(0, 255, 136), rgb(56, 157, 123));
+    background: linear-gradient(45deg, rgb(0, 255, 136), rgb(56, 157, 123));
   }
   
   .register-form {
@@ -16,12 +16,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    background: linear-gradient(45deg, rgb(0, 255, 136), rgb(56, 157, 123));
+    height: 120%;
+    background: linear-gradient(45deg, white(0, 255, 136), rgb(56, 157, 123));
   }
   
   .login-form {
-    background-color: #fff;
+    background-color: #1ec678;
     padding: 20px;
     border-radius: 85px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
