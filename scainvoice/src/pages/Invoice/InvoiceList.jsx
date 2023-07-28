@@ -15,6 +15,7 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import html2pdf from "html2pdf.js"; // Import the html2pdf library
 
+
 const InvoiceRecords = () => {
   const [invoices, setInvoices] = useState([]);
   const navigate = useNavigate();
@@ -55,18 +56,49 @@ const InvoiceRecords = () => {
     setOpenDialog(false); // Close the dialog
   };
 
-  const handleGeneratePDF = () => {
+  const handleGeneratePDF = async () => {
     const content = contentRef.current;
 
     // Wrap the content in a div to ensure proper conversion
     const pdfContainer = document.createElement("div");
     pdfContainer.appendChild(content.cloneNode(true));
 
+    // Apply CSS styles to format the content for printing
+    pdfContainer.style.display = "block";
+    pdfContainer.style.width = "100%";
+    pdfContainer.style.maxWidth = "800px";
+    pdfContainer.style.margin = "0 auto";
+
+    // Wait for images and other resources to load before generating the PDF
+    await new Promise((resolve) => {
+      const images = pdfContainer.getElementsByTagName("img");
+      const imagePromises = [];
+
+      for (let i = 0; i < images.length; i++) {
+        const image = images[i];
+        if (!image.complete) {
+          imagePromises.push(
+            new Promise((imgResolve) => {
+              image.onload = imgResolve;
+            })
+          );
+        }
+      }
+
+      if (imagePromises.length === 0) {
+        resolve();
+      } else {
+        Promise.all(imagePromises).then(() => {
+          resolve();
+        });
+      }
+    });
+
     const opt = {
       margin: 10,
       filename: "invoice.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
+      image: { type: "jpeg", quality: 1.0 }, // Increase quality for images
+      html2canvas: { scale: 2, useCORS: true }, // Use CORS to handle cross-origin images
       jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
     };
 
@@ -94,16 +126,12 @@ const InvoiceRecords = () => {
 
   const fetchSelectedBank = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/read_bank",
-        {
-          params: {
-            selectedBank,
-          },
-        }
-      );
+      const response = await axios.get("http://localhost:3000/read_bank", {
+        params: {
+          selectedBank,
+        },
+      });
       setBankDetails(response.data);
-      
     } catch (error) {
       console.error(error);
     }
@@ -111,14 +139,11 @@ const InvoiceRecords = () => {
 
   const fetchSelectedCustomer = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/read_customer",
-        {
-          params: {
-            selectedCustomer,
-          },
-        }
-      );
+      const response = await axios.get("http://localhost:3000/read_customer", {
+        params: {
+          selectedCustomer,
+        },
+      });
       setCustDetails(response.data);
       console.log(response.data);
     } catch (error) {
@@ -181,6 +206,9 @@ const InvoiceRecords = () => {
 
   const rowsWithIds = generateRowsWithIds(invoices);
   const rowsWithIds2 = generateRowsWithIds2(itemList);
+
+
+
 
   return (
     <Box
@@ -273,29 +301,27 @@ const InvoiceRecords = () => {
               </p>
 
               <ul
-              style={{
-                marginBottom: "10px",
-              }}
-              >
-                  {custDetails.map((info, index) => (
-                    <li key={index}>
-                      <h4>Address: {info.customer_address}</h4>
-                      <h4>Phone: {info.customer_phone}</h4>
-                      <h4>Email: {info.customer_email}</h4>
-                    </li>
-                  ))}
-                </ul>
-                <p
                 style={{
-                  fontSize: "18px",
-                  fontWeight: "600",
                   marginBottom: "10px",
                 }}
               >
-                Items List
-              </p>
+                {custDetails.map((info, index) => (
+                  <li key={index}>
+                    <h4>Address: {info.customer_address}</h4>
+                    <h4>Phone: {info.customer_phone}</h4>
+                    <h4>Email: {info.customer_email}</h4>
+                  </li>
+                ))}
+              </ul>
+              <p
+              style={{
+                marginBottom: "10px",
+              }}
+              >Items List</p>
+
               <DataGrid rows={rowsWithIds2} columns={columns_2} pageSize={5} />
-              <div style={{ height: 300, width: "100%" }}>
+
+              
                 <div
                   style={{
                     display: "flex",
@@ -360,40 +386,35 @@ const InvoiceRecords = () => {
                 </div>
 
                 <div>
-                    <h3
-                       style={{
-                        fontSize: "16px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Bank Details
-                    </h3>
-                    <h3
-                       style={{
-                        fontSize: "16px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Spartec Consotrium Africa-Limited (SCA)
-                    </h3>
-                    <h3
-                      
-                    >
-                      Bank: {selectedBank}
-                    </h3>
-                    <ul>
-                  {bankDetails.map((info, index) => (
-                    <li key={index}>
-                      <h4>KES Account: {info.kes_account}</h4>
-                      <h4>USD Account: {info.usd_account}</h4>
-                      <h4>Pounds Account: {info.pounds_account}</h4>
-                      <h4>Branch: {info.branch}</h4>
-                      <h4>SwiftCode: {info.swift_code}</h4>
-                    </li>
-                  ))}
-                </ul>
-                  </div>
-              </div>
+                  <h3
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Bank Details
+                  </h3>
+                  <h3
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Spartec Consotrium Africa-Limited (SCA)
+                  </h3>
+                  <h3>Bank: {selectedBank}</h3>
+                  <ul>
+                    {bankDetails.map((info, index) => (
+                      <li key={index}>
+                        <h4>KES Account: {info.kes_account}</h4>
+                        <h4>USD Account: {info.usd_account}</h4>
+                        <h4>Pounds Account: {info.pounds_account}</h4>
+                        <h4>Branch: {info.branch}</h4>
+                        <h4>SwiftCode: {info.swift_code}</h4>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
             </div>
           </DialogContent>
         )}
