@@ -13,7 +13,6 @@ import LayersIcon from "@mui/icons-material/Layers";
 import { IconButton, Tooltip } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
 import Divider from "@mui/material/Divider";
-import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import HomeIcon from "@mui/icons-material/Home";
 import PeopleIcon from "@mui/icons-material/People";
@@ -23,6 +22,7 @@ import Lpo from "../Lpo/Lpo";
 import Bank from "../bank/Bank";
 import Home from "../home/Home";
 import Logout from "@mui/icons-material/Logout";
+import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
 
 import Customer from "../customer/Customer";
 import Invoice from "../invoice/Invoice";
@@ -143,7 +143,7 @@ and a component representing the component to render when the menu item is selec
         style={{backgroundColor:'green'}}
         >
           <IconButton onClick={() => setOpen(false)}>
-            <ChevronLeftIcon style={{color:'white'}}/>
+          <KeyboardDoubleArrowLeftOutlinedIcon style={{color:'white'}}/>
           </IconButton>
         </DrawerHeader>
         <Divider />

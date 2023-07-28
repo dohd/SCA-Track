@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const myCurrency = [
   {
@@ -23,7 +23,6 @@ const myCurrency = [
 ];
 
 export default function NewInvoice() {
-
   const {
     register,
     handleSubmit,
@@ -50,14 +49,13 @@ export default function NewInvoice() {
   const [banks, setBanks] = useState([]);
   const [selectedBank, setSelectedBank] = useState("");
   const [bankDetails, setBankDetails] = useState([]);
+  const [selectedAccount, setSelectedAccount] = useState("");
 
   const navigate = useNavigate();
 
   const fetchCustomers = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/read_customers"
-      );
+      const response = await axios.get("http://localhost:3000/read_customers");
       setCustomers(response.data);
       // console.log(response.data);
     } catch (error) {
@@ -83,28 +81,32 @@ export default function NewInvoice() {
   const handleCustomerChange = (e) => {
     setSelectedCustomer(e.target.value);
   };
+
   const handleCurrencyChange = (e) => {
     setSelectedCurrency(e.target.value);
   };
+
   const handleBankChange = (e) => {
     setSelectedBank(e.target.value);
   };
 
-   //  hook to log the selected customer and currency outside the component
-   useEffect(() => {}, [selectedCustomer]);
-   useEffect(() => {}, [selectedCurrency]);
-   useEffect(() => {}, [selectedBank]);
+  const handleAccountChange = (e) => {
+    setSelectedAccount(e.target.value);
+  };
 
-   const fetchSelectedCustomer = async () => {
+  //  hook to log the selected customer and currency outside the component
+  useEffect(() => {}, [selectedCustomer]);
+  useEffect(() => {}, [selectedCurrency]);
+  useEffect(() => {}, [selectedBank]);
+  useEffect(() => {}, [selectedAccount]);
+
+  const fetchSelectedCustomer = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/read_customer",
-        {
-          params: {
-            selectedCustomer,
-          },
-        }
-      );
+      const response = await axios.get("http://localhost:3000/read_customer", {
+        params: {
+          selectedCustomer,
+        },
+      });
       setCustDetails(response.data);
     } catch (error) {
       console.error(error);
@@ -113,14 +115,11 @@ export default function NewInvoice() {
 
   const fetchSelectedBank = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/read_bank",
-        {
-          params: {
-            selectedBank,
-          },
-        }
-      );
+      const response = await axios.get("http://localhost:3000/read_bank", {
+        params: {
+          selectedBank,
+        },
+      });
       setBankDetails(response.data);
     } catch (error) {
       console.error(error);
@@ -131,176 +130,175 @@ export default function NewInvoice() {
 
   fetchSelectedCustomer();
 
-    //fetch latest Invoice number
-    const fetchInvoiceNumber = async () => {
+  //fetch latest Invoice number
+  const fetchInvoiceNumber = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/read_invoice_number"
+      );
+      setInvoiceNo(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchInvoiceNumber();
+  }, []);
+
+  let invoiceNumberString = "";
+
+  // Step 2: Assign the value of invoice.invoice_no to the string variable
+  invoice_number.forEach((invoice) => {
+    invoiceNumberString += invoice.invoice_no;
+  });
+
+  // Step 3: Log the string variable
+  console.log(invoiceNumberString);
+
+  function incrementInvoiceNumber(currentInvoiceNumber) {
+    // Extract the numeric part and increment it
+    let numericPart = currentInvoiceNumber.slice(4);
+    let incrementedNumericPart = (parseInt(numericPart, 10) + 1)
+      .toString()
+      .padStart(3, "0");
+
+    // Construct the new Invoice number with the incremented numeric part
+    let newInvoiceNumber = "INV-" + incrementedNumericPart;
+
+    // Log the output to the console
+    // console.log("New INV Number:", newInvoiceNumber);
+
+    return newInvoiceNumber;
+  }
+
+  let currentInvoiveNumber = incrementInvoiceNumber(invoiceNumberString);
+  console.log("New INV Number:", currentInvoiveNumber);
+
+  // start sending data to backend
+  //add invoice item
+
+  console.log(selectedAccount);
+
+  const addItem = (data) => {
+    const handleSubmit = async (event) => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/read_invoice_number"
-        );
-        setInvoiceNo(response.data);
+        await axios.post("http://localhost:3000/add_invoice_item", {
+          invoiceNumberString,
+          itemDescription,
+          quantity,
+          unitPrice,
+          totalPrice,
+          selectedCurrency,
+        });
+        setItemDescription("");
+        setQuantity(0);
+        setUnitPrice(0);
       } catch (error) {
         console.error(error);
       }
     };
+    handleSubmit();
+  };
 
-    useEffect(() => {
-      fetchInvoiceNumber();
-    }, []);
+  useEffect(() => {
+    // Whenever quantity or unit price changes, update the total price and send it to the backend
+    const total = quantity * unitPrice;
+    setTotalPrice(total);
+  }, [quantity, unitPrice]);
 
-    let invoiceNumberString = "";
-
-    // Step 2: Assign the value of invoice.invoice_no to the string variable
-    invoice_number.forEach((invoice) => {
-      invoiceNumberString += invoice.invoice_no;
-    });
-  
-    // Step 3: Log the string variable
-    console.log(invoiceNumberString);
-  
-    function incrementInvoiceNumber(currentInvoiceNumber) {
-      // Extract the numeric part and increment it
-      let numericPart = currentInvoiceNumber.slice(4);
-      let incrementedNumericPart = (parseInt(numericPart, 10) + 1).toString().padStart(3, "0");
-  
-      // Construct the new Invoice number with the incremented numeric part
-      let newInvoiceNumber = "INV-" + incrementedNumericPart;
-  
-      // Log the output to the console
-      // console.log("New INV Number:", newInvoiceNumber);
-  
-      return newInvoiceNumber;
-    }
-
-    let currentInvoiveNumber = incrementInvoiceNumber(invoiceNumberString);
-    console.log("New INV Number:", currentInvoiveNumber); 
-
-  // start sending data to backend
-    //add invoice items
-    const addItem = (data) => {
-      const handleSubmit = async (event) => {
-        try {
-          await axios.post("http://localhost:3000/add_invoice_item", {
-            invoiceNumberString,
-            itemDescription,
-            quantity,
-            unitPrice,
-            totalPrice,
-            selectedCurrency,
-          });
-          setItemDescription("");
-          setQuantity(0);
-          setUnitPrice(0);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      handleSubmit();
+  useEffect(() => {
+    // Calculate the total from the data whenever the data changes
+    const calculateTotal = () => {
+      const subtotalArr = itemList.map((item) => item.total_price);
+      const totalAmount = subtotalArr.reduce((acc, curr) => acc + curr, 0);
+      setSubTotalPrice(totalAmount);
     };
 
-    useEffect(() => {
-      // Whenever quantity or unit price changes, update the total price and send it to the backend
-      const total = quantity * unitPrice;
-      setTotalPrice(total);
-    }, [quantity, unitPrice]);
+    calculateTotal();
+  }, [itemList]);
 
-    useEffect(() => {
-      // Calculate the total from the data whenever the data changes
-      const calculateTotal = () => {
-        const subtotalArr = itemList.map((item) => item.total_price);
-        const totalAmount = subtotalArr.reduce((acc, curr) => acc + curr, 0);
-        setSubTotalPrice(totalAmount);
-      };
-  
-      calculateTotal();
-    }, [itemList]);
-
-    useEffect(() => {
-      // Calculate the VAT (16% of the total) whenever the total changes
-      const calculateVAT = () => {
-        const vatAmount = subtotalPrice * 0.16;
-        setVatPrice(vatAmount);
-      };
-  
-      calculateVAT();
-    }, [subtotalPrice]);
-
-    useEffect(() => {
-      // Calculate the overall total (total + VAT) whenever the VAT changes
-      const calculateOverallTotal = () => {
-        const overallTotalAmount = subtotalPrice + vatPrice;
-        setOverallTotalPrice(overallTotalAmount);
-      };
-  
-      calculateOverallTotal();
-    }, [vatPrice]);
-
-    const handleQuantityChange = (event) => {
-      setQuantity(Number(event.target.value));
+  useEffect(() => {
+    // Calculate the VAT (16% of the total) whenever the total changes
+    const calculateVAT = () => {
+      const vatAmount = subtotalPrice * 0.16;
+      setVatPrice(vatAmount);
     };
-  
-    const handleUnitPriceChange = (event) => {
-      setUnitPrice(Number(event.target.value));
+
+    calculateVAT();
+  }, [subtotalPrice]);
+
+  useEffect(() => {
+    // Calculate the overall total (total + VAT) whenever the VAT changes
+    const calculateOverallTotal = () => {
+      const overallTotalAmount = subtotalPrice + vatPrice;
+      setOverallTotalPrice(overallTotalAmount);
     };
-  
-    const fetchInvoiceItems = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/read_invoiceItems", {
+
+    calculateOverallTotal();
+  }, [vatPrice]);
+
+  const fetchInvoiceItems = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/read_invoiceItems",
+        {
           params: {
             invoiceNumberString,
           },
-        });
-        setItemList(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+        }
+      );
+      setItemList(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  fetchInvoiceItems();
+
+  useEffect(() => {
     fetchInvoiceItems();
+  }, []);
 
-    useEffect(() => {
-      fetchInvoiceItems();
-    }, []);
-
-    const columns = [
-      { field: "id", headerName: "NO", width: 80 },
-      { field: "item_name", headerName: "Description", width: 300 },
-      { field: "quantity", headerName: "Qty", width: 80 },
-      { field: "unit_price", headerName: "Unit price", width: 100 },
-      { field: "total_price", headerName: "Total Price", width: 100 },
-      {
-        field: "Action",
-        headerName: "Action",
-        width: 100,
-        renderCell: (params) => {
-          const itemID = params.row.id;
-          const itemName = params.row.item_name;
-          return (
-            <>
-              <button
-                className="InvoiceListEdit"
-                onClick={() => handleDelete(itemID, itemName)}
-              >
-                <DeleteIcon className="InvoiceListDelete" />
-              </button>
-            </>
-          );
-        },
+  const columns = [
+    { field: "id", headerName: "NO", width: 80 },
+    { field: "item_name", headerName: "Description", width: 300 },
+    { field: "quantity", headerName: "Qty", width: 80 },
+    { field: "unit_price", headerName: "Unit price", width: 100 },
+    { field: "total_price", headerName: "Total Price", width: 100 },
+    {
+      field: "Action",
+      headerName: "Action",
+      width: 100,
+      renderCell: (params) => {
+        const itemID = params.row.id;
+        const itemName = params.row.item_name;
+        return (
+          <>
+            <button
+              className="InvoiceListEdit"
+              onClick={() => handleDelete(itemID, itemName)}
+            >
+              <DeleteIcon className="InvoiceListDelete" />
+            </button>
+          </>
+        );
       },
-    ];
+    },
+  ];
 
-    const generateRowsWithIds = (rows) => {
-      return rows.map((row, index) => ({
-        ...row,
-        id: index + 1,
-      }));
-    };
+  const generateRowsWithIds = (rows) => {
+    return rows.map((row, index) => ({
+      ...row,
+      id: index + 1,
+    }));
+  };
 
-    const rowsWithIds = generateRowsWithIds(itemList);
+  const rowsWithIds = generateRowsWithIds(itemList);
 
   //delete item
   const handleDelete = async (itemID, itemName) => {
-
     try {
       const response = await axios.delete(
         `http://localhost:3000/delete/invoiceItem`,
@@ -311,7 +309,7 @@ export default function NewInvoice() {
           },
         }
       );
-      console.log(response.data); 
+      console.log(response.data);
       setItemDescription("");
       setQuantity(0);
       setUnitPrice(0);
@@ -322,26 +320,23 @@ export default function NewInvoice() {
     }
   };
 
+  const clearForm = () => {
+    setItemDescription("");
+    setQuantity(0);
+    setUnitPrice(0);
+    setSelectedCurrency("");
+    setSelectedCustomer("");
+    setItemList([]);
+    setAdvancepayment("");
+    setInvoice_date("");
+    setMessage("");
+    setOverallTotalPrice(0);
+    setTotalPrice(0);
+    setVatPrice(0);
+    setSelectedBank("");
+  };
 
- 
-
-    const clearForm = () => {
-      setItemDescription("");
-      setQuantity(0);
-      setUnitPrice(0);
-      setSelectedCurrency("");
-      setSelectedCustomer("");
-      setItemList([]);
-      setAdvancepayment("");
-      setInvoice_date("");
-      setMessage("");
-      setOverallTotalPrice(0);
-      setTotalPrice(0);
-      setVatPrice(0);
-      setSelectedBank("");
-    };
-
-      //add invoice
+  //add invoice
   const addInvoice = (data) => {
     const handleSubmit = async (event) => {
       try {
@@ -349,12 +344,13 @@ export default function NewInvoice() {
           invoiceNumberString,
           invoice_date,
           advancePayment,
-          totalPrice,
+          subtotalPrice,
           overallTotalPrice,
           vatPrice,
           selectedCustomer,
+          selectedBank,
         });
-        
+        alert(overallTotalPrice);
       } catch (error) {
         console.error(error);
       }
@@ -398,8 +394,8 @@ export default function NewInvoice() {
     window.location.reload();
   };
 
-    return (
-      <Box
+  return (
+    <Box
       sx={{
         display: "flex",
         justifyContent: "center",
@@ -419,7 +415,7 @@ export default function NewInvoice() {
           marginLeft: "60px",
         }}
       >
-      <div
+        <div
           style={{
             display: "flex",
             justifyContent: "space-between",
@@ -541,7 +537,7 @@ export default function NewInvoice() {
                     marginTop: "10px",
                   }}
                 >
-                   <h4>Currency: </h4>
+                  <h4>Currency: </h4>
                   <select
                     style={{
                       width: "80%",
@@ -600,15 +596,13 @@ export default function NewInvoice() {
                     onChange={(e) => setAdvancepayment(e.target.value)}
                   />
                 </div>
-
               </div>
-
             </div>
           </div>
         </div>
 
         <div style={{ marginBottom: "20px" }}>
-        <h1
+          <h1
             style={{
               fontSize: "26px",
               fontWeight: "500",
@@ -662,7 +656,7 @@ export default function NewInvoice() {
             value={unitPrice}
             onChange={(e) => setUnitPrice(parseFloat(e.target.value))}
           />
-            <button
+          <button
             style={{
               backgroundColor: "green",
               color: "white",
@@ -677,8 +671,8 @@ export default function NewInvoice() {
           >
             Add Item
           </button>
-
         </div>
+
         <div>
           <h2
             style={{
@@ -691,6 +685,7 @@ export default function NewInvoice() {
           </h2>
           <DataGrid rows={rowsWithIds} columns={columns} pageSize={5} />
         </div>
+
         <div
           style={{
             display: "flex",
@@ -705,7 +700,7 @@ export default function NewInvoice() {
               width: "60%",
             }}
           >
-             <h3
+            <h3
               style={{
                 fontSize: "26px",
                 fontWeight: "500",
@@ -763,40 +758,37 @@ export default function NewInvoice() {
             </h3>
           </div>
         </div>
+
         <div className="drop-down">
-              <h2>Select bank: </h2>
-              <select
-                style={{
-                  width: "100%",
-                  padding: "6px",
-                  borderRadius: "4px",
-                }}
-                value={selectedBank}
-                onChange={handleBankChange}
-              >
-                <option value="">-- Select a bank --</option>
-                {banks.map((option) => (
-                  <option
-                    key={option.bank_name}
-                    value={option.bank_name}
-                  >
-                    {option.bank_name}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <h2>Select bank: </h2>
+          <select
+            style={{
+              width: "100%",
+              padding: "6px",
+              borderRadius: "4px",
+            }}
+            value={selectedBank}
+            onChange={handleBankChange}
+          >
+            <option value="">-- Select a bank --</option>
+            {banks.map((option) => (
+              <option key={option.bank_name} value={option.bank_name}>
+                {option.bank_name}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div>
-
-        <ul>
-                  {bankDetails.map((info, index) => (
-                    <li key={index}>
-                      <h4>Account: {info.usd_account}</h4>
-                      <h4>Branch: {info.branch}</h4>
-                      <h4>SwiftCode: {info.swift_code}</h4>
-                    </li>
-                  ))}
-                </ul>
+          <ul>
+            {bankDetails.map((info, index) => (
+              <li key={index}>
+                <h4>Account: {info.usd_account}</h4>
+                <h4>Branch: {info.branch}</h4>
+                <h4>SwiftCode: {info.swift_code}</h4>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div
@@ -839,11 +831,10 @@ export default function NewInvoice() {
           >
             Save
           </button>
-
         </div>
-
+        
       </div>
-    </Box>
 
-    );
+    </Box>
+  );
 }

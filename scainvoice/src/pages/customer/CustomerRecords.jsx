@@ -206,58 +206,55 @@ const DataTable = () => {
         borderRadius: "6px",
       }}
     >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
+            width: "50%",
           }}
         >
-          <div
+          <h1
             style={{
-              width: "50%",
+              fontSize: "32px",
+              fontWeight: "600",
+              marginBottom: "10px",
             }}
           >
-            <h1
-              style={{
-                fontSize: "32px",
-                fontWeight: "600",
-                marginBottom: "10px",
-              }}
-            >
-              Customer Records
-            </h1>
-          </div>
-          <div
-            style={{
-              width: "50%",
-            }}
-          >
-            <button
-              style={{
-                backgroundColor: "green",
-                color: "white",
-                padding: "8px 16px",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer",
-                transition: "background-color 0.2s",
-                marginRight: "10px",
-                marginLeft: "80%",
-              }}
-              type="button"
-              onClick={() => navigate(-1)}
-            >
-              Back
-            </button>
+            Customer Records
+          </h1>
         </div>
-        
+        <div
+          style={{
+            width: "50%",
+          }}
+        >
+          <button
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer",
+              transition: "background-color 0.2s",
+              marginRight: "10px",
+              marginLeft: "80%",
+            }}
+            type="button"
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </button>
+        </div>
       </div>
-      <DataGrid 
-        rows={rowsWithIds} 
-        columns={columns} 
-        pageSize={5} />
+
+      <DataGrid rows={rowsWithIds} columns={columns} pageSize={5} />
 
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>
         <DialogTitle>Delete Confirmation</DialogTitle>

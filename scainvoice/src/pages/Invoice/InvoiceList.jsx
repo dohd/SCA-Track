@@ -23,7 +23,11 @@ const InvoiceRecords = () => {
   const contentRef = useRef(null); // Ref for the dialog content
   const [itemList, setItemList] = useState([]);
   const [invoiceNumberString, setInvoiceNumberString] = useState("");
-
+  const [selectedCustomer, setSelectedCustomer] = useState("");
+  const [custDetails, setCustDetails] = useState([]);
+  const [selectedBank, setSelectedBank] = useState("");
+  const [bankDetails, setBankDetails] = useState([]);
+  const [message, setMessage] = useState([]);
 
   useEffect(() => {
     fetchInvoices();
@@ -44,47 +48,126 @@ const InvoiceRecords = () => {
     setSelectedInvoice(invoice); // Set the selected invoice
     setOpenDialog(true); // Open the dialog
     setInvoiceNumberString(invoice.invoice_number);
+    setSelectedCustomer(invoice.customer);
+    setSelectedBank(invoice.bank);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false); // Close the dialog
   };
 
-  const handleGeneratePDF = () => {
+  const handleGeneratePDF = async () => {
     const content = contentRef.current;
 
     // Wrap the content in a div to ensure proper conversion
     const pdfContainer = document.createElement("div");
     pdfContainer.appendChild(content.cloneNode(true));
 
+    // Apply CSS styles to format the content for printing
+    pdfContainer.style.display = "block";
+    pdfContainer.style.width = "100%";
+    pdfContainer.style.maxWidth = "800px";
+    pdfContainer.style.margin = "0 auto";
+
+    // Wait for images and other resources to load before generating the PDF
+    await new Promise((resolve) => {
+      const images = pdfContainer.getElementsByTagName("img");
+      const imagePromises = [];
+
+      for (let i = 0; i < images.length; i++) {
+        const image = images[i];
+        if (!image.complete) {
+          imagePromises.push(
+            new Promise((imgResolve) => {
+              image.onload = imgResolve;
+            })
+          );
+        }
+      }
+
+      if (imagePromises.length === 0) {
+        resolve();
+      } else {
+        Promise.all(imagePromises).then(() => {
+          resolve();
+        });
+      }
+    });
+
     const opt = {
       margin: 10,
       filename: "invoice.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      image: { type: "jpeg", quality: 1.0 }, // Increase quality for images
+      html2canvas: { scale: 2, useCORS: true }, // Use CORS to handle cross-origin images
+      jsPDF: { unit: "mm", format: "letter", orientation: "portrait" },
     };
 
     html2pdf().from(pdfContainer).set(opt).save();
   };
 
-  
-
   const fetchInvoiceItems = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/read_invoiceItems", {
-        params: {
-          invoiceNumberString,
-        },
-      });
+      const response = await axios.get(
+        "http://localhost:3000/read_invoiceItems",
+        {
+          params: {
+            invoiceNumberString,
+          },
+        }
+      );
       setItemList(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
 
   fetchInvoiceItems();
+
+  const fetchSelectedBank = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/read_bank", {
+        params: {
+          selectedBank,
+        },
+      });
+      setBankDetails(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchSelectedCustomer = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/read_customer", {
+        params: {
+          selectedCustomer,
+        },
+      });
+      setCustDetails(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchMessage = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/read_invoiceMessages",
+        {
+          params: {
+            invoiceNumberString,
+          },
+        }
+      );
+      setMessage(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchSelectedCustomer();
+  fetchSelectedBank();
+  fetchMessage();
 
   const columns = [
     { field: "id", headerName: " No", width: 80 },
@@ -99,30 +182,29 @@ const InvoiceRecords = () => {
       headerName: "Action",
       width: 150,
       renderCell: (params) => {
-        const invoiceNO = params.row.invoice_number;
         return (
           <>
-          {/* Pass the invoice object to handleViewClick */}
-          <button
-            className="InvoiceListEdit"
-            onClick={() => handleViewClick(params.row)}
-          >
-            View
-          </button>
-          <DeleteIcon className="InvoiceListDelete" />
-        </>
+            {/* Pass the invoice object to handleViewClick */}
+            <button
+              className="InvoiceListEdit"
+              onClick={() => handleViewClick(params.row)}
+            >
+              View
+            </button>
+            {/* <DeleteIcon className="InvoiceListDelete" /> */}
+          </>
         );
       },
     },
   ];
 
-const columns_2 = [
-      { field: "id", headerName: "NO", width: 80 },
-      { field: "item_name", headerName: "Description", width: 300 },
-      { field: "quantity", headerName: "Qty", width: 80 },
-      { field: "unit_price", headerName: "Unit price", width: 100 },
-      { field: "total_price", headerName: "Total Price", width: 100 },
-    
+  const columns_2 = [
+    { field: "id", headerName: "NO", width: 80 },
+    { field: "item_name", headerName: "Description", width: 240 },
+    { field: "quantity", headerName: "Qty", width: 80 },
+    { field: "unit_price", headerName: "Unit price", width: 100 },
+    { field: "total_price", headerName: "Total Price", width: 100 },
+    { field: "currency", headerName: "Currency", width: 80 },
   ];
 
   const generateRowsWithIds = (rows) => {
@@ -131,6 +213,7 @@ const columns_2 = [
       id: `${(index + 1).toString().padStart(3, "0")}`,
     }));
   };
+
   const generateRowsWithIds2 = (rows) => {
     return rows.map((row, index) => ({
       ...row,
@@ -143,29 +226,29 @@ const columns_2 = [
 
   return (
     <Box
-    sx={{
-      display: "flex",
-      justifyContent: "center",
-      flexDirection: "column",
-      height: "100%",
-      height: 500,
-      width: "80%",
-      marginLeft: "250px",
-      marginRight: "auto",
-      backgroundColor: "#EDEADE",
-      padding: "20px",
-      borderRadius: "6px",
-    }}
-  >
-    <div
-      style={{
+      sx={{
         display: "flex",
-        justifyContent: "space-between",
-        display: "flex",
-        flexDirection: "row",
+        justifyContent: "center",
+        flexDirection: "column",
+        height: "100%",
+        height: 500,
+        width: "80%",
+        marginLeft: "250px",
+        marginRight: "auto",
+        backgroundColor: "#EDEADE",
+        padding: "20px",
+        borderRadius: "6px",
       }}
     >
       <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        <div
           style={{
             width: "50%",
           }}
@@ -203,21 +286,160 @@ const columns_2 = [
             Back
           </button>
         </div>
-   </div>
-   <DataGrid rows={rowsWithIds} columns={columns} pageSize={5} />
+      </div>
 
-   <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="lg">
+      <DataGrid rows={rowsWithIds} columns={columns} pageSize={5} />
+
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="lg">
         <DialogTitle>Invoice Details</DialogTitle>
         {selectedInvoice && (
           <DialogContent ref={contentRef}>
             <div>
-              <p>Invoice Number: {selectedInvoice.invoice_number}</p>
-              
-              <p>Customer Name: {selectedInvoice.customer}</p>
-              <div style={{ height: 600, width: "100%" }}>
+              <p
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "600",
+                  marginBottom: "10px",
+                }}
+              >
+                Invoice Number: {selectedInvoice.invoice_number}
+              </p>
+              <p>Date: {selectedInvoice.invoice_date}</p>
+              <h3
+                style={{
+                  fontSize: "22px",
+                  fontWeight: "500",
+                  marginBottom: "10px",
+                }}
+              >
+                Customer Name: {selectedInvoice.customer}
+              </h3>
+
+              <ul
+                style={{
+                  marginBottom: "10px",
+                }}
+              >
+                {custDetails.map((info, index) => (
+                  <li key={index}>
+                    <h4>Customer Address: {info.customer_address}</h4>
+                    <h4>Customer Phone: {info.customer_phone}</h4>
+                    <h4>Customer Email: {info.customer_email}</h4>
+                  </li>
+                ))}
+              </ul>
+              <h3
+                style={{
+                  fontSize: "22px",
+                  fontWeight: "500",
+                  marginBottom: "10px",
+                }}
+              >
+                Items List
+              </h3>
 
               <DataGrid rows={rowsWithIds2} columns={columns_2} pageSize={5} />
 
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginBottom: "10px",
+                  marginTop: "20px",
+                }}
+              >
+                <div
+                  style={{
+                    marginBottom: "20px",
+                    width: "60%",
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontSize: "22px",
+                      fontWeight: "500",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Message
+                  </h3>
+                  <ul>
+                    {message.map((msg, index) => (
+                      <li key={index}>
+                        <p>{msg.message}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div
+                  style={{
+                    marginBottom: "20px",
+                    width: "40%",
+                    paddingTop: "56px",
+                    paddingLeft: "20px",
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "500",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Sub-Total: {selectedInvoice.sub_total}
+                  </h3>
+                  <h3
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "500",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    VAT price: {selectedInvoice.vat}
+                  </h3>
+                  <h3
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Total Price: {selectedInvoice.total}
+                  </h3>
+                </div>
+              </div>
+
+              <div>
+                <h3
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Bank Details
+                </h3>
+                <h3
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    marginBottom: "6px",
+                  }}
+                >
+                  Spartec Consotrium Africa-Limited (SCA)
+                </h3>
+
+                <h3>Bank: {selectedBank}</h3>
+                <ul>
+                  {bankDetails.map((info, index) => (
+                    <li key={index}>
+                      <h4>KES Account: {info.kes_account}</h4>
+                      <h4>USD Account: {info.usd_account}</h4>
+                      <h4>Pounds Account: {info.pounds_account}</h4>
+                      <h4>Branch: {info.branch}</h4>
+                      <h4>SwiftCode: {info.swift_code}</h4>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </DialogContent>
@@ -226,13 +448,17 @@ const columns_2 = [
           <Button onClick={handleCloseDialog} color="primary">
             Close
           </Button>
-          <Button onClick={handleGeneratePDF} color="primary" variant="contained">
+          <Button
+            onClick={handleGeneratePDF}
+            color="primary"
+            variant="contained"
+          >
             Generate PDF
           </Button>
         </DialogActions>
       </Dialog>
-  
-  </Box>
+      
+    </Box>
   );
 };
 export default InvoiceRecords;

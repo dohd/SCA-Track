@@ -226,46 +226,44 @@ const Distributors = () => {
           marginTop: "20px",
         }}
       >
-          
-        
-          <div
+        <div
+          style={{
+            width: "50%",
+          }}
+        >
+          <h1
             style={{
-              width: "50%",
+              fontSize: "32px",
+              fontWeight: "600",
+              marginBottom: "10px",
             }}
           >
-            <h1
-              style={{
-                fontSize: "32px",
-                fontWeight: "600",
-                marginBottom: "10px",
-              }}
-            >
-              Distributor Records
-            </h1>
-          </div>
-          <div
+            Distributor Records
+          </h1>
+        </div>
+        <div
+          style={{
+            width: "50%",
+          }}
+        >
+          <button
             style={{
-              width: "50%",
+              backgroundColor: "green",
+              color: "white",
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer",
+              transition: "background-color 0.2s",
+              marginRight: "10px",
+              marginLeft: "80%",
             }}
+            type="button"
+            onClick={() => navigate(-1)}
           >
-            <button
-              style={{
-                backgroundColor: "green",
-                color: "white",
-                padding: "8px 16px",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer",
-                transition: "background-color 0.2s",
-                marginRight: "10px",
-                marginLeft: "80%",
-              }}
-              type="button"
-              onClick={() => navigate(-1)}
-            >
-              Back
-            </button>
-          </div>
+            Back
+          </button>
+        </div>
       </div>
 
       <DataGrid rows={rowsWithIds} columns={columns} pageSize={5} />
@@ -353,6 +351,7 @@ const Distributors = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      
     </Box>
   );
 };

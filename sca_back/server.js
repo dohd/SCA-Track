@@ -311,9 +311,10 @@ app.post("/add_invoice_message", (req, res) => {
 
 // Define API endpoint to fetch invoice message
 app.get("/read_invoiceMessages", (req, res) => {
+  let invoiceNumberString = req.query.invoiceNumberString;
   const query =
     "SELECT message  FROM invoice_message WHERE invoice_number = ?;";
-  connection.query(query, [invoice_number], (err, results) => {
+  connection.query(query, [invoiceNumberString], (err, results) => {
     if (err) {
       console.error("Error querying invoice messages:", err);
       res.status(500).json({ error: "Failed to read invoice messages" });
@@ -379,8 +380,9 @@ app.post("/add_lpo_message", (req, res) => {
 
 // Define API endpoint to fetch lpo message
 app.get("/read_lpoMessage", (req, res) => {
-  const query = "SELECT message  FROM lpo_message WHERE lpo_number = ?;";
-  connection.query(query, [lpo_number], (err, results) => {
+  let lpoNumberString = req.query.lpoNumberString;
+  const query = "SELECT lpo_message  FROM lpo_message WHERE lpo_number = ?;";
+  connection.query(query, [lpoNumberString], (err, results) => {
     if (err) {
       console.error("Error querying lpo messages:", err);
       res.status(500).json({ error: "Failed to read lpo messages" });
@@ -395,21 +397,23 @@ app.post("/add_invoice", (req, res) => {
     invoiceNumberString,
     invoice_date,
     advancePayment,
-    totalPrice,
+    subtotalPrice,
     overallTotalPrice,
     vatPrice,
     selectedCustomer,
+    selectedBank,
   } = req.body;
   const query =
-    "INSERT INTO invoice_details (invoice_number , invoice_date , advance_payment, total, sub_total, vat, customer ) VALUES (?,?,?,?,?,?,?);";
+    "INSERT INTO invoice_details (invoice_number , invoice_date , advance_payment, total, sub_total, vat, customer, bank ) VALUES (?,?,?,?,?,?,?,?);";
   connection.query(query, [
     invoiceNumberString,
     invoice_date,
     advancePayment,
-    totalPrice,
     overallTotalPrice,
+    subtotalPrice,
     vatPrice,
-    selectedCustomer,], (err, result) => {
+    selectedCustomer,
+    selectedBank,], (err, result) => {
     if (err) throw err;
     res.sendStatus(200);
   });
