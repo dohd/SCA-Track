@@ -90,7 +90,7 @@ const Login = () => {
           setRedirectTo('/dashboard'); // Redirect user to '/dashboard'
         } else if (selectedOption === 'admin') {
           console.log('redirect to admin dashboard')
-          setRedirectTo('/dashboard'); // Redirect admin to '/dashboard' as well (change this as needed)
+          setRedirectTo('admin/dashboard'); // Redirect admin to '/dashboard' as well (change this as needed)
         }
       } else {
         // If sign-in fails, show an error message (you can customize this based on your needs)

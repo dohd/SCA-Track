@@ -43,7 +43,7 @@ const router = createBrowserRouter(
        
       {
         
-          path:"dashboard",
+          path:"admin/dashboard",
           element: <Dashboard />,
           
         },
@@ -143,7 +143,112 @@ const router = createBrowserRouter(
                     },
                 ],
             },
-        ]
+        ],
+        children: [
+       
+          {
+            
+              path:"dashboard",
+              element: <Dashboard />,
+              
+            },
+           
+          
+          {
+            path: "Invoice",
+            children: [
+              { 
+                path: "",
+                element: <Invoice />
+              },
+              { 
+                path: "new-in", 
+                element: <CreateInvoice /> 
+              },
+    
+              {
+                path: "invoice-records",
+                element: <InvoiceList />,
+              },
+            ],
+          },
+          {
+            path: "distributor",
+            children:[
+              {
+                path: "",
+                element: <Distributors />,
+            },
+            {
+              path: "newd",
+              element: <CreateDistributor />,
+          },
+          {
+            path: "drecords",
+            element: <DistributorRecords />,
+        },
+            ]
+          },
+        
+                    
+                
+               
+                {
+                    path: "lpo",
+                    children: [
+                            {
+                              path: "",
+                              element: <Lpo />,
+                            },
+                            {
+                              path: "NewLpo",
+                              element: <NewLpo />
+                            },
+                            {
+                              path: "lpoRecord",
+                              element: <LpoRecord />
+                            },
+                          ],
+                        },
+                    
+                   
+                
+                {
+                    path: "bank",
+                    children:[
+                        {path:"",
+                    element:<Bank/>},
+                    {
+                        path:"newbank",
+                        element:<CreateNewBank/>,
+                    },
+                    {
+                        path:"brecords",
+                        element:<BankRecords/>,
+                    },
+                    ]
+                },
+                {
+                    path: "customer",
+                   
+                   
+                    children: [
+                        {
+                            path:"",
+                            element: <Customer />,
+                        },{
+                            path: "new",
+                            element: <CreateNewCustomer />,
+                            
+                        },
+                        {
+                            path: "records",
+                            element: <CustomerRecords />,
+                           
+                        },
+                    ],
+                },
+            ]
     }
 ]);
 
