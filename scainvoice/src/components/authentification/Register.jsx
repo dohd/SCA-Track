@@ -99,7 +99,7 @@ const Register = () => {
         navigate('/dashboard')
     }
     const handlelogin=()=>{
-      navigate('/login')
+      navigate('/')
   }
     
 

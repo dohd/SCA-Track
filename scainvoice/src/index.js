@@ -27,20 +27,19 @@ import DispatchedInvoice from "./pages/invoice/DispatchedInvoice";
 import Register from "./components/authentification/Register";
 import Login from "./components/authentification/Login";
 const router = createBrowserRouter(
-  
-  
-  
+    
   [
+    {path:"",
+  element:<Login/>,},
+  {path:"register",
+  element:<Register/>,},
   {
     path: "/*",
     element: <Root />,
     errorElement: <ErrorPage />,
-    children: [
-      {
-        path:"register",
-        element:<Register/>,
-      }, 
+    
       
+      children: [
        
       {
         

@@ -111,9 +111,9 @@ export default function Home({ link }) {
       {selectedLink === '' && (
         <>
           <Paper elevation={3} sx={{ p: 3 }}
-           onClick={() => handleClick('dispatched')}
+           onClick={() => handleClick('Invoice')}
           >
-            <Typography variant="h4">Dispatched Invoice</Typography>
+            <Typography variant="h4"> Invoice</Typography>
             <Box
               sx={{
                 display: 'flex',
