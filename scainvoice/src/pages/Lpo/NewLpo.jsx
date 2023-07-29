@@ -47,6 +47,8 @@ export default function CreateLPO() {
   const [distDetails, setDistDetails] = useState([]);
   const [lpo_number, setLpoNo] = useState([]);
 
+  const status = "Pending";
+
   const navigate = useNavigate();
 
   const fetchDistributors = async () => {
@@ -183,6 +185,7 @@ export default function CreateLPO() {
           unitPrice,
           totalPrice,
           selectedCurrency,
+          
         });
         setItemDescription("");
         setQuantity(0);
@@ -270,7 +273,6 @@ export default function CreateLPO() {
         },
       });
       setLpoItems(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -294,6 +296,7 @@ export default function CreateLPO() {
           overallTotalPrice,
           vatPrice,
           selectedDistributor,
+          status,
         });
       } catch (error) {
         console.error(error);
@@ -311,8 +314,6 @@ export default function CreateLPO() {
           lpoNumberString,
           message,
         });
-        // alert("Message added successfully!");
-        // handleClearForm();
       } catch (error) {
         console.error(error);
       }

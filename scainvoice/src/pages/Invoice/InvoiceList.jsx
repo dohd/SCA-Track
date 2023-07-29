@@ -174,7 +174,7 @@ const InvoiceRecords = () => {
     { field: "invoice_number", headerName: "Invoice  No", width: 110 },
     { field: "customer", headerName: "Customer name", width: 250 },
     { field: "total", headerName: "Amount", type: "number", width: 100 },
-    { field: "Status", headerName: "Status", width: 100 },
+    { field: "status", headerName: "Status", width: 100 },
     { field: "invoice_date", headerName: "Date Issued", width: 100 },
     { field: "advance_payment", headerName: "Advance Payment (%)", width: 160 },
     {

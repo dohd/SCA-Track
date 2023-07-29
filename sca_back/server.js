@@ -1,7 +1,11 @@
 const express = require("express");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
+const bcrypt = require('bcrypt');
+const cookieParser = require('cookie-parser');
+const jwt = require("jsonwebtoken");
 
+const salt = 10;
 const app = express();
 app.use(express.json());
 
@@ -9,6 +13,7 @@ var cors = require("cors");
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // MySQL connection setup
 const connection = mysql.createConnection({
@@ -16,6 +21,9 @@ const connection = mysql.createConnection({
   user: "root",
   password: "",
   database: "sca_track",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
 connection.connect((err) => {
@@ -343,6 +351,7 @@ app.post("/add_lpo_item", async (req, res) => {
     unitPrice,
     totalPrice,
     selectedCurrency,
+    
   ], (err, result) => {
     if (err) throw err;
     res.sendStatus(200);
@@ -402,9 +411,10 @@ app.post("/add_invoice", (req, res) => {
     vatPrice,
     selectedCustomer,
     selectedBank,
+    status,
   } = req.body;
   const query =
-    "INSERT INTO invoice_details (invoice_number , invoice_date , advance_payment, total, sub_total, vat, customer, bank ) VALUES (?,?,?,?,?,?,?,?);";
+    "INSERT INTO invoice_details (invoice_number , invoice_date , advance_payment, total, sub_total, vat, customer, bank,status) VALUES (?,?,?,?,?,?,?,?,?);";
   connection.query(query, [
     invoiceNumberString,
     invoice_date,
@@ -413,7 +423,9 @@ app.post("/add_invoice", (req, res) => {
     subtotalPrice,
     vatPrice,
     selectedCustomer,
-    selectedBank,], (err, result) => {
+    selectedBank,
+    status,
+  ], (err, result) => {
     if (err) throw err;
     res.sendStatus(200);
   });
@@ -429,9 +441,10 @@ app.post("/add_lpo", (req, res) => {
             overallTotalPrice,
             vatPrice,
             selectedDistributor,
+            status,
   } = req.body;
   const query =
-    "INSERT INTO lpo_dates (lpo_number , Lpo_date , days, total, sub_total, vat, distributor ) VALUES (?,?,?,?,?,?,?);";
+    "INSERT INTO lpo_dates (lpo_number , Lpo_date , days, total, sub_total, vat, distributor, status ) VALUES (?,?,?,?,?,?,?,?);";
   connection.query(query, [
     lpoNumberString,
     lpo_date,
@@ -439,7 +452,9 @@ app.post("/add_lpo", (req, res) => {
     overallTotalPrice,
     subtotalPrice,
     vatPrice,
-    selectedDistributor,], (err, result) => {
+    selectedDistributor,
+    status,
+  ], (err, result) => {
     if (err) throw err;
     res.sendStatus(200);
   });
@@ -596,6 +611,118 @@ app.put("/update/lpo_number", (req, res) => {
     query,
     [
       currentLpoNumber,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({
+          error: "Error updating distributor records in the database",
+        });
+      } else {
+        res.json({ message: "Distributor records updated successfully" });
+      }
+    }
+  );
+});
+
+// Update lpo number record route
+app.put("/approveLpo", (req, res) => {
+  const { 
+    approve,
+    lpoNumberString
+  } = req.body;
+
+  // Update the new lpo number in the database
+  const query = `UPDATE lpo_dates SET status = ? WHERE lpo_number = ?`;
+  connection.query(
+    query,
+    [
+      approve,
+      lpoNumberString
+    ],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({
+          error: "Error updating distributor records in the database",
+        });
+      } else {
+        res.json({ message: "Distributor records updated successfully" });
+      }
+    }
+  );
+});
+
+// Update lpo number record route
+app.put("/approveInvoice", (req, res) => {
+  const { 
+    approve,
+    invoiceNumberString
+  } = req.body;
+
+  // Update the new lpo number in the database
+  const query = `UPDATE invoice_details SET status = ? WHERE invoice_number = ?;`;
+  connection.query(
+    query,
+    [
+      approve,
+      invoiceNumberString,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({
+          error: "Error updating distributor records in the database",
+        });
+      } else {
+        res.json({ message: "Distributor records updated successfully" });
+      }
+    }
+  );
+});
+
+// Update lpo number record route
+app.put("/rejectInvoice", (req, res) => {
+  const { 
+    reject,
+    invoiceNumberString
+  } = req.body;
+
+  // Update the new lpo number in the database
+  const query = `UPDATE invoice_details SET status = ? WHERE invoice_number = ?;`;
+  connection.query(
+    query,
+    [
+      reject,
+      invoiceNumberString,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({
+          error: "Error updating distributor records in the database",
+        });
+      } else {
+        res.json({ message: "Distributor records updated successfully" });
+      }
+    }
+  );
+});
+
+// Update lpo number record route
+app.put("/rejectLpo", (req, res) => {
+  const { 
+    reject,
+    lpoNumberString
+  } = req.body;
+
+  // Update the new lpo number in the database
+  const query = `UPDATE lpo_dates SET status = ? WHERE lpo_number = ?`;
+  connection.query(
+    query,
+    [
+      reject,
+      lpoNumberString
     ],
     (err, result) => {
       if (err) {
@@ -1007,6 +1134,51 @@ app.get("/countLPOs", (req, res) => {
   });
 });
 
+// API endpoint to register a new user
+app.post('/register', async (req, res) => {
+  const {userName, pass  } = req.body;
+  const sql = "INSERT INTO users (username, password) VALUES (?, ?);";
+  bcrypt.hash(pass, salt, (err,hash) => {
+    if(err) return res.json( "error hasshing password")
+    const values = [
+      userName,
+      hash,
+    ]
+
+    connection.query(sql,values, (err, result) => {
+    if(err) return res.json({Error : "inserting data"})
+    return res.json({status : "success"})
+  })
+  })
+
+});
+
+// API endpoint to register a new user
+app.post('/login', async (req, res) => {
+  const {user, pwd  } = req.body;
+  const sql = "SELECT * FROM users WHERE username = ?";
+
+  connection.query(sql,user, (err, result) => {
+    if(err) return res.json({Error : "querry in db"});
+
+    if (result.length > 0) {
+      bcrypt.compare(pwd, result[0].password, (err, response)  => {
+        if(err) return res.json({Error : "invalid password data"})
+
+        if(response) {
+          return res.json({status : "success"})
+        } else {
+          return res.json({Error : "password mismatch"})
+        }
+
+      })
+    } else {
+      return res.json({Error : "Username does not exist."})
+    }
+  
+  })
+
+});
 
 // Start the server
 const port = 3000; // You can change this port number if needed

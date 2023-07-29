@@ -68,7 +68,7 @@ const Customer = () => {
               marginLeft: "80%",
             }}
             type="button"
-            onClick={() => navigate('/ ')}
+            onClick={() => navigate('/dashboard ')}
           >
             Home
           </button>

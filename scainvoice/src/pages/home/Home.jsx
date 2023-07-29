@@ -80,9 +80,9 @@ export default function Home({ link }) {
   countLPOs();
 
 
-  useEffect(() => {
-    setselectedLink(link);
-  }, [link]);
+  // useEffect(() => {
+  //   setselectedLink(link);
+  // }, [link]);
 
   const handleClick = (link) => {
     setselectedLink(link);

@@ -13,12 +13,14 @@ import CreateNewCustomer from "./pages/customer/CreateNewCustomer";
 import CustomerRecords from "./pages/customer/CustomerRecords";
 import Lpo from "./pages/Lpo/Lpo";
 import LpoRecord from "./pages/Lpo/lpoRecord";
+import LpoRecord_2 from "./pages/Lpo/lpoRecord_2";
 import NewLpo from "./pages/Lpo/NewLpo";
 import Bank from "./pages/bank/Bank";
 import Customer from './pages/customer/Customer';
 import CreateInvoice from './pages/invoice/CreateInvoice';
 import Invoice from './pages/invoice/Invoice';
 import InvoiceList from './pages/invoice/InvoiceList';
+import InvoiceList_2 from './pages/invoice/InvoiceList_2';
 import CreateNewBank from './pages/bank/CreateNewBank';
 import BankRecords from './pages/bank/BankRecords';
 import CreateDistributor from "./pages/distributors/CreateDistributor";
@@ -63,7 +65,7 @@ const router = createBrowserRouter(
 
           {
             path: "invoice-records",
-            element: <InvoiceList />,
+            element: <InvoiceList_2 />,
           },
         ],
       },
@@ -100,8 +102,8 @@ const router = createBrowserRouter(
                           element: <NewLpo />
                         },
                         {
-                          path: "lpoRecord",
-                          element: <LpoRecord />
+                          path: "lpoRecord_2",
+                          element: <LpoRecord_2 />
                         },
                       ],
                     },

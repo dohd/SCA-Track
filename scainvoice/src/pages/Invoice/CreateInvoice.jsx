@@ -51,6 +51,8 @@ export default function NewInvoice() {
   const [bankDetails, setBankDetails] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState("");
 
+  const status = "Pending";
+
   const navigate = useNavigate();
 
   const fetchCustomers = async () => {
@@ -349,8 +351,8 @@ export default function NewInvoice() {
           vatPrice,
           selectedCustomer,
           selectedBank,
+          status,
         });
-        alert(overallTotalPrice);
       } catch (error) {
         console.error(error);
       }
