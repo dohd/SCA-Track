@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import form from "./form.css";
 import { useNavigate } from "react-router-dom";
+import { Margin } from "@mui/icons-material";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const Register = () => {
   }
 
   const handlelogin=()=>{
-    navigate('/')
+    navigate('/ ')
 }
 
 
@@ -42,11 +43,25 @@ const Register = () => {
       
         <section className="register-form">
           
-          <h1 style={{ fontSize: "32px", marginBottom: "20px", color: "#333" }}>
+          <h1 style={{ fontSize: "32px", marginBottom: "20px", color: "#333",
+        textAlign: "center" }}>
             Register
           </h1>
-          <form >
-            <div>
+          <form 
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            justifyContent: "space-evenly",
+          }}
+          >
+            <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+            }}>
               <label
                 htmlFor="username"
                 style={{
@@ -58,6 +73,12 @@ const Register = () => {
                 Username:
               </label>
               <input
+              style={{
+                width: "100%",
+                padding: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "6px",
+              }}
                 type="text"
                 id="username"
                 name="username"
@@ -67,6 +88,10 @@ const Register = () => {
                 onChange={(e) => setUserName(e.target.value)}
               />
               <p
+               style={{
+                textAlign: "center",
+                marginTop: "20px",
+              }}
               >
                 <FontAwesomeIcon icon={faInfoCircle} />
                 4 to 24 characters.
@@ -77,7 +102,13 @@ const Register = () => {
               </p>
             </div>
 
-            <div>
+            <div
+            
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+            }}>
               <label
                 htmlFor="confirm_pwd"
                 style={{
@@ -89,6 +120,13 @@ const Register = () => {
                 Password:
               </label>
               <input
+              style={{
+                width: "100%",
+                padding: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "6px",
+              }}
+              
                 type="password"
                 id="confirm_pwd"
                 name="password2"
@@ -97,25 +135,35 @@ const Register = () => {
                 onChange={(e) => setPass(e.target.value)}
               />
               <p
+              style={{
+                textAlign: "center",
+                marginTop: "20px",
+              }}
               >
-                Must match the first password input field.
+                Enter password input field.
               </p>
             </div>
 
             <button
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+              display: "inline-block",
+              color: "white",
+              marginTop: "10px",
+              backgroundColor: "green",
+              textDecoration: "underline",
+            }}
               type="submit"
-              style={{
-                display: "inline-block",
-                color: "blue",
-                textDecoration: "underline",
-              }}
 
               onClick={handleSubmmit}
             >
               Sign up
             </button>
           </form>
-          <p style={{ fontSize: "32px", marginBottom: "20px", color: "#333" }}>
+          <p style={{marginTop: "10px", fontSize: "16px", marginBottom: "20px", color: "#333" }}>
             Already registered?
             <br />
             <span
@@ -124,15 +172,18 @@ const Register = () => {
                 display: "inline-block",
                 color: "black ",
                 textDecoration: "underline",
+                cursor: "pointer",
+                marginTop: "10px",
               }}
+              onClick={handlelogin}
             >
-              Sign In{" "}
+              Sign In
             </span>
           </p>
         </section>
       
       <div className="welcome-container">
-        <h2>Welcome to our website!</h2>
+        <h2>Welcome to our spartec!</h2>
       </div>
       {/* Image */}
       <div className="image-container">

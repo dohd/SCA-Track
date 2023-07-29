@@ -1,6 +1,7 @@
 .register-container {
     display: flex;
     justify-content: center;
+    margin-top: 50px;
     align-items: center;
     height: 100%;
     background: linear-gradient(45deg, rgb(0, 255, 136), rgb(56, 157, 123));
@@ -9,22 +10,29 @@
   .register-form {
     background-color: #fff;
     padding: 20px;
-    border-radius: 85px;
+    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+    margin-bottom: 20px;
+
   }
   .login-container {
     display: flex;
     justify-content: center;
+    margin-top: 50px;
     align-items: center;
-    height: 120%;
-    background: linear-gradient(45deg, white(0, 255, 136), rgb(56, 157, 123));
+    height: 100%;
+    background: linear-gradient(45deg, rgb(0, 255, 136), rgb(56, 157, 123));
   }
   
   .login-form {
-    background-color: #1ec678;
+    background-color: #ffffff;
     padding: 20px;
-    border-radius: 85px;
+    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 25%;
   }
   
   

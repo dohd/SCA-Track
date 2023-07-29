@@ -200,7 +200,7 @@ const CustomerForm = () => {
           </div>
         </div>
         
-        <h3
+        <p
           style={{
             fontSize: "26px",
             fontWeight: "500",
@@ -210,14 +210,16 @@ const CustomerForm = () => {
           }}
         >
           Cusromer ID: &nbsp;
-          <ul>
+          <ul style={{
+            listStyle: "none"
+          }}>
             {custID.map((id, index) => (
               <li key={index}>
                 <h3 id="custID">{id.cust_id}</h3>
               </li>
             ))}
           </ul>
-        </h3>
+        </p>
 
         <div>
           <label
