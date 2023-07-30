@@ -44,7 +44,7 @@ const Distributor = () => {
               marginBottom: "10px",
             }}
           >
-            New Distributor
+            Distributors
           </h1>
         </div>
         <div
@@ -65,7 +65,7 @@ const Distributor = () => {
               marginLeft: "80%",
             }}
             type="button"
-            onClick={() => navigate("/ ")}
+            onClick={() => navigate('/dashboard ')}
           >
             Home
           </button>

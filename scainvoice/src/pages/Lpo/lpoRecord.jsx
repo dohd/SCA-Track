@@ -25,6 +25,7 @@ const LpoRecords = () => {
   const [selectedDistributor, setSelectedDistributor] = useState("");
   const [distDetails, setDistDetails] = useState([]);
   const [message, setMessage] = useState([]);
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     fetchLpos();
@@ -45,13 +46,24 @@ const LpoRecords = () => {
     setOpenDialog(true); // Open the dialog
     setLpoNumberString(lpo.lpo_number);
     setSelectedDistributor(lpo.distributor);
+    setStatus(lpo.status);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false); // Close the dialog
   };
 
-  const handleGeneratePDF = async () => {
+ const handleGeneratePDF = () => {
+  if(status === "Approved") {
+    generatePDF();
+  } else{
+    alert("LPO must be approved!")
+  }
+ }
+
+  const generatePDF = async () => {
+
+    
     const content = contentRef.current;
 
     // Wrap the content in a div to ensure proper conversion
@@ -154,7 +166,7 @@ const LpoRecords = () => {
     { field: "lpo_number", headerName: "LPO Number", width: 100 },
     { field: "distributor", headerName: "Distributor", width: 250 },
     { field: "total", headerName: "Amount", type: "number", width: 100 },
-    { field: "Status", headerName: "Status", width: 100 },
+    { field: "status", headerName: "Status", width: 100 },
     { field: "Lpo_date", headerName: "DateIssued", width: 100 },
     { field: "days", headerName: "Due in (Days)", width: 150 },
     {
@@ -300,13 +312,14 @@ const LpoRecords = () => {
               <ul
                 style={{
                   marginBottom: "10px",
+                  listStyle: "none"
                 }}
               >
                 {distDetails.map((info, index) => (
                   <li key={index}>
-                    <h4>Distributor Address: {info.distributor_address}</h4>
-                    <h4>Distributor Phone: {info.distributor_phone}</h4>
-                    <h4>Distributor Email: {info.distributor_email}</h4>
+                    <p>Distributor Address: {info.distributor_address}</p>
+                    <p>Distributor Phone: {info.distributor_phone}</p>
+                    <p>Distributor Email: {info.distributor_email}</p>
                   </li>
                 ))}
               </ul>
@@ -345,7 +358,11 @@ const LpoRecords = () => {
                   >
                     Message
                   </h3>
-                  <ul>
+                  <ul
+                  style={{
+                    listStyle: "none"
+                  }}
+                  >
                     {message.map((msg, index) => (
                       <li key={index}>
                         <p>{msg.lpo_message}</p>

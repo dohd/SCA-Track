@@ -466,7 +466,7 @@ export default function NewInvoice() {
         </div>
 
         <div>
-          <h3
+          <p
             style={{
               fontSize: "26px",
               fontWeight: "500",
@@ -476,18 +476,29 @@ export default function NewInvoice() {
             }}
           >
             Invoice Number: &nbsp;
-            <ul>
+            <ul
+            style={{
+              listStyle: "none"
+            }}>
               {invoice_number.map((invoice, index) => (
                 <li key={index}>
-                  <h3 id="myLpoNo">{invoice.invoice_no}</h3>
+                  <p id="myLpoNo">{invoice.invoice_no}</p>
                 </li>
               ))}
             </ul>
-          </h3>
+          </p>
 
           <div className="top_section" style={{ marginBottom: "20px" }}>
             <div className="drop-down">
-              <h2>Billing to: </h2>
+            <h1
+            style={{
+              fontSize: "24px",
+              fontWeight: "500",
+              marginBottom: "10px",
+            }}
+          >
+            Billing To:
+          </h1>
               <select
                 style={{
                   width: "100%",
@@ -522,12 +533,16 @@ export default function NewInvoice() {
                   width: "60%",
                 }}
               >
-                <ul>
+                <ul
+                style={{
+                  listStyle: "none"
+                }}
+                >
                   {custDetails.map((info, index) => (
                     <li key={index}>
-                      <h4>Address: {info.customer_address}</h4>
-                      <h4>Phone: {info.customer_phone}</h4>
-                      <h4>Email: {info.customer_email}</h4>
+                      <p>Address: {info.customer_address}</p>
+                      <p>Phone: {info.customer_phone}</p>
+                      <p>Email: {info.customer_email}</p>
                     </li>
                   ))}
                 </ul>
@@ -539,7 +554,14 @@ export default function NewInvoice() {
                     marginTop: "10px",
                   }}
                 >
-                  <h4>Currency: </h4>
+                  <h1
+            style={{
+              fontSize: "18px",
+              fontWeight: "500",
+            }}
+          >
+            Currency
+          </h1>
                   <select
                     style={{
                       width: "80%",
@@ -762,7 +784,15 @@ export default function NewInvoice() {
         </div>
 
         <div className="drop-down">
-          <h2>Select bank: </h2>
+        <h1
+            style={{
+              fontSize: "20px",
+              fontWeight: "500",
+              marginBottom: "10px",
+            }}
+          >
+            Select Bank:
+          </h1>
           <select
             style={{
               width: "100%",
@@ -782,12 +812,18 @@ export default function NewInvoice() {
         </div>
 
         <div>
-          <ul>
+          <ul
+          style={{
+            listStyle: "none",
+            marginTop: "10px",
+          }}>
             {bankDetails.map((info, index) => (
               <li key={index}>
-                <h4>Account: {info.usd_account}</h4>
-                <h4>Branch: {info.branch}</h4>
-                <h4>SwiftCode: {info.swift_code}</h4>
+                <p>KES Account: {info.kes_account}</p>
+                <p>USD Account: {info.usd_account}</p>
+                <p>Pounds Account: {info.pounds_account}</p>
+                <p>Branch: {info.branch}</p>
+                <p>SwiftCode: {info.swift_code}</p>
               </li>
             ))}
           </ul>

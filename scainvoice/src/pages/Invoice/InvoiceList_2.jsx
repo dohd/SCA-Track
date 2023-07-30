@@ -354,13 +354,14 @@ const InvoiceRecords = () => {
               <ul
                 style={{
                   marginBottom: "10px",
+                  listStyle: "none",
                 }}
               >
                 {custDetails.map((info, index) => (
                   <li key={index}>
-                    <h4>Customer Address: {info.customer_address}</h4>
-                    <h4>Customer Phone: {info.customer_phone}</h4>
-                    <h4>Customer Email: {info.customer_email}</h4>
+                    <p>Customer Address: {info.customer_address}</p>
+                    <p>Customer Phone: {info.customer_phone}</p>
+                    <p>Customer Email: {info.customer_email}</p>
                   </li>
                 ))}
               </ul>
@@ -399,7 +400,11 @@ const InvoiceRecords = () => {
                   >
                     Message
                   </h3>
-                  <ul>
+                  <ul
+                  style={{
+                    listStyle: "none"
+                  }}
+                  >
                     {message.map((msg, index) => (
                       <li key={index}>
                         <p>{msg.message}</p>
@@ -448,8 +453,9 @@ const InvoiceRecords = () => {
               <div>
                 <h3
                   style={{
-                    fontSize: "16px",
-                    fontWeight: "600",
+                    fontSize: "22px",
+                    fontWeight: "500",
+                    marginBottom: "10px",
                   }}
                 >
                   Bank Details
@@ -461,18 +467,21 @@ const InvoiceRecords = () => {
                     marginBottom: "6px",
                   }}
                 >
-                  Spartec Consotrium Africa-Limited (SCA)
+                   Company Name: Spartec Consotrium Africa-Limited (SCA)
                 </h3>
 
-                <h3>Bank: {selectedBank}</h3>
-                <ul>
+                <p>Bank Name: {selectedBank}</p>
+                <ul 
+                style={{
+                  listStyle: "none"
+                }}>
                   {bankDetails.map((info, index) => (
                     <li key={index}>
-                      <h4>KES Account: {info.kes_account}</h4>
-                      <h4>USD Account: {info.usd_account}</h4>
-                      <h4>Pounds Account: {info.pounds_account}</h4>
-                      <h4>Branch: {info.branch}</h4>
-                      <h4>SwiftCode: {info.swift_code}</h4>
+                      <p>KES Account: {info.kes_account}</p>
+                      <p>USD Account: {info.usd_account}</p>
+                      <p>Pounds Account: {info.pounds_account}</p>
+                      <p>Branch: {info.branch}</p>
+                      <p>SwiftCode: {info.swift_code}</p>
                     </li>
                   ))}
                 </ul>

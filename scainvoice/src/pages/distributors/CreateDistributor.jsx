@@ -173,7 +173,7 @@ export default function CreateDistributor() {
         </div>
       </div>
       
-      <h3
+      <p
         style={{
           fontSize: "26px",
           fontWeight: "500",
@@ -183,14 +183,17 @@ export default function CreateDistributor() {
         }}
       >
         Distributor ID: &nbsp;
-        <ul>
+        <ul
+        style={{
+          listStyle: "none"
+        }}>
           {distributorID.map((id, index) => (
             <li key={index}>
-              <h3 id="distID">{id.dist_id}</h3>
+              <p id="distID">{id.dist_id}</p>
             </li>
           ))}
         </ul>
-      </h3>
+      </p>
 
       <div>
         <label

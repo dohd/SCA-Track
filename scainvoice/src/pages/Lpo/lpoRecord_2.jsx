@@ -335,16 +335,18 @@ const LpoRecords = () => {
               <ul
                 style={{
                   marginBottom: "10px",
+                  listStyle: "none"
                 }}
               >
                 {distDetails.map((info, index) => (
                   <li key={index}>
-                    <h4>Distributor Address: {info.distributor_address}</h4>
-                    <h4>Distributor Phone: {info.distributor_phone}</h4>
-                    <h4>Distributor Email: {info.distributor_email}</h4>
+                    <p>Distributor Address: {info.distributor_address}</p>
+                    <p>Distributor Phone: {info.distributor_phone}</p>
+                    <p>Distributor Email: {info.distributor_email}</p>
                   </li>
                 ))}
               </ul>
+              
               <h3
                 style={{
                   fontSize: "22px",
@@ -380,7 +382,11 @@ const LpoRecords = () => {
                   >
                     Message
                   </h3>
-                  <ul>
+                  <ul
+                  style={{
+                    listStyle: "none"
+                  }}
+                  >
                     {message.map((msg, index) => (
                       <li key={index}>
                         <p>{msg.lpo_message}</p>

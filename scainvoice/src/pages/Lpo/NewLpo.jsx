@@ -423,7 +423,7 @@ export default function CreateLPO() {
         </div>
 
         <div>
-          <h3
+          <p
             style={{
               fontSize: "26px",
               fontWeight: "500",
@@ -433,18 +433,27 @@ export default function CreateLPO() {
             }}
           >
             LPO Number: &nbsp;
-            <ul>
+            <ul
+             style={{ listStyle: "none"}}>
               {lpo_number.map((lpo, index) => (
                 <li key={index}>
-                  <h3 id="myLpoNo">{lpo.lpo_no}</h3>
+                  <p id="myLpoNo">{lpo.lpo_no}</p>
                 </li>
               ))}
             </ul>
-          </h3>
+          </p>
 
           <div className="top_section" style={{ marginBottom: "20px" }}>
             <div className="drop-down">
-              <h2>Select a distributor</h2>
+            <h1
+            style={{
+              fontSize: "24px",
+              fontWeight: "500",
+              marginBottom: "10px",
+            }}
+          >
+            Select Distributor:
+          </h1>
               <select
                 style={{
                   width: "100%",
@@ -479,12 +488,16 @@ export default function CreateLPO() {
                   width: "60%",
                 }}
               >
-                <ul>
+                <ul
+                style={{
+                  listStyle: "none",
+                }}
+                >
                   {distDetails.map((info, index) => (
                     <li key={index}>
-                      <h4>Address: {info.distributor_address}</h4>
-                      <h4>Phone: {info.distributor_phone}</h4>
-                      <h4>Email: {info.distributor_email}</h4>
+                      <p>Address: {info.distributor_address}</p>
+                      <p>Phone: {info.distributor_phone}</p>
+                      <p>Email: {info.distributor_email}</p>
                     </li>
                   ))}
                 </ul>
@@ -496,7 +509,15 @@ export default function CreateLPO() {
                     marginTop: "10px",
                   }}
                 >
-                  <h4>Currency: </h4>
+                  <h1
+            style={{
+              fontSize: "18px",
+              fontWeight: "500",
+              marginBottom: "10px",
+            }}
+          >
+            Currency:
+          </h1>
                   <select
                     style={{
                       width: "80%",

@@ -215,7 +215,7 @@ const CustomerForm = () => {
           }}>
             {custID.map((id, index) => (
               <li key={index}>
-                <h3 id="custID">{id.cust_id}</h3>
+                <p id="custID">{id.cust_id}</p>
               </li>
             ))}
           </ul>

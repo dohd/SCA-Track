@@ -66,7 +66,7 @@ export default function Lpo() {
               marginLeft: "80%",
             }}
             type="button"
-            onClick={() => navigate("/ ")}
+            onClick={() => navigate('/dashboard ')}
           >
             Home
           </button>

@@ -309,10 +309,10 @@ const BankRecords = () => {
             style={{
               marginTop: "10px",
             }}
-            name="pound_account"
-            label="Pound Account"
+            name="pounds_account"
+            label="Pounds Account"
             fullWidth
-            value={editedBank.pound_account || ""}
+            value={editedBank.pounds_account || ""}
             onChange={handleEditInputChange}
           />
           <TextField
