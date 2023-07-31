@@ -86,7 +86,7 @@ export default function Home({ link }) {
 
   const handleClick = (link) => {
     setselectedLink(link);
-    window.location.href = `http://localhost:3000/${link}`;
+    window.location.href = `${link}`;
 
   };
   const handleClickCustomer = () => {
