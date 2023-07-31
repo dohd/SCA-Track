@@ -22,11 +22,12 @@ import MuiDrawer from "@mui/material/Drawer";
 import AdminHome from "../AdminHome/AdminHome";
 import Logout from "@mui/icons-material/Logout";
 import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
-
-import admnInvoice from "../admininvoice/AdmnInvoice"
+import Bank1  from "../adminbank/Bank1";
+import admnInvoice from "../admininvoice/AdminInvoice";
 import Customer1 from "../admincustomer/Customer1";
 import Distributors1 from "../admindistributors/Distributors1";
-
+import Lpo1 from "../adminLpo/Lpo1";
+import User from "../user/User";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -114,6 +115,24 @@ and a component representing the component to render when the menu item is selec
   link:"admincustomers",
 component:(<Customer1 {...{setselectedLink,link:"admincustomers"}} />
 ),},
+{title:"AdminBank",
+icon:<AccountBalanceIcon/>,
+link:"adminbank",
+component:(<Bank1 {...{setselectedLink,link:"adminbank"}} />
+),},
+{
+  title:"AdminLpo",
+  icon:<LayersIcon/>,
+  link:"adminlpo",
+  component:(<Lpo1 {...{setselectedLink,link:"adminlpo"}} />),
+},
+{
+  title:"Users",
+  icon:<PeopleIcon/>,
+  link:"user",
+  component: (<User {...{setselectedLink,link:"user"}} />
+  ),
+},
 
 
     ],

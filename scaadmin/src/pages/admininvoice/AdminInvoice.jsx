@@ -1,17 +1,18 @@
 import React from "react";
 import { Box, Paper, Typography } from "@mui/material";
+import { Group, Restore, History } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { Restore, Group } from "@mui/icons-material";
 
-const Distributor = () => {
+const Invoice = () => {
   const navigate = useNavigate();
 
-  const handleNewDistributor = () => {
-    navigate("/admindistributor/newd");
+  const handleNewInvoiceClick = () => {
+    navigate("/admininvoice/new-in");
   };
-  const handleDistributorRecords = () => {
-    navigate("/admindistributor/drecords");
+  const handleInvoiceRecordsClick = () => {
+    navigate("/admininvoice/invoice-records");
   };
+
   return (
     <Box
       sx={{
@@ -26,7 +27,6 @@ const Distributor = () => {
     >
       <div
         style={{
-          display: "flex",
           justifyContent: "space-between",
           display: "flex",
           flexDirection: "row",
@@ -44,7 +44,7 @@ const Distributor = () => {
               marginBottom: "10px",
             }}
           >
-            Distributors
+            Invoices
           </h1>
         </div>
         <div
@@ -83,30 +83,9 @@ const Distributor = () => {
           <Paper
             elevation={3}
             sx={{ p: 3, width: 360, cursor: "pointer" }}
-            onClick={handleNewDistributor}
+            onClick={handleNewInvoiceClick}
           >
-            <Typography variant="h4">New Distributor</Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: 2,
-              }}
-            >
-              <Restore
-                sx={{ height: 100, width: 100, opacity: 0.3, marginRight: 1 }}
-              />
-            </Box>
-          </Paper>
-        </Box>
-        <Box>
-          <Paper
-            elevation={3}
-            sx={{ p: 3, width: 360, cursor: "pointer" }}
-            onClick={handleDistributorRecords}
-          >
-            <Typography variant="h4"> Distributor Records</Typography>
+            <Typography variant="h4">New Invoice</Typography>
             <Box
               sx={{
                 display: "flex",
@@ -121,9 +100,32 @@ const Distributor = () => {
             </Box>
           </Paper>
         </Box>
+
+        <Box>
+          <Paper
+            elevation={3}
+            sx={{ p: 3, width: 360, cursor: "pointer" }}
+            onClick={handleInvoiceRecordsClick}
+          >
+            <Typography variant="h4">Invoice Records</Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: 2,
+              }}
+            >
+              <Restore
+                sx={{ height: 100, width: 100, opacity: 0.3, marginRight: 1 }}
+              />
+            </Box>
+          </Paper>
+        </Box>
       </div>
       
     </Box>
   );
 };
-export default Distributor;
+
+export default Invoice;

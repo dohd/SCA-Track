@@ -3,14 +3,15 @@ import { Box, Paper, Typography } from "@mui/material";
 import { Group, Restore, History } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
-const Invoice = () => {
+export default function Lpo() {
   const navigate = useNavigate();
 
-  const handleNewInvoiceClick = () => {
-    navigate("/admininvoice/new-in");
+  const handleNewLpoClick = () => {
+    navigate("/adminlpo/newLpo ");
   };
-  const handleInvoiceRecordsClick = () => {
-    navigate("/admininvoice/invoice-records");
+
+  const handleLpoRecordsClick = () => {
+    navigate("/adminlpo/lpoRecord ");
   };
 
   return (
@@ -44,7 +45,7 @@ const Invoice = () => {
               marginBottom: "10px",
             }}
           >
-            Invoices
+            LPO
           </h1>
         </div>
         <div
@@ -65,7 +66,7 @@ const Invoice = () => {
               marginLeft: "80%",
             }}
             type="button"
-            onClick={() => navigate('/dashboard ')}
+            onClick={() => navigate('/admindashboard ')}
           >
             Home
           </button>
@@ -83,9 +84,9 @@ const Invoice = () => {
           <Paper
             elevation={3}
             sx={{ p: 3, width: 360, cursor: "pointer" }}
-            onClick={handleNewInvoiceClick}
+            onClick={handleNewLpoClick}
           >
-            <Typography variant="h4">New Invoice</Typography>
+            <Typography variant="h4">New LPO</Typography>
             <Box
               sx={{
                 display: "flex",
@@ -105,9 +106,9 @@ const Invoice = () => {
           <Paper
             elevation={3}
             sx={{ p: 3, width: 360, cursor: "pointer" }}
-            onClick={handleInvoiceRecordsClick}
+            onClick={handleLpoRecordsClick}
           >
-            <Typography variant="h4">Invoice Records</Typography>
+            <Typography variant="h4">LPO Records</Typography>
             <Box
               sx={{
                 display: "flex",
@@ -126,6 +127,4 @@ const Invoice = () => {
       
     </Box>
   );
-};
-
-export default Invoice;
+}

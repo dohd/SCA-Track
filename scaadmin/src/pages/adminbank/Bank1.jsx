@@ -7,10 +7,10 @@ const Customer = () => {
   const navigate = useNavigate();
 
   const handleNewBankClick = () => {
-    navigate('/bank/newbank');
+    navigate('/adminbank/newbank');
   };
   const handleBankRecordsClick = () => {
-    navigate('/bank/brecords');
+    navigate('/adminbank/brecords');
   };
 
 
@@ -68,7 +68,7 @@ const Customer = () => {
               marginLeft: "80%",
             }}
             type="button"
-            onClick={() => navigate('/dashboard ')}
+            onClick={() => navigate('/admindashboard ')}
           >
             Home
           </button>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Group, MapsHomeWork } from '@mui/icons-material';
 import { Box, Paper, Typography } from '@mui/material';
-import AdmnInvoice from '../admininvoice/AdmnInvoice';
+import AdminInvoice from '../admininvoice/AdminInvoice';
 import Customer1 from '../admincustomer/Customer1';
 import axios from 'axios';
 
@@ -91,11 +91,11 @@ export default function Home({ link }) {
 
   };
   const handleClickCustomer = () => {
-    handleClick('customer');
+    handleClick('admincustomer');
   };
 
   const handleClickBank = () => {
-    handleClick('bank');
+    handleClick('adminbank');
   };
   const handleClickUser = () => {
     handleClick('user');
@@ -115,7 +115,7 @@ export default function Home({ link }) {
       {selectedLink === '' && (
         <>
           <Paper elevation={3} sx={{ p: 3 }}
-           onClick={() => handleClick('Invoice')}
+           onClick={() => handleClick('admininvoice')}
           >
             <Typography variant="h4"> Invoice</Typography>
             <Box
@@ -188,7 +188,7 @@ export default function Home({ link }) {
             </Box>
           </Paper>
           <Paper elevation={3} sx={{ p: 3 }}
-           onClick={() => handleClick('lpo')}>
+           onClick={() => handleClick('adminLpo')}>
             <Typography variant="h4">Lpo</Typography>
             <Box
               sx={{
@@ -205,7 +205,7 @@ export default function Home({ link }) {
             </Box>
           </Paper>
           <Paper elevation={3} sx={{ p: 3 }}
-           onClick={() => handleClick('distributor')}>
+           onClick={() => handleClick('admindistributor')}>
             <Typography variant="h4">Distributors</Typography>
             <Box
               sx={{
@@ -225,7 +225,7 @@ export default function Home({ link }) {
       )}
 {/* If it is true, it will render the DispatchedInvoice component. Otherwise, it won't render anything. */}
       {selectedLink === 'admincustomer' && <Customer1 />}
-      {selectedLink === 'admininvoice' && <AdmnInvoice />}
+      {selectedLink === 'admininvoice' && <AdminInvoice />}
     </Box>
   );
 }
