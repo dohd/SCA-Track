@@ -5,7 +5,7 @@ import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
-import AdminDashboard from "./pages/admin/adm dashboard/AdminDashboard";
+
 import Dashboard from "./pages/dashboard/Dashboard";
 import Distributors from "./pages/distributors/Distributors";
 import CreateNewCustomer from "./pages/customer/CreateNewCustomer";
@@ -35,15 +35,11 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
 
-    children: [
-      {
-        path: "admindashboard",
-        element: <AdminDashboard />,
-      },
-
-    ],
+    
     
     children: [
+     
+
       {
         path: "Invoice",
         children: [

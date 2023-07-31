@@ -1136,13 +1136,14 @@ app.get("/countLPOs", (req, res) => {
 
 // API endpoint to register a new user
 app.post('/register', async (req, res) => {
-  const {userName, pass  } = req.body;
-  const sql = "INSERT INTO users (username, password) VALUES (?, ?);";
+  const {userName, pass, email  } = req.body;
+  const sql = "INSERT INTO users (username, password, email) VALUES (?,?,?);";
   bcrypt.hash(pass, salt, (err,hash) => {
     if(err) return res.json( "error hasshing password")
     const values = [
       userName,
       hash,
+      email,
     ]
 
     connection.query(sql,values, (err, result) => {
@@ -1175,9 +1176,32 @@ app.post('/login', async (req, res) => {
     } else {
       return res.json({Error : "Username does not exist."})
     }
-  
   })
+});
 
+// API endpoint to register a new user
+app.post('/adminLogin', async (req, res) => {
+  const {user, pwd  } = req.body;
+  const sql = "SELECT * FROM admin WHERE username = ?";
+
+  connection.query(sql,user, (err, result) => {
+    if(err) return res.json({Error : "querry in db"});
+
+    if (result.length > 0) {
+      bcrypt.compare(pwd, result[0].password, (err, response)  => {
+        if(err) return res.json({Error : "invalid password data"})
+
+        if(response) {
+          return res.json({status : "success"})
+        } else {
+          return res.json({Error : "Password mismatch"})
+        }
+
+      })
+    } else {
+      return res.json({Error : "Username does not exist."})
+    }
+  })
 });
 
 // Start the server
