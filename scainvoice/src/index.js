@@ -5,7 +5,7 @@ import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
-
+import AdminDashboard from "./pages/admin/adm dashboard/AdminDashboard";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Distributors from "./pages/distributors/Distributors";
 import CreateNewCustomer from "./pages/customer/CreateNewCustomer";
@@ -37,96 +37,10 @@ const router = createBrowserRouter([
 
     children: [
       {
-        path: "admin/dashboard",
-        element: <Dashboard />,
+        path: "admindashboard",
+        element: <AdminDashboard />,
       },
 
-      {
-        path: "Invoice",
-        children: [
-          {
-            path: "",
-            element: <Invoice />,
-          },
-          {
-            path: "new-in",
-            element: <CreateInvoice />,
-          },
-
-          {
-            path: "invoice-records",
-            element: <InvoiceList_2 />,
-          },
-        ],
-      },
-      {
-        path: "distributor",
-        children: [
-          {
-            path: "",
-            element: <Distributors />,
-          },
-          {
-            path: "newd",
-            element: <CreateDistributor />,
-          },
-          {
-            path: "drecords",
-            element: <DistributorRecords />,
-          },
-        ],
-      },
-
-      {
-        path: "lpo",
-        children: [
-          {
-            path: "",
-            element: <Lpo />,
-          },
-          {
-            path: "NewLpo",
-            element: <NewLpo />,
-          },
-          {
-            path: "lpoRecord_2",
-            element: <LpoRecord_2 />,
-          },
-        ],
-      },
-
-      {
-        path: "bank",
-        children: [
-          { path: "", element: <Bank /> },
-          {
-            path: "newbank",
-            element: <CreateNewBank />,
-          },
-          {
-            path: "brecords",
-            element: <BankRecords />,
-          },
-        ],
-      },
-      {
-        path: "customer",
-
-        children: [
-          {
-            path: "",
-            element: <Customer />,
-          },
-          {
-            path: "new",
-            element: <CreateNewCustomer />,
-          },
-          {
-            path: "records",
-            element: <CustomerRecords />,
-          },
-        ],
-      },
     ],
     
     children: [
@@ -149,7 +63,7 @@ const router = createBrowserRouter([
 
           {
             path: "invoice-records",
-            element: <InvoiceList />,
+            element: <InvoiceList_2 />,
           },
         ],
       },

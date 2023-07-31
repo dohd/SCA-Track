@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import { useState,useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import Sidelist from './Sidelist';
+import AdminSidelist from './AdminSidelist';
 import { ThemeProvider } from '@emotion/react';
 
 
@@ -39,7 +39,7 @@ const AppBar = styled(MuiAppBar, {
 
 
 
-export default function Dashboard() {
+export default function AdminDashboard() {
   
   const [open, setOpen] = useState(true);
   const [dark, setDark] = useState(true);
@@ -90,7 +90,7 @@ Inside createTheme, we define the palette object with a mode property. The value
          </IconButton>
         </Toolbar>
       </AppBar>
-      <Sidelist {...{open,setOpen}}/>
+      <AdminSidelist {...{open,setOpen}}/>
       
       </Box>
       

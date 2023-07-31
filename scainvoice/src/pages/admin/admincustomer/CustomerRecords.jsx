@@ -13,97 +13,107 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 
-const BankRecords = () => {
-  const [banks, setBanks] = useState([]);
+const DataTable = () => {
+  const [customers, setCustomers] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedBank, setSelectedBank] = useState({});
+  const [selectedCustomer, setSelectedCustomer] = useState({});
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [editedBank, setEditedBank] = useState({});
+  const [editedCustomer, setEditedCustomer] = useState({});
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchBanks();
+    fetchCustomers();
   }, []);
 
-  const fetchBanks = async () => {
+  const fetchCustomers = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/read_bankRecords"
-      );
-      setBanks(response.data);
+      const response = await axios.get("http://localhost:3000/read_customers");
+      setCustomers(response.data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleDelete = (bankID, bankName) => {
-    setSelectedBank({ bankID, bankName });
+  const handleDelete = (customerID, customerName) => {
+    setSelectedCustomer({ customerID, customerName });
     setDialogOpen(true);
   };
 
-  const handleEdit = (bank) => {
-    setSelectedBank(bank);
-    setEditedBank(bank);
+  const handleEdit = (customer) => {
+    setSelectedCustomer(customer);
+    setEditedCustomer(customer);
     setEditDialogOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    // Call your delete method here with bank ID and customer name
-    const { bankID, bankName } = selectedBank;
-    const message = `Delete customer ID: ${bankID}, Customer name: ${bankName}`;
+    // Call your delete method here with customer ID and customer name
+    const { customerID, customerName } = selectedCustomer;
+    const message = `Delete customer ID: ${customerID}, Customer name: ${customerName}`;
     console.log(message);
     setDialogOpen(false);
-    deleteBank(bankName);
+    deleteCustomer(customerName);
   };
 
   const handleConfirmEdit = async (event) => {
     event.preventDefault();
 
-    const { bankID } = selectedBank;
-    const updatedBank = { ...selectedBank, ...editedBank };
-    console.log("Update bank:", bankID, "Updated details:", updatedBank);
-    const bank_name = updatedBank.bank_name;
-    const branch = updatedBank.branch;
-    const kes_account = updatedBank.kes_account;
-    const usd_account = updatedBank.usd_account;
-    const pound_account = updatedBank.pounds_account;
-    const swift_code = updatedBank.swift_code;
+    const { customerID } = selectedCustomer;
+    const updatedCustomer = { ...selectedCustomer, ...editedCustomer };
+    console.log(
+      "Update customer:",
+      customerID,
+      "Updated details:",
+      updatedCustomer
+    );
+    const customer_address = updatedCustomer.customer_address;
+    const customer_email = updatedCustomer.customer_email;
+    const customer_location = updatedCustomer.customer_location;
+    const customer_phone = updatedCustomer.customer_phone;
+    const customer_po_number = updatedCustomer.customer_po_number;
+    const customer_street = updatedCustomer.customer_street;
+    const customer_name = updatedCustomer.customer_name;
+    const kra_pin = updatedCustomer.kra_pin;
     try {
       const response = await axios.put(
-        "http://localhost:3000/update/bankRecords",
+        "http://localhost:3000/update/customers",
         {
-          bank_name,
-          branch,
-          kes_account,
-          usd_account,
-          pound_account,
-          swift_code,
+          customer_address,
+          customer_email,
+          customer_location,
+          customer_phone,
+          customer_po_number,
+          customer_street,
+          customer_name,
+          kra_pin,
         }
       );
 
       console.log(response.data); // Assuming the response contains the updated movie details
       // Reset form fields
-      fetchBanks();
+      fetchCustomers();
     } catch (error) {
       console.error(error);
     }
     setEditDialogOpen(false);
   };
 
-  const deleteBank = async () => {
-    const { bankName } = selectedBank;
+  const deleteCustomer = async () => {
+    const { customerName } = selectedCustomer;
     try {
-      const response = await axios.delete(`http://localhost:3000/delete/bank`, {
-        params: {
-          bankName,
-        },
-      });
+      const response = await axios.delete(
+        `http://localhost:3000/delete/customer`,
+        {
+          params: {
+            customerName,
+          },
+        }
+      );
       console.log(response.data); // Assuming the response contains the success message
 
       alert("Deleted Successfuly!");
-      fetchBanks(); //update the list
+      fetchCustomers(); //update the list
     } catch (error) {
       console.error(error);
     }
@@ -123,33 +133,35 @@ const BankRecords = () => {
 
   const handleEditInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedBank((prevState) => ({
+    setEditedCustomer((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
   const columns = [
-    { field: "id", headerName: " No", width: 50 },
-    { field: "bank_name", headerName: "Bank Name", width: 200 },
-    { field: "branch", headerName: "Bank Branch", width: 160 },
-    { field: "kes_account", headerName: "KES Account", width: 120 },
-    { field: "pounds_account", headerName: "Pound Account", width: 110 },
-    { field: "usd_account", headerName: "USD Account", width: 110 },
-    { field: "swift_code", headerName: "Swift Code", width: 110 },
+    { field: "id", headerName: "No", width: 50 },
+    { field: "cust_id", headerName: "ID", width: 100 },
+    { field: "customer_name", headerName: "Customer Name", width: 180 },
+    { field: "customer_email", headerName: "Email", width: 200 },
+    { field: "customer_street", headerName: "Street", width: 140 },
+    { field: "customer_address", headerName: "Address", width: 160 },
+    { field: "customer_location", headerName: "Location", width: 140 },
+    { field: "kra_pin", headerName: "Pin No", width: 100 },
+    { field: "customer_phone", headerName: "Phone", width: 100 },
     {
       field: "Action",
       headerName: "Action",
       width: 100,
       renderCell: (params) => {
-        const bankID = params.row.id;
-        const bankName = params.row.bank_name;
-        const bank = params.row;
+        const customerID = params.row.id;
+        const customerName = params.row.customer_name;
+        const customer = params.row;
         return (
           <>
             <button
               className="InvoiceListEdit"
-              onClick={() => handleDelete(bankID, bankName)}
+              onClick={() => handleDelete(customerID, customerName)}
             >
               <DeleteIcon className="InvoiceListDelete" />
             </button>
@@ -159,7 +171,7 @@ const BankRecords = () => {
               style={{
                 marginLeft: "10px",
               }}
-              onClick={() => handleEdit(bank)}
+              onClick={() => handleEdit(customer)}
             >
               <EditIcon className="InvoiceListEdit" />
             </button>
@@ -176,7 +188,7 @@ const BankRecords = () => {
     }));
   };
 
-  const rowsWithIds = generateRowsWithIds(banks);
+  const rowsWithIds = generateRowsWithIds(customers);
 
   return (
     <Box
@@ -200,7 +212,6 @@ const BankRecords = () => {
           justifyContent: "space-between",
           display: "flex",
           flexDirection: "row",
-          marginTop: "20px",
         }}
       >
         <div
@@ -215,7 +226,7 @@ const BankRecords = () => {
               marginBottom: "10px",
             }}
           >
-            Bank Records
+            Customer Records
           </h1>
         </div>
         <div
@@ -249,7 +260,8 @@ const BankRecords = () => {
         <DialogTitle>Delete Confirmation</DialogTitle>
         <DialogContent>
           <p>
-            Are you sure you want to delete: <br /> {selectedBank.bankName}?
+            Are you sure you want to delete: <br />{" "}
+            {selectedCustomer.customerName}?
           </p>
         </DialogContent>
         <DialogActions>
@@ -263,66 +275,76 @@ const BankRecords = () => {
       </Dialog>
 
       <Dialog open={editDialogOpen} onClose={handleCloseEditDialog}>
-        <DialogTitle>Edit Bank Details</DialogTitle>
+        <DialogTitle>Edit Customer Details</DialogTitle>
         <DialogContent>
           <TextField
             style={{
               marginTop: "10px",
             }}
-            name="bank_name"
-            label="Bank Name"
+            name="customer_name"
+            label="Customer Name"
             fullWidth
-            value={editedBank.bank_name || ""}
+            value={editedCustomer.customer_name || ""}
             onChange={handleEditInputChange}
           />
           <TextField
             style={{
               marginTop: "10px",
             }}
-            name="bank_brach"
-            label="Branch"
+            name="customer_email"
+            label="Email"
             fullWidth
-            value={editedBank.branch || ""}
+            value={editedCustomer.customer_email || ""}
             onChange={handleEditInputChange}
           />
           <TextField
             style={{
               marginTop: "10px",
             }}
-            name="kes_account"
-            label="KES Account"
+            name="customer_street"
+            label="Street"
             fullWidth
-            value={editedBank.kes_account || ""}
+            value={editedCustomer.customer_street || ""}
             onChange={handleEditInputChange}
           />
           <TextField
             style={{
               marginTop: "10px",
             }}
-            name="usd_account"
-            label="USD Account"
+            name="customer_address"
+            label="Address"
             fullWidth
-            value={editedBank.usd_account || ""}
+            value={editedCustomer.customer_address || ""}
             onChange={handleEditInputChange}
           />
           <TextField
             style={{
               marginTop: "10px",
             }}
-            name="pounds_account"
-            label="Pounds Account"
+            name="customer_location"
+            label="Location"
             fullWidth
-            value={editedBank.pounds_account || ""}
+            value={editedCustomer.customer_location || ""}
             onChange={handleEditInputChange}
           />
           <TextField
             style={{
               marginTop: "10px",
             }}
-            name="swift"
-            label="Swift code"
+            name="kra_pin"
+            label="Pin No"
             fullWidth
-            value={editedBank.swift_code || ""}
+            value={editedCustomer.kra_pin || ""}
+            onChange={handleEditInputChange}
+          />
+          <TextField
+            style={{
+              marginTop: "10px",
+            }}
+            name="customer_phone"
+            label="Phone"
+            fullWidth
+            value={editedCustomer.customer_phone || ""}
             onChange={handleEditInputChange}
           />
         </DialogContent>
@@ -335,9 +357,8 @@ const BankRecords = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      
     </Box>
   );
 };
 
-export default BankRecords;
+export default DataTable;

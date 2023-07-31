@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Group, MapsHomeWork } from '@mui/icons-material';
 import { Box, Paper, Typography } from '@mui/material';
-import DispatchedInvoice from '../invoice/DispatchedInvoice';
-import Customer from '../customer/Customer';
+import DispatchedInvoice from '../admininvoice/DispatchedInvoice';
+import Customer from '../admincustomer/Customer';
 import axios from "axios";
 
 export default function Home({ link }) {
@@ -86,7 +86,7 @@ export default function Home({ link }) {
 
   const handleClick = (link) => {
     setselectedLink(link);
-    window.location.href = `${link}`;
+    window.location.href = `http://localhost:3000/${link}`;
 
   };
   const handleClickCustomer = () => {

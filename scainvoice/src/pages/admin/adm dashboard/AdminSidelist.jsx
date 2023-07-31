@@ -19,15 +19,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import PeopleIcon from "@mui/icons-material/People";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import MuiDrawer from "@mui/material/Drawer";
-import Lpo from "../Lpo/Lpo";
-import Bank from "../bank/Bank";
-import Home from "../home/Home";
+import AdminHome from "../home/AdminHome";
 import Logout from "@mui/icons-material/Logout";
 
-import Customer from "../customer/Customer";
-import Invoice from "../invoice/Invoice";
-
-import Distributors from "../distributors/Distributors";
 
 const drawerWidth = 240;
 
@@ -76,7 +70,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const Sidelist = ({ open, setOpen }) => {
+const AdminSidelist = ({ open, setOpen }) => {
   
 
   const { selectedLink, setselectedLink } = useState("");
@@ -93,40 +87,9 @@ and a component representing the component to render when the menu item is selec
         title: "Home",
         icon: <HomeIcon />,
         link: "",
-        component: <Home {...{ setselectedLink, link: "" }} />,
+        component: <AdminHome {...{ setselectedLink, link: "" }} />,
       },
-      {
-        title: "Distributor",
-        icon: <InboxIcon />,
-        link: "distributor ",
-        component: (
-          <Distributors {...{ setselectedLink, link: "distributor" }} />
-        ),
-      },
-      {
-        title: "Invoice",
-        icon: <MailIcon />,
-        link: "Invoice ",
-        component: <Invoice {...{ setselectedLink, link: "invoice" }} />,
-      },
-      {
-        title: "Customer",
-        icon: <PeopleIcon />,
-        link: "customer ",
-        component: <Customer {...{ setselectedLink, link: "customer" }} />,
-      },
-      {
-        title: "Lpo",
-        icon: <LayersIcon />,
-        link: "Lpo ",
-        component: <Lpo {...{ setselectedLink, link: "Lpo" }} />,
-      },
-      {
-        title: "Bank",
-        icon: <AccountBalanceIcon />,
-        link: "bank ",
-        component: <Bank {...{ setselectedLink, link: "Bank" }} />,
-      },
+    
     ],
     []
   );
@@ -196,4 +159,4 @@ and a component representing the component to render when the menu item is selec
   );
 };
 
-export default Sidelist;
+export default AdminSidelist;
