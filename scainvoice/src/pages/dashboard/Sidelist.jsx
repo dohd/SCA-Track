@@ -92,8 +92,8 @@ and a component representing the component to render when the menu item is selec
       {
         title: "Home",
         icon: <HomeIcon />,
-        link: "",
-        component: <Home {...{ setselectedLink, link: "" }} />,
+        link: "/dashboard",
+        component: <Home {...{ setselectedLink, link: "/dashboard" }} />,
       },
       {
         title: "Distributor",

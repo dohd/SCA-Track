@@ -45,11 +45,6 @@ const router = createBrowserRouter([
     
     children: [
       {
-        path: "dashboard",
-        element: <Dashboard />,
-      },
-
-      {
         path: "Invoice",
         children: [
           {
@@ -63,7 +58,7 @@ const router = createBrowserRouter([
 
           {
             path: "invoice-records",
-            element: <InvoiceList_2 />,
+            element: <InvoiceList />,
           },
         ],
       },
