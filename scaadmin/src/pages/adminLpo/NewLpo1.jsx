@@ -40,6 +40,7 @@ export default function CreateLPO() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [subtotalPrice, setSubTotalPrice] = useState(0);
   const [vatPrice, setVatPrice] = useState(0);
+  const [vat, setVat] = useState(0);
   const [overallTotalPrice, setOverallTotalPrice] = useState(0);
   const [message, setMessage] = useState("");
   const [lpo_date, setLpo_date] = useState("");
@@ -63,6 +64,17 @@ export default function CreateLPO() {
     }
   };
 
+  const fetchVat = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/read_vat");
+      setVat(response.data[0].value);
+      // console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchVat();
   fetchDistributors();
 
   const handleDistributorChange = (e) => {
@@ -76,6 +88,7 @@ export default function CreateLPO() {
   //  hook to log the selected distributor outside the component
   useEffect(() => {}, [selectedDistributor]);
   useEffect(() => {}, [selectedCurrency]);
+  useEffect(() => {}, [vat]);
 
   const fetchSelectedDistributor = async () => {
     try {
@@ -117,7 +130,7 @@ export default function CreateLPO() {
   });
 
   // Step 3: Log the string variable
-  console.log(lpoNumberString);
+  // console.log(lpoNumberString);
 
   function incrementLpoNumber(currentLpoNumber) {
     // Extract the numeric part and increment it
@@ -217,7 +230,7 @@ export default function CreateLPO() {
   useEffect(() => {
     // Calculate the VAT (16% of the total) whenever the total changes
     const calculateVAT = () => {
-      const vatAmount = subtotalPrice * 0.16;
+      const vatAmount = subtotalPrice * (vat/100);
       setVatPrice(vatAmount);
     };
 

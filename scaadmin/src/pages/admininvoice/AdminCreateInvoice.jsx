@@ -44,6 +44,7 @@ export default function NewInvoice() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [subtotalPrice, setSubTotalPrice] = useState(0);
   const [vatPrice, setVatPrice] = useState(0);
+  const [vat, setVat] = useState(0);
   const [overallTotalPrice, setOverallTotalPrice] = useState(0);
   const [message, setMessage] = useState("");
   const [banks, setBanks] = useState([]);
@@ -64,6 +65,17 @@ export default function NewInvoice() {
       console.error(error);
     }
   };
+
+  const fetchVat = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/read_vat");
+      setVat(response.data[0].value);
+      // console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchVat();
 
   const fetchBanks = async () => {
     try {
@@ -101,6 +113,7 @@ export default function NewInvoice() {
   useEffect(() => {}, [selectedCurrency]);
   useEffect(() => {}, [selectedBank]);
   useEffect(() => {}, [selectedAccount]);
+  useEffect(() => {}, [vat]);
 
   const fetchSelectedCustomer = async () => {
     try {
@@ -223,7 +236,7 @@ export default function NewInvoice() {
   useEffect(() => {
     // Calculate the VAT (16% of the total) whenever the total changes
     const calculateVAT = () => {
-      const vatAmount = subtotalPrice * 0.16;
+      const vatAmount = subtotalPrice * (vat/100);
       setVatPrice(vatAmount);
     };
 

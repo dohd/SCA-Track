@@ -19,8 +19,6 @@ import Customer from "./pages/customer/Customer";
 import CreateInvoice from "./pages/invoice/CreateInvoice";
 import Invoice from "./pages/invoice/Invoice";
 import InvoiceList from "./pages/invoice/InvoiceList";
-import InvoiceList_2 from "./pages/invoice/InvoiceList_2";
-import CreateNewBank from "./pages/bank/CreateNewBank";
 import BankRecords from "./pages/bank/BankRecords";
 import CreateDistributor from "./pages/distributors/CreateDistributor";
 import DistributorRecords from "./pages/distributors/DistributorRecords";
@@ -98,10 +96,7 @@ const router = createBrowserRouter([
         path: "bank",
         children: [
           { path: "", element: <Bank /> },
-          {
-            path: "newbank",
-            element: <CreateNewBank />,
-          },
+        
           {
             path: "brecords",
             element: <BankRecords />,

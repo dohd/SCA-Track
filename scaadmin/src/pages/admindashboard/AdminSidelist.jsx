@@ -21,8 +21,8 @@ import MuiDrawer from "@mui/material/Drawer";
 
 import AdminHome from "../AdminHome/AdminHome";
 import Logout from "@mui/icons-material/Logout";
-import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
-import Bank1  from "../adminbank/Bank1";
+import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
+import Bank1 from "../adminbank/Bank1";
 import admnInvoice from "../admininvoice/AdminInvoice";
 import Customer1 from "../admincustomer/Customer1";
 import Distributors1 from "../admindistributors/Distributors1";
@@ -76,8 +76,6 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const Sidelist = ({ open, setOpen }) => {
-  
-
   const { selectedLink, setselectedLink } = useState("");
   {
     /*
@@ -89,13 +87,15 @@ and a component representing the component to render when the menu item is selec
   const list = useMemo(
     () => [
       {
-        title: "AdminHome",
+        title: "Admin Home",
         icon: <HomeIcon />,
         link: "/admindashboard",
-        component: <AdminHome {...{ setselectedLink, link: "/admindashboard" }} />,
+        component: (
+          <AdminHome {...{ setselectedLink, link: "/admindashboard" }} />
+        ),
       },
       {
-        title: "AdmDistributor",
+        title: "Adm Distributor",
         icon: <InboxIcon />,
         link: "admindistributor ",
         component: (
@@ -103,55 +103,54 @@ and a component representing the component to render when the menu item is selec
         ),
       },
       {
-        title: "AdmInvoice",
+        title: "Adm Invoice",
         icon: <InboxIcon />,
         link: "admininvoice ",
         component: (
           <admnInvoice {...{ setselectedLink, link: "admininvoice" }} />
         ),
       },
-      {title:"AdmCustomer",
-    icon:<PeopleIcon/>,
-  link:"admincustomers",
-component:(<Customer1 {...{setselectedLink,link:"admincustomers"}} />
-),},
-{title:"AdminBank",
-icon:<AccountBalanceIcon/>,
-link:"adminbank",
-component:(<Bank1 {...{setselectedLink,link:"adminbank"}} />
-),},
-{
-  title:"AdminLpo",
-  icon:<LayersIcon/>,
-  link:"adminlpo",
-  component:(<Lpo1 {...{setselectedLink,link:"adminlpo"}} />),
-},
-{
-  title:"Users",
-  icon:<PeopleIcon/>,
-  link:"user",
-  component: (<User {...{setselectedLink,link:"user"}} />
-  ),
-},
-
-
+      {
+        title: "Adm Customer",
+        icon: <PeopleIcon />,
+        link: "admincustomers ",
+        component: (
+          <Customer1 {...{ setselectedLink, link: "admincustomers" }} />
+        ),
+      },
+      {
+        title: "Admin Bank",
+        icon: <AccountBalanceIcon />,
+        link: "adminbank ",
+        component: <Bank1 {...{ setselectedLink, link: "adminbank" }} />,
+      },
+      {
+        title: "Admin Lpo",
+        icon: <LayersIcon />,
+        link: "adminlpo ",
+        component: <Lpo1 {...{ setselectedLink, link: "adminlpo" }} />,
+      },
+      {
+        title: "Users",
+        icon: <PeopleIcon />,
+        link: "user ",
+        component: <User {...{ setselectedLink, link: "user" }} />,
+      },
     ],
     []
   );
   const navigate = useNavigate();
-  const logouthandle =()=>{
-    console.log("alert")
-    navigate("/")
-  }
-  
+  const logouthandle = () => {
+    console.log("alert");
+    navigate("/");
+  };
+
   return (
     <>
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader
-        style={{backgroundColor:'green'}}
-        >
+        <DrawerHeader style={{ backgroundColor: "green" }}>
           <IconButton onClick={() => setOpen(false)}>
-          <KeyboardDoubleArrowLeftOutlinedIcon style={{color:'white'}}/>
+            <KeyboardDoubleArrowLeftOutlinedIcon style={{ color: "white" }} />
           </IconButton>
         </DrawerHeader>
         <Divider />
@@ -188,7 +187,7 @@ component:(<Bank1 {...{setselectedLink,link:"adminbank"}} />
         <Divider />
         <Tooltip title="Logout" sx={{ mt: 1 }}>
           <IconButton onClick={logouthandle}>
-            <Logout /> 
+            <Logout />
           </IconButton>
         </Tooltip>
       </Drawer>

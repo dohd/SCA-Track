@@ -1,296 +1,168 @@
-import { useRef, useState, useEffect } from "react";
-import {
-  faCheck,
-  faTimes,
-  faInfoCircle,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRef, useState, useEffect, useContext } from "react";
+import form from "./form.css";
 import axios from "axios";
+import { Padding } from "@mui/icons-material";
+const LOGIN_URL = "/login";
 
-const Register = () => {
-  const [userName, setUserName] = useState("");
-  const [pass, setPass] = useState("");
-  const [email, setEmail] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [confirmPass, setConfirmPass] = useState("");
+const Login = () => {
+  // State variable to track the selected option (user or admin)
+  const [selectedOption, setSelectedOption] = useState("user");
 
+  const userRef = useRef();
+  const errRef = useRef();
+
+  const [user, setUser] = useState("");
+  const [pwd, setPwd] = useState("");
+
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
+
+  const [redirectTo, setRedirectTo] = useState("");
   const handleSubmmit = (event) => {
     event.preventDefault();
-
-    // Check username length
-    if (userName.length < 4 || userName.length > 32) {
-      setErrorMessage("Username must be between 4 and 32 characters.");
-      return;
-    }
-
-    // Check password length
-    if (pass.length < 4 || pass.length > 32) {
-      setErrorMessage("Password must be between 4 and 32 characters.");
-      return;
-    }
-        // Check if passwords match
-        if (pass !== confirmPass) {
-          setErrorMessage("Passwords do not match.");
-          return;
-        }
-    
-
     axios
-      .post("http://localhost:3000/register", {
-        userName,
-        pass,
-        email,
+      .post("http://localhost:3000/login", {
+        user,
+        pwd,
       })
       .then((res) => {
         if (res.data.status === "success") {
-          alert("User added!");
+          handlesignin();
+          setPwd("");
+          setUser("");
         } else {
-          alert("Error");
+          alert(res.data.Error);
         }
       })
-      .catch((err) => {
-        console.log(err);
-        alert("Error");
-      });
+      .then((err) => console.log(err));
   };
 
+  const handlesignin = () => {
+    // If sign-in is successful, set the desired dashboard path based on the selected role
+    if (selectedOption === "user") {
+      console.log("redirect to user dashboard");
+      setRedirectTo("/dashboard"); // Redirect user to '/dashboard'
+    } else if (selectedOption === "admin") {
+      console.log("redirect to admin dashboard");
+      setRedirectTo("/dashboard"); // Redirect admin to '/admin/dashboard' or the appropriate URL
+    }
+  };
+  // Watch for changes in the redirectTo state variable and perform redirection when it changes
+  useEffect(() => {
+    if (redirectTo) {
+      window.location.href = redirectTo;
+    }
+  }, [redirectTo]);
+
   return (
-    <div className="register-container">
-      <section className="register-form">
-        <h1
-          style={{
-            fontSize: "32px",
-            marginBottom: "20px",
-            color: "#333",
-            textAlign: "center",
-          }}
-        >
-          Register
-        </h1>
-        <form
+    <div className="login-container">
+      
+        <section className="login-form">
+          
+          <h1 style={{
+             fontSize: "32px", 
+             marginBottom: "20px", 
+             color: "#333" ,
+             textAlign: "center"
+            }}>
+            Login
+          </h1>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+            }}
+          >
+            {/* "user" option */}
+            <h1
+              style={{
+                fontSize: "32px",
+                marginBottom: "20px",
+                cursor: "pointer",
+                backgroundColor: "green",
+                color: "white",
+                width: "100%",
+                textAlign: "center"
+              }}
+            >
+              User
+            </h1>
+           
+          </div>
+
+          <form 
           style={{
             display: "flex",
             alignItems: "center",
             flexDirection: "column",
             justifyContent: "space-evenly",
-          }}
-        >
-          {/* Username Input */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
-              justifyContent: "space-evenly",
-            }}
-          >
+          }}>
             <label
               htmlFor="username"
-              style={{
-                fontSize: "32px",
-                marginBottom: "20px",
-                color: "#333",
-              }}
+              style={{ fontSize: "24px", marginBottom: "20px", color: "#333" }}
             >
               Username:
             </label>
             <input
-              style={{
-                width: "100%",
-                padding: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "6px",
-              }}
-              type="text"
-              id="username"
-              name="username"
-              autoComplete="off"
-              required
-              aria-describedby="uidnote"
-              onChange={(e) => setUserName(e.target.value)}
-            />
-            <p
-              style={{
-                textAlign: "center",
-                marginTop: "20px",
-              }}
-            >
-              <FontAwesomeIcon icon={faInfoCircle} />
-              4 to 32 characters.
-              <br />
-              Must begin with a letter.
-              <br />
-              Letters, numbers, underscores, hyphens allowed.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
-              justifyContent: "space-evenly",
-            }}>
-              <label
-                htmlFor="email"
-                style={{
-                  fontSize: "32px",
-                  marginBottom: "20px",
-                  color: "#333",
-                }}
-              >
-                Email:
-              </label>
-              <input
-              style={{
-                width: "100%",
-                padding: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "6px",
-              }}
-                type="email"
-                id="email"
-                name="email"
-                autoComplete="off"
-                required
-                aria-describedby="uidnote"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <p
-               style={{
-                textAlign: "center",
-                marginTop: "20px",
-              }}
-              >
-                <FontAwesomeIcon icon={faInfoCircle} />
-                4 to 24 characters.
-                <br />
-                Must begin with a letter.
-                <br />
-                Letters, numbers, underscores, hyphens allowed.
-              </p>
-            </div>
-
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <label
-              htmlFor="password"
-              style={{
-                fontSize: "32px",
-                marginBottom: "20px",
-                color: "#333",
-              }}
-            >
-              Password:
-            </label>
-            <input
-              style={{
-                width: "100%",
-                padding: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "6px",
-              }}
-              type="password"
-              id="password"
-              name="password"
-              required
-              aria-describedby="passnote"
-              onChange={(e) => setPass(e.target.value)}
-            />
-            <p
-              style={{
-                textAlign: "center",
-                marginTop: "20px",
-              }}
-            >
-              Enter password input field.
-            </p>
-          </div>
-
-          {/* Confirm Password Input */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <label
-              htmlFor="confirm_pwd"
-              style={{
-                fontSize: "32px",
-                marginBottom: "20px",
-                color: "#333",
-              }}
-            >
-              Confirm Password:
-            </label>
-            <input
-              style={{
-                width: "100%",
-                padding: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "6px",
-              }}
-              type="password"
-              id="confirm_pwd"
-              name="confirm_password"
-              required
-              aria-describedby="confirmpassnote"
-              onChange={(e) => setConfirmPass(e.target.value)}
-            />
-            <p
-              style={{
-                textAlign: "center",
-                marginTop: "20px",
-              }}
-            >
-              Enter password again to confirm.
-            </p>
-          </div>
-
-          {/* Display Error Message */}
-          {errorMessage && (
-            <div
-              style={{
-                color: "red",
-                marginTop: "10px",
-                textAlign: "center",
-              }}
-            >
-              {errorMessage}
-            </div>
-          )}
-
-
-          {/* Submit Button */}
-          <button
             style={{
               width: "100%",
               padding: "10px",
               border: "1px solid #ccc",
               borderRadius: "6px",
-              display: "inline-block",
-              color: "white",
-              marginTop: "10px",
-              backgroundColor: "green",
-              textDecoration: "underline",
             }}
-            type="submit"
-            onClick={handleSubmmit}
-          >
-            Sign up
-          </button>
-        </form>
-      </section>
+              type="text"
+              id="username"
+              ref={userRef}
+              autoComplete="off"
+              onChange={(e) => setUser(e.target.value)}
+              value={user}
+              //  required
+            />
+
+            <label
+              htmlFor="password"
+              style={{ fontSize: "24px", marginBottom: "20px", color: "#333" }}
+            >
+              Password:
+            </label>
+            <input
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+            }}
+              type="password"
+              id="password"
+              onChange={(e) => setPwd(e.target.value)}
+              value={pwd}
+              //  required
+            />
+            <button
+              type="submit"
+              style={{
+                width: "100%",
+                padding: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "6px",
+                display: "inline-block",
+                color: "white",
+                marginTop: "10px",
+                backgroundColor: "green",
+                textDecoration: "underline",
+              }}
+              onClick={handleSubmmit}
+            >
+              Sign in
+            </button>
+          </form>
+        </section>
+      
     </div>
   );
 };
 
-export default Register;
+export default Login;

@@ -6,9 +6,6 @@ import { useNavigate } from 'react-router-dom';
 const Customer = () => {
   const navigate = useNavigate();
 
-  const handleNewBankClick = () => {
-    navigate('/bank/newbank');
-  };
   const handleBankRecordsClick = () => {
     navigate('/bank/brecords');
   };
@@ -82,25 +79,7 @@ const Customer = () => {
               flexDirection: "row",
             }}
       >
-      <Box>
-        <Paper
-          elevation={3}
-          sx={{ p: 3, width: 360, cursor: 'pointer' }}
-          onClick={handleNewBankClick}
-        >
-          <Typography variant="h4">New Bank</Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: 2,
-            }}
-          >
-            <Group sx={{ height: 100, width: 100, opacity: 0.3, marginRight: 1 }} />
-          </Box>
-        </Paper>
-      </Box>
+      
 
       <Box >
         <Paper elevation={3}

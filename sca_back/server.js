@@ -930,6 +930,31 @@ app.put("/update/invoiceMessage", (req, res) => {
   });
 });
 
+app.put("/update/vat", (req, res) => {
+  const { 
+    vat,
+  } = req.body;
+
+  // Update the new lpo number in the database
+  const query = `UPDATE vat SET value = ?;`;
+  connection.query(
+    query,
+    [
+      vat,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({
+          error: "Error updating distributor records in the database",
+        });
+      } else {
+        res.json({ message: "Distributor records updated successfully" });
+      }
+    }
+  );
+});
+
 //delete operations
 
 
@@ -1184,24 +1209,117 @@ app.post('/adminLogin', async (req, res) => {
   const {user, pwd  } = req.body;
   const sql = "SELECT * FROM admin WHERE username = ?";
 
+  
   connection.query(sql,user, (err, result) => {
+
     if(err) return res.json({Error : "querry in db"});
 
     if (result.length > 0) {
-      bcrypt.compare(pwd, result[0].password, (err, response)  => {
-        if(err) return res.json({Error : "invalid password data"})
 
-        if(response) {
-          return res.json({status : "success"})
-        } else {
-          return res.json({Error : "Password mismatch"})
-        }
+      const pass = result[0].password;
 
-      })
+
+      bcrypt.hash(pass, salt, (err, hashedPwdFromDB) => {
+        if (err) return res.json({ Error: "Error hashing the password" });
+      
+        // Compare the hashed password from the front end with the hashed password from the database
+        bcrypt.compare(pwd, hashedPwdFromDB, (err, response) => {
+          if (err) return res.json({ Error: "Invalid password data" });
+      
+          if (response) {
+            return res.json({ status: "success" });
+          } else {
+            return res.json({ Error: "Password mismatch" });
+          }
+        });
+      });
+
     } else {
       return res.json({Error : "Username does not exist."})
     }
   })
+});
+
+// Define API endpoint to fetch customer details
+app.get("/read_users", (req, res) => {
+  const query = "SELECT * FROM users;";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying customer records:", err);
+      res.status(500).json({ error: "Failed to fetch customer records" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+app.put("/update/users", (req, res) => {
+  const {
+    user_email,
+    username,
+  } = req.body;
+
+  const query = `UPDATE users SET email = ? WHERE username = ?;`;
+  connection.query(
+    query,
+    [
+      user_email,
+      username,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res
+          .status(500)
+          .json({ error: "Error updating customer details in the database" });
+      } else {
+        res.json({ message: "Customer details updated successfully" });
+      }
+    }
+  );
+});
+
+app.delete("/delete/user", (req, res) => {
+  let userName = req.query.userName;
+
+  // Delete the customer from the database
+  const query = `DELETE FROM users WHERE  username = ?;`;
+  connection.query(query, [userName], (err, result) => {
+    if (err) {
+      console.error(err);
+      res
+        .status(500)
+        .json({ error: "Error deleting customer from the database" });
+    } else {
+      res.json({ message: "Deleted successfully" });
+    }
+  });
+});
+
+//count LPOs
+app.get("/countUsers", (req, res) => {
+  const query = "SELECT COUNT(*) as count_users FROM users;";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying customer records:", err);
+      res.status(500).json({ error: "Failed to count bank records" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// Define API endpoint to fetch vat
+app.get("/read_vat", (req, res) => {
+  const query = "SELECT * FROM vat;";
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error querying vat:", err);
+      res.status(500).json({ error: "Failed to fetch vat" });
+      return;
+    }
+    res.json(results);
+  });
 });
 
 // Start the server

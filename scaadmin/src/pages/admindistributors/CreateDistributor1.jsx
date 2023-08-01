@@ -13,7 +13,6 @@ export default function CreateDistributor() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
@@ -214,7 +213,7 @@ export default function CreateDistributor() {
           }}
           type="text"
           id="distName"
-          placeholder="Enter Distributor Dame"
+          placeholder="Enter Distributor Name"
           {...register("distName", { required: true })}
           value={distName}
           onChange={(e) => setDistName(e.target.value)}

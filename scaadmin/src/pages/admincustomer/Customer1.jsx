@@ -7,10 +7,10 @@ const Customer = () => {
   const navigate = useNavigate();
 
   const handleNewCustomerClick = () => {
-    navigate("/admincustomer/new");
+    navigate("/admincustomers/new");
   };
   const handleCustomerRecordsClick = () => {
-    navigate("/admincustomer/records");
+    navigate("/admincustomers/records");
   };
 
   return (

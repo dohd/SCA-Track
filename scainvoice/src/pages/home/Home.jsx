@@ -204,6 +204,7 @@ export default function Home({ link }) {
 {/* If it is true, it will render the DispatchedInvoice component. Otherwise, it won't render anything. */}
       {selectedLink === 'customer' && <Customer />}
       {selectedLink === 'invoice' && <DispatchedInvoice />}
+      
     </Box>
   );
 }

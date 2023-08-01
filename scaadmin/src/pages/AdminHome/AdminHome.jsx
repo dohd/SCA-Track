@@ -7,6 +7,8 @@ import axios from 'axios';
 
 
 export default function Home({ link }) {
+
+
   
   const [selectedLink, setselectedLink] = useState('');
   const [rowCount, setRowCount] = useState(0);
@@ -14,6 +16,8 @@ export default function Home({ link }) {
   const [distributors, setDistributors] = useState(0);
   const [invoices, setInvoices] = useState(0);
   const [lpos, setLpos] = useState(0);
+  const [users, setUsers] = useState(0);
+  const [vat, setVat] = useState(16);
 
   const countCustomers = async () => {
     try {
@@ -21,6 +25,17 @@ export default function Home({ link }) {
         "http://localhost:3000/countCustomers"
       );
       setCustomers(response.data[0].count_customers);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const countUsers = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/countUsers"
+      );
+      setUsers(response.data[0].count_users);
 
     } catch (error) {
       console.error(error);
@@ -79,11 +94,26 @@ export default function Home({ link }) {
   countDistributors();
   countInvoices();
   countLPOs();
+  countUsers();
 
 
   // useEffect(() => {
   //   setselectedLink(link);
   // }, [link]);
+
+  const setNewVAT = async () => {
+    try {
+      const response = await axios.put("http://localhost:3000/update/vat", {
+        vat,
+      });
+
+      console.log(response.data); 
+    } catch (error) {
+      console.error(error);
+    }
+    alert("Vat changed successfuly!");
+    setVat(0);
+  };
 
   const handleClick = (link) => {
     setselectedLink(link);
@@ -91,7 +121,7 @@ export default function Home({ link }) {
 
   };
   const handleClickCustomer = () => {
-    handleClick('admincustomer');
+    handleClick('admincustomers');
   };
 
   const handleClickBank = () => {
@@ -144,7 +174,7 @@ export default function Home({ link }) {
                 <MapsHomeWork
                 sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
               />
-              <Typography variant="h4">{customers}</Typography>
+              <Typography variant="h4">{users}</Typography>
               
             </Box>
           </Paper>
@@ -221,6 +251,52 @@ export default function Home({ link }) {
               
             </Box>
           </Paper>
+
+          <div>
+        <label
+          htmlFor="vat"
+          style={{
+            display: "block",
+            marginBottom: "5px",
+            textAlign: "left",
+            fontWeight: "500",
+            fontSize: "20px",
+          }}
+        >
+          Change VAT
+        </label>
+        <input
+          style={{
+            width: "100%",
+            padding: "10px",
+            border: "1px solid #ccc",
+            borderRadius: "6px",
+          }}
+          type="number"
+          id="vat"
+          placeholder="16"
+          value={vat}
+          onChange={(e) => setVat(e.target.value)}
+        />
+         <button
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer",
+              transition: "background-color 0.2s",
+              marginRight: "100%",
+              marginTop: "6px", 
+              width: "40%",
+            }}
+            type="button"
+            onClick={setNewVAT}
+          >
+           Save
+          </button>
+      </div>
         </>
       )}
 {/* If it is true, it will render the DispatchedInvoice component. Otherwise, it won't render anything. */}
