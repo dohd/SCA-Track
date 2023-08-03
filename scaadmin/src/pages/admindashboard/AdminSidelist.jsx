@@ -22,7 +22,9 @@ import MuiDrawer from "@mui/material/Drawer";
 import AdminHome from "../AdminHome/AdminHome";
 import Logout from "@mui/icons-material/Logout";
 import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
+import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import Bank1 from "../adminbank/Bank1";
+import Face2Icon from '@mui/icons-material/Face2';
 import admnInvoice from "../admininvoice/AdminInvoice";
 import Customer1 from "../admincustomer/Customer1";
 import Distributors1 from "../admindistributors/Distributors1";
@@ -96,7 +98,7 @@ and a component representing the component to render when the menu item is selec
       },
       {
         title: "Adm Distributor",
-        icon: <InboxIcon />,
+        icon: <DeliveryDiningIcon />,
         link: "admindistributor ",
         component: (
           <Distributors1 {...{ setselectedLink, link: "admindistributor" }} />
@@ -132,7 +134,7 @@ and a component representing the component to render when the menu item is selec
       },
       {
         title: "Users",
-        icon: <PeopleIcon />,
+        icon: <Face2Icon />,
         link: "user ",
         component: <User {...{ setselectedLink, link: "user" }} />,
       },
@@ -163,6 +165,10 @@ and a component representing the component to render when the menu item is selec
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
+                  "&:hover": {
+                    backgroundColor: "green",
+                    color: "white" // Add hover background color
+                  },
                 }}
                 onClick={() => navigate(item.link)}
                 selected={selectedLink === item.link}
@@ -172,6 +178,10 @@ and a component representing the component to render when the menu item is selec
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
+                    "&:hover": {
+                      backgroundColor: "green",
+                      color: "white" // Add hover background color
+                    },
                   }}
                 >
                   {item.icon}
