@@ -29,7 +29,7 @@ export default function Home({ link }) {
   const countCustomers = async () => {
     try {
       const response = await axios.get(
-        "http://192.168.8.87:3000/countCustomers"
+        "http://localhost:3000/countCustomers"
       );
       setCustomers(response.data[0].count_customers);
 
@@ -40,7 +40,7 @@ export default function Home({ link }) {
   const countUsers = async () => {
     try {
       const response = await axios.get(
-        "http://192.168.8.87:3000/countUsers"
+        "http://localhost:3000/countUsers"
       );
       setUsers(response.data[0].count_users);
 
@@ -52,7 +52,7 @@ export default function Home({ link }) {
   const countDistributors = async () => {
     try {
       const response = await axios.get(
-        "http://192.168.8.87:3000/countDistributors"
+        "http://localhost:3000/countDistributors"
       );
       setDistributors(response.data[0].count_dist);
 
@@ -64,7 +64,7 @@ export default function Home({ link }) {
   const countInvoices = async () => {
     try {
       const response = await axios.get(
-        "http://192.168.8.87:3000/countInvoices"
+        "http://localhost:3000/countInvoices"
       );
       setInvoices(response.data[0].count_invoices);
 
@@ -76,7 +76,7 @@ export default function Home({ link }) {
   const countLPOs = async () => {
     try {
       const response = await axios.get(
-        "http://192.168.8.87:3000/countLPOs"
+        "http://localhost:3000/countLPOs"
       );
       setLpos(response.data[0].count_LPOs);
 
@@ -87,7 +87,7 @@ export default function Home({ link }) {
   const countBanks = async () => {
     try {
       const response = await axios.get(
-        "http://192.168.8.87:3000/countbanks"
+        "http://localhost:3000/countbanks"
       );
       setRowCount(response.data[0].count_banks);
 
@@ -110,7 +110,7 @@ export default function Home({ link }) {
 
   const setNewVAT = async () => {
     try {
-      const response = await axios.put("http://192.168.8.87:3000/update/vat", {
+      const response = await axios.put("http://localhost:3000/update/vat", {
         vat,
       });
 
