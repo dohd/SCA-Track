@@ -22,7 +22,7 @@ const Login = () => {
   const handleSubmmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:3000/adminLogin", {
+      .post("http://192.168.8.87:3000/adminLogin", {
         user,
         pwd,
       })

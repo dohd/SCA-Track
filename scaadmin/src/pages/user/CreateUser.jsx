@@ -1,5 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+import { Box } from "@mui/material";
 
 const Register = () => {
   const [userName, setUserName] = useState("");
@@ -7,6 +10,8 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmmit = (event) => {
     event.preventDefault();
@@ -49,17 +54,76 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container">
-      <section className="register-form">
-        <h1
+
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+        height: "90%",
+        marginBottom: "20px",
+      }}
+    >
+      <div
+    style={{
+      width: "100%",
+      maxWidth: "800px",
+      backgroundColor: "#FFDEAD",
+      padding: "20px",
+      borderRadius: "6px",
+      marginLeft: "60px",
+    }} >
+
+<div
           style={{
-            fontSize: "32px",
-            marginBottom: "20px",
-            color: "#333",
+            display: "flex",
+            justifyContent: "space-between",
+            display: "flex",
+            flexDirection: "row",
           }}
         >
-          Register user
-        </h1>
+          <div
+            style={{
+              width: "50%",
+            }}
+          >
+            <h1
+              style={{
+                fontSize: "32px",
+                fontWeight: "600",
+                marginBottom: "10px",
+              }}
+            >
+              Register User
+            </h1>
+          </div>
+          <div
+            style={{
+              width: "50%",
+            }}
+          >
+            <button
+              style={{
+                backgroundColor: "green",
+                color: "white",
+                padding: "8px 16px",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                transition: "background-color 0.2s",
+                marginRight: "10px",
+                marginLeft: "80%",
+              }}
+              type="button"
+              onClick={() => navigate(-1)}
+            >
+              Back
+            </button>
+          </div>
+        </div>
+      <section className="register-form">
+      
         <form
           style={{
             display: "flex",
@@ -226,7 +290,7 @@ const Register = () => {
             />
             <p
               style={{
-                textAlign: "center",
+                textAlign: "left",
                 marginTop: "20px",
               }}
             >
@@ -268,6 +332,8 @@ const Register = () => {
         </form>
       </section>
     </div>
+    </Box>
+    
   );
 };
 

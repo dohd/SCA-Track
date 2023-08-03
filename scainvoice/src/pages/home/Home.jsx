@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Group, MapsHomeWork } from '@mui/icons-material';
 import { Box, Paper, Typography } from '@mui/material';
 import DispatchedInvoice from '../invoice/DispatchedInvoice';
 import Customer from '../customer/Customer';
 import axios from "axios";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PeopleIcon from "@mui/icons-material/People";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import StoreIcon from '@mui/icons-material/Store';
 
 export default function Home({ link }) {
   
@@ -110,7 +115,17 @@ export default function Home({ link }) {
     >
       {selectedLink === '' && (
         <>
-          <Paper elevation={3} sx={{ p: 3 }}
+          <Paper elevation={3} 
+          sx={{
+            p: 3,
+            cursor: 'pointer',
+            transition: 'background-color 0.3s, transform 0.3s',
+            '&:hover': {
+              backgroundColor: 'rgba(0,128,0,1)',
+              transform: 'scale(1.05)',
+              color: "white"
+            },
+          }}
            onClick={() => handleClick('Invoice')}
           >
             <Typography variant="h4"> Invoice</Typography>
@@ -121,14 +136,24 @@ export default function Home({ link }) {
                 justifyContent: 'center',
               }}
             >
-              <MapsHomeWork
-                sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
+              <InboxIcon
+                sx={{ height: 100, width: 100, opacity: 1, mr: 1 }}
               />
               <Typography variant="h4">{invoices}</Typography>
             </Box>
           </Paper>
 
-          <Paper elevation={3} sx={{ p: 3 }}
+          <Paper elevation={3} 
+          sx={{
+            p: 3,
+            cursor: 'pointer',
+            transition: 'background-color 0.3s, transform 0.3s',
+            '&:hover': {
+              backgroundColor: 'rgba(0,128,0,1)',
+              transform: 'scale(1.05)',
+              color: "white"
+            },
+          }}
              onClick={() => handleClickCustomer()}>
             <Typography variant="h4">Customers</Typography>
             <Box
@@ -138,14 +163,24 @@ export default function Home({ link }) {
                 justifyContent: 'center',
               }}
             >
-                <MapsHomeWork
-                sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
+                <PeopleIcon
+                sx={{ height: 100, width: 100, opacity: 1, mr: 1 }}
               />
               <Typography variant="h4">{customers}</Typography>
               
             </Box>
           </Paper>
-          <Paper elevation={3} sx={{ p: 3 }}
+          <Paper elevation={3} 
+          sx={{
+            p: 3,
+            cursor: 'pointer',
+            transition: 'background-color 0.3s, transform 0.3s',
+            '&:hover': {
+              backgroundColor: 'rgba(0,128,0,1)',
+              transform: 'scale(1.05)',
+              color: "white"
+            },
+          }}
            onClick={() => handleClickBank()}>
             <Typography variant="h4">Banks</Typography>
             <Box
@@ -155,8 +190,8 @@ export default function Home({ link }) {
                 justifyContent: 'center',
               }}
             >
-                <MapsHomeWork
-                sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
+                <AccountBalanceIcon
+                sx={{ height: 100, width: 100, opacity: 1, mr: 1 }}
               />
               <Typography variant="h4">
             
@@ -165,7 +200,17 @@ export default function Home({ link }) {
               
             </Box>
           </Paper>
-          <Paper elevation={3} sx={{ p: 3 }}
+          <Paper elevation={3} 
+          sx={{
+            p: 3,
+            cursor: 'pointer',
+            transition: 'background-color 0.3s, transform 0.3s',
+            '&:hover': {
+              backgroundColor: 'rgba(0,128,0,1)',
+              transform: 'scale(1.05)',
+              color: "white"
+            },
+          }}
            onClick={() => handleClick('lpo')}>
             <Typography variant="h4">Lpo</Typography>
             <Box
@@ -175,14 +220,24 @@ export default function Home({ link }) {
                 justifyContent: 'center',
               }}
             >
-                <MapsHomeWork
-                sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
+                <LibraryBooksIcon
+                sx={{ height: 100, width: 100, opacity: 1, mr: 1 }}
               />
               <Typography variant="h4">{lpos}</Typography>
               
             </Box>
           </Paper>
-          <Paper elevation={3} sx={{ p: 3 }}
+          <Paper elevation={3} 
+          sx={{
+            p: 3,
+            cursor: 'pointer',
+            transition: 'background-color 0.3s, transform 0.3s',
+            '&:hover': {
+              backgroundColor: 'rgba(0,128,0,1)',
+              transform: 'scale(1.05)',
+              color: "white"
+            },
+          }}
            onClick={() => handleClick('distributor')}>
             <Typography variant="h4">Distributors</Typography>
             <Box
@@ -192,8 +247,8 @@ export default function Home({ link }) {
                 justifyContent: 'center',
               }}
             >
-                <MapsHomeWork
-                sx={{ height: 100, width: 100, opacity: 0.3, mr: 1 }}
+                <StoreIcon
+                sx={{ height: 100, width: 100, opacity: 1, mr: 1 }}
               />
               <Typography variant="h4">{distributors}</Typography>
               

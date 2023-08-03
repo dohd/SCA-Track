@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Group, MapsHomeWork } from '@mui/icons-material';
 import { Box, Paper, Typography } from '@mui/material';
 import AdminInvoice from '../admininvoice/AdminInvoice';
 import Customer1 from '../admincustomer/Customer1';
 import axios from 'axios';
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import Face2Icon from '@mui/icons-material/Face2';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PeopleIcon from "@mui/icons-material/People";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import LayersIcon from "@mui/icons-material/Layers";
-import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import StoreIcon from '@mui/icons-material/Store';
 
 
 
@@ -30,7 +29,7 @@ export default function Home({ link }) {
   const countCustomers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/countCustomers"
+        "http://192.168.8.87:3000/countCustomers"
       );
       setCustomers(response.data[0].count_customers);
 
@@ -41,7 +40,7 @@ export default function Home({ link }) {
   const countUsers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/countUsers"
+        "http://192.168.8.87:3000/countUsers"
       );
       setUsers(response.data[0].count_users);
 
@@ -53,7 +52,7 @@ export default function Home({ link }) {
   const countDistributors = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/countDistributors"
+        "http://192.168.8.87:3000/countDistributors"
       );
       setDistributors(response.data[0].count_dist);
 
@@ -65,7 +64,7 @@ export default function Home({ link }) {
   const countInvoices = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/countInvoices"
+        "http://192.168.8.87:3000/countInvoices"
       );
       setInvoices(response.data[0].count_invoices);
 
@@ -77,7 +76,7 @@ export default function Home({ link }) {
   const countLPOs = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/countLPOs"
+        "http://192.168.8.87:3000/countLPOs"
       );
       setLpos(response.data[0].count_LPOs);
 
@@ -88,7 +87,7 @@ export default function Home({ link }) {
   const countBanks = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/countbanks"
+        "http://192.168.8.87:3000/countbanks"
       );
       setRowCount(response.data[0].count_banks);
 
@@ -111,7 +110,7 @@ export default function Home({ link }) {
 
   const setNewVAT = async () => {
     try {
-      const response = await axios.put("http://localhost:3000/update/vat", {
+      const response = await axios.put("http://192.168.8.87:3000/update/vat", {
         vat,
       });
 
@@ -200,7 +199,7 @@ export default function Home({ link }) {
                 justifyContent: 'center',
               }}
             >
-                <Face2Icon
+                <AccountCircleIcon
                 sx={{ height: 100, width: 100, opacity: 1, mr: 1 }}
               />
               <Typography variant="h4">{users}</Typography>
@@ -286,7 +285,7 @@ export default function Home({ link }) {
                 justifyContent: 'center',
               }}
             >
-                <LayersIcon
+                <LibraryBooksIcon
                 sx={{ height: 100, width: 100, opacity: 1, mr: 1 }}
               />
               <Typography variant="h4">{lpos}</Typography>
@@ -313,7 +312,7 @@ export default function Home({ link }) {
                 justifyContent: 'center',
               }}
             >
-                <DeliveryDiningIcon
+                <StoreIcon
                 sx={{ height: 100, width: 100, opacity: 1, mr: 1 }}
               />
               <Typography variant="h4">{distributors}</Typography>

@@ -2,6 +2,8 @@ import React from "react";
 import { Box, Paper, Typography } from "@mui/material";
 import { Group, Restore } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AddReactionIcon from '@mui/icons-material/AddReaction';
 
 const Customer = () => {
   const navigate = useNavigate();
@@ -82,8 +84,18 @@ const Customer = () => {
         <Box>
           <Paper
             elevation={3}
-            sx={{ p: 3, width: 360, cursor: "pointer" }}
-            onClick={handleNewCustomerClick}
+            sx={{ 
+              p: 3, 
+              width: 360, 
+              cursor: "pointer",
+              transition: 'background-color 0.3s, transform 0.3s',
+            '&:hover': {
+              backgroundColor: 'rgba(0,128,0,1)',
+              transform: 'scale(1.05)',
+              color: "white"
+            },
+             }}            
+             onClick={handleNewCustomerClick}
           >
             <Typography variant="h4">New User</Typography>
             <Box
@@ -94,8 +106,8 @@ const Customer = () => {
                 marginTop: 2,
               }}
             >
-              <Group
-                sx={{ height: 100, width: 100, opacity: 0.3, marginRight: 1 }}
+              <AddReactionIcon
+                sx={{ height: 100, width: 100, opacity: 1, marginRight: 1 }}
               />
             </Box>
           </Paper>
@@ -104,7 +116,17 @@ const Customer = () => {
         <Box>
           <Paper
             elevation={3}
-            sx={{ p: 3, width: 360, cursor: "pointer" }}
+            sx={{ 
+              p: 3, 
+              width: 360, 
+              cursor: "pointer",
+              transition: 'background-color 0.3s, transform 0.3s',
+            '&:hover': {
+              backgroundColor: 'rgba(0,128,0,1)',
+              transform: 'scale(1.05)',
+              color: "white"
+            },
+             }}
             onClick={handleCustomerRecordsClick}
           >
             <Typography variant="h4">User Records</Typography>
@@ -116,8 +138,8 @@ const Customer = () => {
                 marginTop: 2,
               }}
             >
-              <Restore
-                sx={{ height: 100, width: 100, opacity: 0.3, marginRight: 1 }}
+              <AccountCircleIcon
+                sx={{ height: 100, width: 100, opacity: 1, marginRight: 1 }}
               />
             </Box>
           </Paper>

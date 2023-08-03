@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, Paper, Typography } from "@mui/material";
-import { Group, Restore, History } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 export default function Lpo() {
   const navigate = useNavigate();
@@ -83,7 +84,17 @@ export default function Lpo() {
         <Box>
           <Paper
             elevation={3}
-            sx={{ p: 3, width: 360, cursor: "pointer" }}
+            sx={{ 
+              p: 3, 
+              width: 360, 
+              cursor: "pointer",
+              transition: 'background-color 0.3s, transform 0.3s',
+            '&:hover': {
+              backgroundColor: 'rgba(0,128,0,1)',
+              transform: 'scale(1.05)',
+              color: "white"
+            },
+             }}
             onClick={handleNewLpoClick}
           >
             <Typography variant="h4">New LPO</Typography>
@@ -95,8 +106,8 @@ export default function Lpo() {
                 marginTop: 2,
               }}
             >
-              <Group
-                sx={{ height: 100, width: 100, opacity: 0.3, marginRight: 1 }}
+              <LibraryAddIcon
+                sx={{ height: 100, width: 100, opacity: 1, marginRight: 1 }}
               />
             </Box>
           </Paper>
@@ -105,7 +116,17 @@ export default function Lpo() {
         <Box>
           <Paper
             elevation={3}
-            sx={{ p: 3, width: 360, cursor: "pointer" }}
+            sx={{ 
+              p: 3, 
+              width: 360, 
+              cursor: "pointer",
+              transition: 'background-color 0.3s, transform 0.3s',
+            '&:hover': {
+              backgroundColor: 'rgba(0,128,0,1)',
+              transform: 'scale(1.05)',
+              color: "white"
+            },
+             }}
             onClick={handleLpoRecordsClick}
           >
             <Typography variant="h4">LPO Records</Typography>
@@ -117,8 +138,8 @@ export default function Lpo() {
                 marginTop: 2,
               }}
             >
-              <Restore
-                sx={{ height: 100, width: 100, opacity: 0.3, marginRight: 1 }}
+              <LibraryBooksIcon
+                sx={{ height: 100, width: 100, opacity: 1, marginRight: 1 }}
               />
             </Box>
           </Paper>

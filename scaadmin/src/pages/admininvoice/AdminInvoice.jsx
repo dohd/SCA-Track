@@ -1,7 +1,9 @@
 import React from "react";
 import { Box, Paper, Typography } from "@mui/material";
-import { Group, Restore, History } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import OutboxIcon from '@mui/icons-material/Outbox';
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+
 
 const Invoice = () => {
   const navigate = useNavigate();
@@ -82,7 +84,16 @@ const Invoice = () => {
         <Box>
           <Paper
             elevation={3}
-            sx={{ p: 3, width: 360, cursor: "pointer" }}
+            sx={{ 
+              p: 3, width: 360, 
+              cursor: "pointer",
+              transition: 'background-color 0.3s, transform 0.3s',
+            '&:hover': {
+              backgroundColor: 'rgba(0,128,0,1)',
+              transform: 'scale(1.05)',
+              color: "white"
+            },
+            }}
             onClick={handleNewInvoiceClick}
           >
             <Typography variant="h4">New Invoice</Typography>
@@ -94,8 +105,8 @@ const Invoice = () => {
                 marginTop: 2,
               }}
             >
-              <Group
-                sx={{ height: 100, width: 100, opacity: 0.3, marginRight: 1 }}
+              <OutboxIcon
+                sx={{ height: 100, width: 100, opacity: 1, marginRight: 1 }}
               />
             </Box>
           </Paper>
@@ -104,7 +115,17 @@ const Invoice = () => {
         <Box>
           <Paper
             elevation={3}
-            sx={{ p: 3, width: 360, cursor: "pointer" }}
+            sx={{ 
+              p: 3, width: 360, 
+              cursor: "pointer",
+              transition: 'background-color 0.3s, transform 0.3s',
+            '&:hover': {
+              backgroundColor: 'rgba(0,128,0,1)',
+              transform: 'scale(1.05)',
+              color: "white"
+            },
+              
+            }}
             onClick={handleInvoiceRecordsClick}
           >
             <Typography variant="h4">Invoice Records</Typography>
@@ -116,8 +137,8 @@ const Invoice = () => {
                 marginTop: 2,
               }}
             >
-              <Restore
-                sx={{ height: 100, width: 100, opacity: 0.3, marginRight: 1 }}
+              <InboxIcon
+                sx={{ height: 100, width: 100, opacity: 1, marginRight: 1 }}
               />
             </Box>
           </Paper>

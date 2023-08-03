@@ -9,7 +9,8 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Box from "@mui/material/Box";
 import { dispatch, link } from "react";
 import { Route, useNavigate, Routes } from "react-router-dom";
-import LayersIcon from "@mui/icons-material/Layers";
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+
 import { IconButton, Tooltip } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
 import Divider from "@mui/material/Divider";
@@ -22,9 +23,9 @@ import MuiDrawer from "@mui/material/Drawer";
 import AdminHome from "../AdminHome/AdminHome";
 import Logout from "@mui/icons-material/Logout";
 import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
-import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
+import StoreIcon from '@mui/icons-material/Store';
 import Bank1 from "../adminbank/Bank1";
-import Face2Icon from '@mui/icons-material/Face2';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import admnInvoice from "../admininvoice/AdminInvoice";
 import Customer1 from "../admincustomer/Customer1";
 import Distributors1 from "../admindistributors/Distributors1";
@@ -98,7 +99,7 @@ and a component representing the component to render when the menu item is selec
       },
       {
         title: "Adm Distributor",
-        icon: <DeliveryDiningIcon />,
+        icon: <StoreIcon />,
         link: "admindistributor ",
         component: (
           <Distributors1 {...{ setselectedLink, link: "admindistributor" }} />
@@ -128,13 +129,13 @@ and a component representing the component to render when the menu item is selec
       },
       {
         title: "Admin Lpo",
-        icon: <LayersIcon />,
+        icon: <LibraryBooksIcon />,
         link: "adminlpo ",
         component: <Lpo1 {...{ setselectedLink, link: "adminlpo" }} />,
       },
       {
         title: "Users",
-        icon: <Face2Icon />,
+        icon: <AccountCircleIcon />,
         link: "user ",
         component: <User {...{ setselectedLink, link: "user" }} />,
       },
@@ -159,7 +160,7 @@ and a component representing the component to render when the menu item is selec
         {/*rendering navigation list*/}
         <List>
           {list.map((item) => (
-            <ListItem key={item.title} disablePadding sx={{ display: "block" }}>
+            <ListItem key={item.title} disablePadding sx={{ display: "block", }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,

@@ -23,6 +23,8 @@ import Bank from "../bank/Bank";
 import Home from "../home/Home";
 import Logout from "@mui/icons-material/Logout";
 import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
+import StoreIcon from '@mui/icons-material/Store';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 
 import Customer from "../customer/Customer";
 import Invoice from "../invoice/Invoice";
@@ -97,7 +99,7 @@ and a component representing the component to render when the menu item is selec
       },
       {
         title: "Distributor",
-        icon: <InboxIcon />,
+        icon: <StoreIcon />,
         link: "distributor ",
         component: (
           <Distributors {...{ setselectedLink, link: "distributor" }} />
@@ -105,7 +107,7 @@ and a component representing the component to render when the menu item is selec
       },
       {
         title: "Invoice",
-        icon: <MailIcon />,
+        icon: <InboxIcon />,
         link: "Invoice ",
         component: <Invoice {...{ setselectedLink, link: "invoice" }} />,
       },
@@ -117,7 +119,7 @@ and a component representing the component to render when the menu item is selec
       },
       {
         title: "Lpo",
-        icon: <LayersIcon />,
+        icon: <LibraryBooksIcon />,
         link: "Lpo ",
         component: <Lpo {...{ setselectedLink, link: "Lpo" }} />,
       },
@@ -156,15 +158,23 @@ and a component representing the component to render when the menu item is selec
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
+                  "&:hover": {
+                    backgroundColor: "green",
+                    color: "white" // Add hover background color
+                  },
                 }}
                 onClick={() => navigate(item.link)}
                 selected={selectedLink === item.link}
               >
                 <ListItemIcon
-                  sx={{
+                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
+                    "&:hover": {
+                      backgroundColor: "green",
+                      color: "white" // Add hover background color
+                    },
                   }}
                 >
                   {item.icon}
