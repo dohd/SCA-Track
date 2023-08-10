@@ -157,7 +157,7 @@ export default function PrimarySearchAppBar() {
             width:100,
             }}
             alt="Spartec Consortium Africa."
-            src="scalogo.png"
+            src="logo512.png"
         />
          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Spartec Consortium Africa

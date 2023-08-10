@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-
+import { Outlet } from 'react-router-dom';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 
@@ -41,7 +41,7 @@ const AppBar = styled(MuiAppBar, {
 
 export default function Dashboard() {
   
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [dark, setDark] = useState(true);
   
 {/*In the code above, we define a state variable dark using the useState hook, and initialize it with the value true. We also have a setDark function to update the value of dark when needed.
@@ -73,9 +73,17 @@ Inside createTheme, we define the palette object with a mode property. The value
           >
             <MenuIcon />
           </IconButton>
-
+          <Box
+            component="img"
+            sx={{
+            height: 0,
+            width:100,
+            }}
+            alt="Spartec Consortium Africa."
+            src="logo512.png"
+          />
           <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
-            Spartec   
+            Spartec  Consotrium Africa 
          </Typography>
          <IconButton>
           {/*color mode here*/}
@@ -83,6 +91,7 @@ Inside createTheme, we define the palette object with a mode property. The value
         </Toolbar>
       </AppBar>
       <Sidelist {...{open,setOpen}}/>
+      
       </Box>
       
       
