@@ -1,28 +1,28 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
+// import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
 
-import Dashboard from "./pages/dashboard/Dashboard";
+// import Dashboard from "./pages/dashboard/Dashboard";
 import Distributors from "./pages/distributors/Distributors";
 import CreateNewCustomer from "./pages/customer/CreateNewCustomer";
 import CustomerRecords from "./pages/customer/CustomerRecords";
 import Lpo from "./pages/Lpo/Lpo";
 import LpoRecord from "./pages/Lpo/lpoRecord";
-import LpoRecord_2 from "./pages/Lpo/lpoRecord_2";
+// import LpoRecord_2 from "./pages/Lpo/lpoRecord_2";
 import NewLpo from "./pages/Lpo/NewLpo";
 import Bank from "./pages/bank/Bank";
 import Customer from "./pages/customer/Customer";
-import CreateInvoice from "./pages/invoice/CreateInvoice";
-import Invoice from "./pages/invoice/Invoice";
-import InvoiceList from "./pages/invoice/InvoiceList";
+import CreateInvoice from "./pages/Invoice/CreateInvoice";
+import Invoice from "./pages/Invoice/Invoice";
+import InvoiceList from "./pages/Invoice/InvoiceList";
 import BankRecords from "./pages/bank/BankRecords";
 import CreateDistributor from "./pages/distributors/CreateDistributor";
 import DistributorRecords from "./pages/distributors/DistributorRecords";
-import DispatchedInvoice from "./pages/invoice/DispatchedInvoice";
+// import DispatchedInvoice from "./pages/Invoice/DispatchedInvoice";
 import Register from "./components/authentification/Register";
 import Login from "./components/authentification/Login";
 const router = createBrowserRouter([

@@ -27,7 +27,7 @@ import StoreIcon from '@mui/icons-material/Store';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 
 import Customer from "../customer/Customer";
-import Invoice from "../invoice/Invoice";
+import Invoice from "../Invoice/Invoice";
 
 import Distributors from "../distributors/Distributors";
 

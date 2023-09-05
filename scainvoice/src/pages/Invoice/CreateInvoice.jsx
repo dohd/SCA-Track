@@ -22,7 +22,7 @@ const myCurrency = [
   },
 ];
 
-export default function NewInvoice() {
+export default function CreateInvoice() {
   const {
     register,
     handleSubmit,

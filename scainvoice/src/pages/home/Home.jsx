@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Paper, Typography } from '@mui/material';
-import DispatchedInvoice from '../invoice/DispatchedInvoice';
+import DispatchedInvoice from '../Invoice/DispatchedInvoice';
 import Customer from '../customer/Customer';
 import axios from "axios";
 import InboxIcon from "@mui/icons-material/MoveToInbox";

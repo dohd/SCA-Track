@@ -15,7 +15,7 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import html2pdf from "html2pdf.js"; // Import the html2pdf library
 
-const InvoiceRecords = () => {
+const InvoiceList = () => {
   const [invoices, setInvoices] = useState([]);
   const navigate = useNavigate();
   const [selectedInvoice, setSelectedInvoice] = useState(null); // State to keep track of selected invoice
@@ -479,4 +479,4 @@ const InvoiceRecords = () => {
     </Box>
   );
 };
-export default InvoiceRecords;
+export default InvoiceList;
